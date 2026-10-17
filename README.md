@@ -32,13 +32,6 @@ Egal ob du kurz vom Schreibtisch aufstehen musst, einen Songtitel oder die Rock-
 
 ---
 
-## Architektur & Code-Struktur
-
-Das Projekt ist in saubere, modulare und objektorientierte JavaScript-Klassen unterteilt.
-
----
-
-## Erste Schritte
 
 ### Voraussetzungen
 
@@ -63,7 +56,7 @@ Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Vor
 
 ## Konfiguration
 
-Du kannst die verfügbaren Radio BOB!-Streams direkt im Konstruktor der `App`-Klasse innerhalb des Scripts anpassen:
+Du kannst die verfügbaren Radio BOB!-Streams direkt im Konstruktor der `App`-Klasse innerhalb des Scripts anpassen. Natürlich kannst du auch Sender nutzen, die nicht von **Radio BOB!** stammen.
 
 ```javascript
 this.livestations = [
