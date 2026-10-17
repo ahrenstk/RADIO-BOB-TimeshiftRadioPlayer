@@ -2,6 +2,8 @@
 
 Eine moderne, responsive Progressive Web App (PWA), die Zeitversetztes Hören (**Timeshift** wie beim Festplattenrekorder) für Internetradio-Streams von **Radio BOB!** ermöglicht. Entwickelt mit Vanilla JavaScript, der Web Audio API und IndexedDB, nimmt die App den Live-Audio-Stream in Echtzeit lokal in kleinen Abschnitten (Chunks) auf. Dadurch kannst du das laufende Radio BOB!-Programm nahtlos pausieren, zurückspulen, vorspulen und fortsetzen.
 
+![Radio BOB! Timeshift Radio Player](https://raw.githubusercontent.com/ahrenstk/Radio-Bob-timeshift-radio-player/main/Radio-Bob-timeshift-radio-player.jpg)
+
 ---
 
 ## Übersicht
