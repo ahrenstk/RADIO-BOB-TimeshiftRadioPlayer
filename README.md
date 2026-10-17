@@ -1,6 +1,6 @@
 # Timeshift Radio Player (Radio BOB! Edition)
 
-Eine moderne, responsive Progressive Web App (PWA), die Zeitversetztes Hören (**Timeshift** wie beim Festplattenrekorder) für Internetradio-Streams von **Radio BOB!** ermöglicht. Entwickelt mit Vanilla JavaScript, der Web Audio API und IndexedDB, nimmt die App den Live-Audio-Stream in Echtzeit lokal in kleinen Abschnitten (Chunks) auf. Dadurch kannst du das laufende Radio BOB!-Programm nahtlos pausieren, zurückspulen, vorspulen und fortsetzen.
+Eine moderne, responsive Progressive Web App (PWA), die zeitversetztes Hören (**Timeshift** wie beim Videorekorder) für Internetradio-Streams von **Radio BOB!** ermöglicht. Entwickelt mit Vanilla JavaScript, der Web Audio API und IndexedDB, nimmt die App den Live-Audio-Stream in Echtzeit lokal in kleinen Abschnitten (Chunks) auf. Dadurch kannst du das laufende Radio BOB!-Programm nahtlos pausieren, zurückspulen, vorspulen und fortsetzen.
 
 ![Radio BOB! Timeshift Radio Player](https://raw.githubusercontent.com/ahrenstk/Radio-Bob-timeshift-radio-player/main/Radio-Bob-timeshift-radio-player.jpg)
 
@@ -12,7 +12,7 @@ Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über 
 
 Egal ob du kurz vom Schreibtisch aufstehen musst, einen Songtitel oder die Rock-News verpasst hast oder gecachte Abschnitte überspringen möchtest – dieser Player gibt dir die volle Kontrolle über den Live-Stream.
 
-Ich habe eine Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minuten Vorlauf baut sie genügend Puffer auf, um selbst längere Funklöcher auf ein- bis zweistündigen Strecken mühelos zu überbrücken.
+Ich habe diese Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minuten Vorlauf baut sie genügend Puffer auf, um selbst längere Funklöcher auf ein- bis zweistündigen Strecken mühelos zu überbrücken.
 
 ---
 
@@ -22,18 +22,17 @@ Ich habe eine Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minuten
 - **Lokale Zwischenspeicherung**: Audio-Chunks werden lokal in der **IndexedDB** gespeichert. So überstehen Pufferungen auch kurze Netzwerkausfälle oder Reconnects.
 - **Low-Level MPEG-Frame-Parsing**: Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
 - **Smarte Wiederverbindung & Überlappungserkennung**: Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
-- **Entkopplung via Web Audio API & Worker**: Ein Hintergrund-Web-Worker übernimmt die Puffer-Kopien, während der `AudioContext` für eine unterbrechungsfreie Audiowiedergabe sorgt.
 - **Live- & Timeshift-Modus**: Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
 - **Automatische Löschung**: Beim Aufruf des Programms wird die Aufnahme auf zwei Stunden gekürzt.
 - **Interaktive Benutzeroberfläche**:
-  - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt.
-  - Wahrnehmungsangepasste (nicht-lineare) Lautstärkeregelung für ein natürliches Hörgefühl.
-  - Sleeptimer mit automatischer Stream-Abschaltung.
-  - Netzwerkschalter (Freeze / Record) mit flüssiger Touch- & Drag-Bedienung.
+  - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt (jeweils eine Stunde).
+  - Lautstärkefunktion, die leider aufgrund der Übersteuerung einiger Radiosender nicht optimal ist
+  - Sleeptimer mit automatischer Stream-Abschaltung (Zeitinervall eine Stunde).
+  - Aufnahmefunktion (Stop / Record) mit Slider, um versehentliche Aufnahmen oder Stop der Aufnahme zu verhindern
 - **Systemintegration**:
   - **Media Session API**: Steuerung im Sperrbildschirm sowie Anzeige des aktuellen Stream-Status auf Smartphones und Desktops.
   - **Screen Wake Lock**: Verhindert, dass das Gerät während des Hörens in den Ruhezustand wechselt.
-  - **PWA-Ready**: Enthält Manifest-Konfiguration und Service-Worker-Registrierung zur Installation als App.
+  - **PWA-Ready**: Enthält Manifest-Konfiguration und Service-Worker-Registrierung zur Installation als Progressive Web App.
 
 ---
 
@@ -49,13 +48,13 @@ Du benötigst lediglich einen modernen Webbrowser mit Unterstützung für:
 ### Installation & Lokaler Aufruf
 
 1. Kopiere die Datei `index.html` und passe die Einstellungen nach Bedarf an.
-2. Kopiere alle Projektdateien in einen gemeinsamen Ordner auf deinem Webserver, um die Anwendung als Progressive Web App (PWA) installieren zu können.
+2. Kopiere alle Projektdateien in einen gemeinsamen Ordner auf deinem Webserver, um die Anwendung als Progressive Web App (PWA) nutzen zu können
    
 ---
 
 ## Datenschutzhinweis
 
-Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Voreinstellungen) lokal auf deinem Endgerät gespeichert. Es werden keine personenbezogenen Daten an externe Server übertragen, ausgenommen die direkte Verbindung zu den Stream-Servern von Radio BOB!. Diese Anwendung ist ausschließlich für den privaten Gebrauch bestimmt, da kein aktiver Datenschutzhinweis oder Einwilligungsmechanismus vor dem Speichern der Daten im Browser integriert ist.
+Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Voreinstellungen) lokal auf deinem Endgerät gespeichert. Es werden keine personenbezogenen Daten an externe Server übertragen, ausgenommen die direkte Verbindung zu den Stream-Servern von Radio BOB!. Diese Anwendung ist ausschließlich für den privaten Gebrauch bestimmt, da kein aktiver Datenschutzhinweis oder Einwilligungsmechanismus vor dem Speichern der Daten im Browser integriert ist. Für andere Zwecke beachte bitte den Datenschutz und die Information an die Benutzer vor Aufruf der Anwendung.
 
 ---
 
@@ -94,19 +93,6 @@ Dynamische URLs für den automatischen Wechsel zu den Minuten :03, :27, :33 und 
 
 > **Hinweis zu Audio-Streams**: Web-Radio-Streams müssen Cross-Origin Resource Sharing (CORS) Header (`Access-Control-Allow-Origin: *`) unterstützen, damit die `fetch()`-API des Browsers die Rohdaten auslesen und in Chunks unterteilen kann.
 
----
-
-## Bedienung & Steuerung
-
-| Bedienelement | Aktion |
-| :--- | :--- |
-| **LIVE-Button** | Startet die direkte Live-Wiedergabe des Radio BOB!-Streams. |
-| **Play / Pause-Button** | Startet oder pausiert die Timeshift-Audiowiedergabe. |
-| **«« / »» (Innere Buttons)** | Springt 1 Segment zurück / vor (~60 Sekunden). |
-| **««« / »»» (Äußere Buttons)** | Springt 10 Segmente zurück / vor (~10 Minuten). |
-| **Kippschalter (Toggle)** | Schaltet die Netzwerkaufzeichnung ein/aus (Freeze- / Record-Modus). |
-| **Oberer Schieberegler** | Passt die Lautstärke mit wahrnehmungsangepasster Kurvenkorrektur an. |
-| **Unterer Schieberegler** | Stellt den Sleeptimer ein (1 bis 60 Minuten). |
 
 ---
 
