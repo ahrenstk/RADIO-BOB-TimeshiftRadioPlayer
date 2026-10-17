@@ -10,16 +10,19 @@ Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über 
 
 Egal ob du kurz vom Schreibtisch aufstehen musst, einen Songtitel oder die Rock-News verpasst hast oder gecachte Abschnitte überspringen möchtest – dieser Player gibt dir die volle Kontrolle über den Live-Stream.
 
+Ich habe eine Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minuten Vorlauf baut sie genügend Puffer auf, um selbst längere Funklöcher auf ein- bis zweistündigen Strecken mühelos zu überbrücken.
+
 ---
 
 ## Hauptfunktionen
 
-- **Echtes Timeshift-Playback**: Pausiere Radio BOB! live, spule in festen Schritten (1 Segment oder 10 Segmente) vor und zurück.
+- **Echtes Timeshift-Playback**: Pausiere Radio BOB! live, spule in festen Schritten (1 Segment (meistens eine Minute) oder 10 Segmente (meinstens 10 Minuten)) vor und zurück.
 - **Lokale Zwischenspeicherung**: Audio-Chunks werden lokal in der **IndexedDB** gespeichert. So überstehen Pufferungen auch kurze Netzwerkausfälle oder Reconnects.
 - **Low-Level MPEG-Frame-Parsing**: Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
 - **Smarte Wiederverbindung & Überlappungserkennung**: Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
 - **Entkopplung via Web Audio API & Worker**: Ein Hintergrund-Web-Worker übernimmt die Puffer-Kopien, während der `AudioContext` für eine unterbrechungsfreie Audiowiedergabe sorgt.
 - **Live- & Timeshift-Modus**: Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
+- **Automatische Löschung**: Beim Aufruf des Programms wird die Aufnahme auf zwei Stunden gekürzt.
 - **Interaktive Benutzeroberfläche**:
   - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt.
   - Wahrnehmungsangepasste (nicht-lineare) Lautstärkeregelung für ein natürliches Hörgefühl.
@@ -45,7 +48,7 @@ Du benötigst lediglich einen modernen Webbrowser mit Unterstützung für:
 
 1. Kopiere die Datei `index.html` und passe die Einstellungen nach Bedarf an.
 2. Kopiere alle Projektdateien in einen gemeinsamen Ordner auf deinem Webserver, um die Anwendung als Progressive Web App (PWA) installieren zu können.
-
+   
 ---
 
 ## Datenschutzhinweis
@@ -67,7 +70,7 @@ this.livestations = [
 ];
 ```
 
-Die ersten beiden Einträge entsprechen den unten aufgeführten dynamischen URLs (`t1`, `t2`, `t3`, `t4`). Die Software wechselt automatisch zu den Minuten **:03, :27, :33 und :57** jeder Stunde zwischen den Streams. Falls diese Umschaltlogik nicht gewünscht ist, muss sie im Code manuell deaktiviert oder entfernt werden.
+Die ersten beiden Einträge entsprechen den unten aufgeführten dynamischen URLs (`t1`, `t2`, `t3`, `t4`). Die Software wechselt automatisch zu den Minuten **:03, :27, :33 und :57** jeder Stunde zwischen den Streams um Werbung und Nachrichten zu umgehen. Falls diese Umschaltlogik nicht gewünscht ist, muss sie im Code manuell deaktiviert oder entfernt werden.
 
 ```javascript
 this.stations = [
@@ -75,7 +78,7 @@ this.stations = [
     { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de", bitrate: 128000 },
 ];
 ```
-> **Wichtig**: Liste der aufnahmefähigen Streams für den Timeshift-Puffer. Es können nur **MP3-Streams** verwendet werden. Bitte achte darauf, die korrekte Bitrate anzugeben.
+> **Wichtig**: Es können für die Aufnahme nur **MP3-Streams** verwendet werden. Bitte achte zudem darauf, dass die korrekte Bitrate angegeben ist.
 
 ```javascript
 this.dynamicUrls = {
