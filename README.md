@@ -1,12 +1,12 @@
-# Timeshift Radio Player (Radio BOB! Edition)
+# Timeshift Radio Player (RADIO BOB! Edition)
 
-Eine moderne, responsive Progressive Web App (PWA), die zeitversetztes Hören (**Timeshift** wie beim Videorekorder) für Internetradio-Streams von **Radio BOB!** ermöglicht. Entwickelt mit Vanilla JavaScript, der Web Audio API und IndexedDB, nimmt die App den Live-Audio-Stream in Echtzeit lokal in kleinen Abschnitten (Chunks) auf. Dadurch kannst du das laufende Radio BOB!-Programm nahtlos pausieren, zurückspulen, vorspulen und fortsetzen.
+Eine moderne, responsive Progressive Web App (PWA), die zeitversetztes Hören (**Timeshift** wie beim Videorekorder) für Internetradio-Streams von **RADIO BOB!** ermöglicht. Entwickelt mit Vanilla JavaScript, der Web Audio API und IndexedDB, nimmt die App den Live-Audio-Stream in Echtzeit lokal in kleinen Abschnitten (Chunks) auf. Dadurch kannst du das laufende Radio BOB!-Programm nahtlos pausieren, zurückspulen, vorspulen und fortsetzen.
 
 
 **Demo:** **[https://ahrenstk.github.io/Radio-Bob-timeshift-radio-player](https://ahrenstk.github.io/Radio-Bob-timeshift-radio-player)**
 
 
-![Radio BOB! Timeshift Radio Player](https://raw.githubusercontent.com/ahrenstk/Radio-Bob-timeshift-radio-player/main/Radio-Bob-timeshift-radio-player.jpg)
+![RADIO BOB! Timeshift Radio Player](https://raw.githubusercontent.com/ahrenstk/Radio-Bob-timeshift-radio-player/main/Radio-Bob-timeshift-radio-player.jpg)
 
 ---
 
@@ -22,7 +22,7 @@ Ich habe diese Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minute
 
 ## Hauptfunktionen
 
-- **Echtes Timeshift-Playback**: Pausiere Radio BOB! live, spule in festen Schritten (1 Segment (meistens eine Minute) oder 10 Segmente (meinstens 10 Minuten)) vor und zurück.
+- **Echtes Timeshift-Playback**: Pausiere RADIO BOB! live, spule in festen Schritten (1 Segment (meistens eine Minute) oder 10 Segmente (meinstens 10 Minuten)) vor und zurück.
 - **Lokale Zwischenspeicherung**: Audio-Chunks werden lokal in der **IndexedDB** gespeichert. So überstehen Pufferungen auch kurze Netzwerkausfälle oder Reconnects.
 - **Low-Level MPEG-Frame-Parsing**: Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
 - **Smarte Wiederverbindung & Überlappungserkennung**: Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
@@ -58,13 +58,13 @@ Du benötigst lediglich einen modernen Webbrowser mit Unterstützung für:
 
 ## Datenschutzhinweis
 
-Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Voreinstellungen) lokal auf deinem Endgerät gespeichert. Es werden keine personenbezogenen Daten an externe Server übertragen, ausgenommen die direkte Verbindung zu den Stream-Servern von Radio BOB!. Diese Anwendung ist ausschließlich für den privaten Gebrauch bestimmt, da kein aktiver Datenschutzhinweis oder Einwilligungsmechanismus vor dem Speichern der Daten im Browser integriert ist. Für andere Zwecke beachte bitte den Datenschutz und die Information an die Benutzer vor Aufruf der Anwendung.
+Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Voreinstellungen) lokal auf deinem Endgerät gespeichert. Es werden keine personenbezogenen Daten an externe Server übertragen, ausgenommen die direkte Verbindung zu den Stream-Servern von RADIO BOB!. Diese Anwendung ist ausschließlich für den privaten Gebrauch bestimmt, da kein aktiver Datenschutzhinweis oder Einwilligungsmechanismus vor dem Speichern der Daten im Browser integriert ist. Für andere Zwecke beachte bitte den Datenschutz und die Information an die Benutzer vor Aufruf der Anwendung.
 
 ---
 
 ## Konfiguration
 
-Du kannst die verfügbaren Radio BOB!-Streams direkt im Konstruktor der `App`-Klasse innerhalb des Scripts anpassen. Natürlich kannst du auch Sender nutzen, die nicht von **Radio BOB!** stammen.
+Du kannst die verfügbaren RADIO BOB!-Streams direkt im Konstruktor der `App`-Klasse innerhalb des Scripts anpassen. Natürlich kannst du auch Sender nutzen, die nicht von **RADIO BOB!** stammen.
 
 ```javascript
 this.livestations = [
