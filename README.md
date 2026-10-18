@@ -1,19 +1,19 @@
-# Timeshift Radio Player (RADIO BOB! Edition)
+# TimeshiftRadioPlayer (RADIO BOB! Edition)
 
 Eine moderne, responsive Eine-Datei-Webseite (`index.html`) und Progressive Web App (PWA), die zeitversetztes Hören (**Timeshift** wie beim Festplattenrekorder) für Internetradio-Streams von **RADIO BOB!** ([radiobob.de](https://www.radiobob.de)) ermöglicht. Entwickelt mit Vanilla JavaScript, der Web Audio API und IndexedDB, nimmt die App den Live-Audio-Stream in Echtzeit lokal in kleinen Abschnitten (Chunks) auf. Dadurch kannst du das laufende Radio BOB!-Programm nahtlos pausieren, zurückspulen, vorspulen und fortsetzen.
 
 **Achtung**: Bitte warte nach dem Start der Erstaufnahme einige Minuten, bevor du die zeitversetzte Wiedergabe startest.
 
-**Demo:** **[https://ahrenstk.github.io/Radio-Bob-timeshift-radio-player](https://ahrenstk.github.io/Radio-Bob-timeshift-radio-player)**
+**Demo:** **[https://ahrenstk.github.io/RADIO-BOB-TimeshiftRadioPlayer](https://ahrenstk.github.io/RADIO-BOB-TimeshiftRadioPlayer)**
 
 
-![RADIO BOB! Timeshift Radio Player](https://raw.githubusercontent.com/ahrenstk/Radio-Bob-timeshift-radio-player/main/Radio-Bob-timeshift-radio-player.jpg)
+![RADIO BOB! TimeshiftRadioPlayer](https://raw.githubusercontent.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer/main/RADIO-BOB-TimeshiftRadioPlayer.jpg)
 
 ---
 
 ## Übersicht
 
-Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über einfache HTML5-`<audio>`-Tags abspielen, lädt der **Timeshift Radio Player** kontinuierlich die Rohdaten des Radio BOB!-Streams, synchronisiert MPEG-Frames, unterteilt das Audio in Segmente und speichert diese dauerhaft im Browserspeicher (`IndexedDB`).
+Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über einfache HTML5-`<audio>`-Tags abspielen, lädt der **TimeshiftRadioPlayer** kontinuierlich die Rohdaten des Radio BOB!-Streams, synchronisiert MPEG-Frames, unterteilt das Audio in Segmente und speichert diese dauerhaft im Browserspeicher (`IndexedDB`).
 
 Egal ob du kurz vom Schreibtisch aufstehen musst, einen Songtitel oder die Rock-News verpasst hast oder gecachte Abschnitte überspringen möchtest – dieser Player gibt dir die volle Kontrolle über den Live-Stream.
 
