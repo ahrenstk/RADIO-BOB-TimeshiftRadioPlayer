@@ -4,7 +4,7 @@ Eine moderne, responsive Ein-Datei-Webseite (`index.html`) und Progressive Web A
 
 **Achtung**: Bitte warte nach dem Start der allerersten Aufnahme einige Minuten, bevor du die zeitversetzte Wiedergabe startest.
 
-**Demo:** **[https://ahrenstk.github.io/RADIO-BOB-TimeshiftRadioPlayer](https://ahrenstk.github.io/RADIO-BOB-TimeshiftRadioPlayer)**
+**Demo:** **[https://bob.lima.zone](https://bob.lima.zone)**
 
 
 ![RADIO BOB! TimeshiftRadioPlayer](https://raw.githubusercontent.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer/main/RADIO-BOB-TimeshiftRadioPlayer.jpg)
