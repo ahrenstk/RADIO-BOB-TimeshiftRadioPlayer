@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer
+Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/TimeshiftRadioPlayer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,16 +25,16 @@ SOFTWARE.
 
 
 <!DOCTYPE html>
-<html lang="de" translate="no" class="notranslate">
+<html lang="en" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>BOB!</title>
+    <title>Radio</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0e0e0e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="BOB!">
+    <meta name="apple-mobile-web-app-title" content="Radio">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" type="image/png" href="icon-192.png">
@@ -689,218 +689,42 @@ class App {
         this.chunkDB = new ChunkDB();
         
         this.livestations = [
-    { name: "National & Best of Rock", url: "dynamic" }, 
-    { name: "National & Best of Rock AAC", url: "dynamic_aac" },
-
-{ name: "National", url: "https://streams.radiobob.de/bob-national/mp3-128/mediaplayer" },
-{ name: "Hessen", url: "https://streams.radiobob.de/bob-live/mp3-128/mediaplayer" },
-{ name: "NRW", url: "https://streams.radiobob.de/live-nrw-mitte/mp3-128/mediaplayer" },
-{ name: "Schleswig-Holstein", url: "https://streams.radiobob.de/bob-shlive/mp3-128/mediaplayer" },
-
-{ name: "2000er Rock", url: "https://streams.radiobob.de/2000er/mp3-128/mediaplayer" },
-{ name: "70er Rock", url: "https://streams.radiobob.de/70errock/mp3-128/mediaplayer" },
-{ name: "80s Rock", url: "https://streams.radiobob.de/bob-80srock/mp3-128/mediaplayer" },
-{ name: "90s Rock", url: "https://streams.radiobob.de/bob-90srock/mp3-128/mediaplayer" },
-{ name: "AC/DC", url: "https://streams.radiobob.de/bob-acdc/mp3-128/mediaplayer" },
-{ name: "Alternative", url: "https://streams.radiobob.de/bob-alternative/mp3-128/mediaplayer" },
-{ name: "Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/mediaplayer" },
-{ name: "Blues", url: "https://streams.radiobob.de/blues/mp3-128/mediaplayer" },
-{ name: "Britpop", url: "https://streams.radiobob.de/bob-britpop/mp3-128/mediaplayer" },
-{ name: "Christmas", url: "https://streams.radiobob.de/bob-christmas/mp3-128/mediaplayer" },
-{ name: "Classic Rock", url: "https://streams.radiobob.de/bob-classicrock/mp3-128/mediaplayer" },
-{ name: "College Rock", url: "https://streams.radiobob.de/collegerock/mp3-128/mediaplayer" },
-{ name: "Country", url: "https://streams.radiobob.de/country/mp3-128/mediaplayer" },
-{ name: "Death Metal", url: "https://streams.radiobob.de/deathmetal/mp3-128/mediaplayer" },
-{ name: "Deutsch", url: "https://streams.radiobob.de/bob-deutsch/mp3-128/mediaplayer" },
-{ name: "Donots", url: "https://streams.radiobob.de/donots/mp3-128/mediaplayer" },
-{ name: "Electro Rock", url: "https://streams.radiobob.de/electrorock/mp3-128/mediaplayer" },
-{ name: "Emo", url: "https://streams.radiobob.de/emo/mp3-128/mediaplayer" },
-{ name: "Festival", url: "https://streams.radiobob.de/bob-festival/mp3-128/mediaplayer" },
-{ name: "Folk Rock", url: "https://streams.radiobob.de/folkrock/mp3-128/mediaplayer" },
-{ name: "Fury in the Slaughterhouse", url: "https://streams.radiobob.de/fury/mp3-128/mediaplayer" },
-{ name: "Gaming Rock", url: "https://streams.radiobob.de/gamingrock/mp3-128/mediaplayer" },
-{ name: "Gothic", url: "https://streams.radiobob.de/gothic/mp3-128/mediaplayer" },
-{ name: "Grunge", url: "https://streams.radiobob.de/bob-grunge/mp3-128/mediaplayer" },
-{ name: "Guitar Heroes", url: "https://streams.radiobob.de/guitarheroes/mp3-128/mediaplayer" },
-{ name: "Hair Metal", url: "https://streams.radiobob.de/hairmetal/mp3-128/mediaplayer" },
-{ name: "Hardrock", url: "https://streams.radiobob.de/bob-hardrock/mp3-128/mediaplayer" },
-{ name: "Harte Saite", url: "https://streams.radiobob.de/bob-hartesaite/mp3-128/mediaplayer" },
-{ name: "Iron Maiden", url: "https://streams.radiobob.de/ironmaiden/mp3-128/mediaplayer" },
-{ name: "KISS", url: "https://streams.radiobob.de/kiss/mp3-128/mediaplayer" },
-{ name: "Kuschelrock", url: "https://streams.radiobob.de/bob-kuschelrock/mp3-128/mediaplayer" },
-{ name: "Made in Germany", url: "https://streams.radiobob.de/madeingermany/mp3-128/mediaplayer" },
-{ name: "Metal", url: "https://streams.radiobob.de/bob-metal/mp3-128/mediaplayer" },
-{ name: "Metalcore", url: "https://streams.radiobob.de/metalcore/mp3-128/mediaplayer" },
-{ name: "Metallica", url: "https://streams.radiobob.de/metallica/mp3-128/mediaplayer" },
-{ name: "Mittelalter", url: "https://streams.radiobob.de/mittelalter/mp3-128/mediaplayer" },
-{ name: "Motörhead", url: "https://streams.radiobob.de/motoerhead/mp3-128/mediaplayer" },
-{ name: "Newcomer", url: "https://streams.radiobob.de/newcomer/mp3-128/mediaplayer" },
-{ name: "Nu Metal", url: "https://streams.radiobob.de/numetal/mp3-128/mediaplayer" },
-{ name: "Ozzy Osbourne", url: "https://streams.radiobob.de/ozzyosbourne/mp3-128/mediaplayer" },
-{ name: "Power Metal", url: "https://streams.radiobob.de/powermetal/mp3-128/mediaplayer" },
-{ name: "Prog-Rock", url: "https://streams.radiobob.de/progrock/mp3-128/mediaplayer" },
-{ name: "Punk", url: "https://streams.radiobob.de/bob-punk/mp3-128/mediaplayer" },
-{ name: "Queen", url: "https://streams.radiobob.de/bob-queen/mp3-128/mediaplayer" },
-{ name: "Roadtrip", url: "https://streams.radiobob.de/roadtrip/mp3-128/mediaplayer" },
-{ name: "Rock am Ring Radio", url: "https://streams.radiobob.de/rockamring/mp3-128/mediaplayer" },
-{ name: "Rock Hits", url: "https://streams.radiobob.de/bob-rockhits/mp3-128/mediaplayer" },
-{ name: "Rock Oldies", url: "https://streams.radiobob.de/rockoldies/mp3-128/mediaplayer" },
-{ name: "Rockabilly", url: "https://streams.radiobob.de/bob-rockabilly/mp3-128/mediaplayer" },
-{ name: "Rockparty", url: "https://streams.radiobob.de/rockparty/mp3-128/mediaplayer" },
-{ name: "Rolling Stones", url: "https://streams.radiobob.de/rollingstones/mp3-128/mediaplayer" },
-{ name: "Singer/Songwriter", url: "https://streams.radiobob.de/bob-singersong/mp3-128/mediaplayer" },
-{ name: "Ska", url: "https://streams.radiobob.de/ska/mp3-128/mediaplayer" },
-{ name: "Southern Rock", url: "https://streams.radiobob.de/southernrock/mp3-128/mediaplayer" },
-{ name: "Stoner Rock-Stream", url: "https://streams.radiobob.de/stonerrock/mp3-128/mediaplayer" },
-{ name: "Summer Rock Hits", url: "https://streams.radiobob.de/summerrock/mp3-128/mediaplayer" },
-{ name: "Symphonic Metal", url: "https://streams.radiobob.de/symphmetal/mp3-128/mediaplayer" },
-{ name: "The BossHoss", url: "https://streams.radiobob.de/bosshoss/mp3-128/mediaplayer" },
-{ name: "Tobias Sammet", url: "https://streams.radiobob.de/sammet/mp3-128/mediaplayer" },
-{ name: "Unplugged", url: "https://streams.radiobob.de/bob-chillout/mp3-128/mediaplayer" },
-{ name: "Wacken", url: "https://streams.radiobob.de/bob-wacken/mp3-128/mediaplayer" },
-{ name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/mediaplayer" },
-{ name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/mediaplayer" },
-
-{ name: "National (AAC)", url: "https://streams.radiobob.de/bob-national/aac-64/mediaplayer" },
-{ name: "Hessen (AAC)", url: "https://streams.radiobob.de/bob-live/aac-64/mediaplayer" },
-{ name: "NRW (AAC)", url: "https://streams.radiobob.de/live-nrw-mitte/aac-64/mediaplayer" },
-{ name: "Schleswig-Holstein (AAC)", url: "https://streams.radiobob.de/bob-shlive/aac-64/mediaplayer" },
-
-{ name: "2000er Rock (AAC)", url: "https://streams.radiobob.de/2000er/aac-64/mediaplayer" },
-{ name: "70er Rock (AAC)", url: "https://streams.radiobob.de/70errock/aac-64/mediaplayer" },
-{ name: "80s Rock (AAC)", url: "https://streams.radiobob.de/bob-80srock/aac-64/mediaplayer" },
-{ name: "90s Rock (AAC)", url: "https://streams.radiobob.de/bob-90srock/aac-64/mediaplayer" },
-{ name: "AC/DC (AAC)", url: "https://streams.radiobob.de/bob-acdc/aac-64/mediaplayer" },
-{ name: "Alternative (AAC)", url: "https://streams.radiobob.de/bob-alternative/aac-64/mediaplayer" },
-{ name: "Best of Rock (AAC)", url: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer" },
-{ name: "Blues (AAC)", url: "https://streams.radiobob.de/blues/aac-64/mediaplayer" },
-{ name: "Britpop (AAC)", url: "https://streams.radiobob.de/bob-britpop/aac-64/mediaplayer" },
-{ name: "Christmas (AAC)", url: "https://streams.radiobob.de/bob-christmas/aac-64/mediaplayer" },
-{ name: "Classic Rock (AAC)", url: "https://streams.radiobob.de/bob-classicrock/aac-64/mediaplayer" },
-{ name: "College Rock (AAC)", url: "https://streams.radiobob.de/collegerock/aac-64/mediaplayer" },
-{ name: "Country (AAC)", url: "https://streams.radiobob.de/country/aac-64/mediaplayer" },
-{ name: "Death Metal (AAC)", url: "https://streams.radiobob.de/deathmetal/aac-64/mediaplayer" },
-{ name: "Deutsch (AAC)", url: "https://streams.radiobob.de/bob-deutsch/aac-64/mediaplayer" },
-{ name: "Donots (AAC)", url: "https://streams.radiobob.de/donots/aac-64/mediaplayer" },
-{ name: "Electro Rock (AAC)", url: "https://streams.radiobob.de/electrorock/aac-64/mediaplayer" },
-{ name: "Emo (AAC)", url: "https://streams.radiobob.de/emo/aac-64/mediaplayer" },
-{ name: "Festival (AAC)", url: "https://streams.radiobob.de/bob-festival/aac-64/mediaplayer" },
-{ name: "Folk Rock (AAC)", url: "https://streams.radiobob.de/folkrock/aac-64/mediaplayer" },
-{ name: "Fury in the Slaughterhouse (AAC)", url: "https://streams.radiobob.de/fury/aac-64/mediaplayer" },
-{ name: "Gaming Rock (AAC)", url: "https://streams.radiobob.de/gamingrock/aac-64/mediaplayer" },
-{ name: "Gothic (AAC)", url: "https://streams.radiobob.de/gothic/aac-64/mediaplayer" },
-{ name: "Grunge (AAC)", url: "https://streams.radiobob.de/bob-grunge/aac-64/mediaplayer" },
-{ name: "Guitar Heroes (AAC)", url: "https://streams.radiobob.de/guitarheroes/aac-64/mediaplayer" },
-{ name: "Hair Metal (AAC)", url: "https://streams.radiobob.de/hairmetal/aac-64/mediaplayer" },
-{ name: "Hardrock (AAC)", url: "https://streams.radiobob.de/bob-hardrock/aac-64/mediaplayer" },
-{ name: "Harte Saite (AAC)", url: "https://streams.radiobob.de/bob-hartesaite/aac-64/mediaplayer" },
-{ name: "Iron Maiden (AAC)", url: "https://streams.radiobob.de/ironmaiden/aac-64/mediaplayer" },
-{ name: "KISS (AAC)", url: "https://streams.radiobob.de/kiss/aac-64/mediaplayer" },
-{ name: "Kuschelrock (AAC)", url: "https://streams.radiobob.de/bob-kuschelrock/aac-64/mediaplayer" },
-{ name: "Made in Germany (AAC)", url: "https://streams.radiobob.de/madeingermany/aac-64/mediaplayer" },
-{ name: "Metal (AAC)", url: "https://streams.radiobob.de/bob-metal/aac-64/mediaplayer" },
-{ name: "Metalcore (AAC)", url: "https://streams.radiobob.de/metalcore/aac-64/mediaplayer" },
-{ name: "Metallica (AAC)", url: "https://streams.radiobob.de/metallica/aac-64/mediaplayer" },
-{ name: "Mittelalter (AAC)", url: "https://streams.radiobob.de/mittelalter/aac-64/mediaplayer" },
-{ name: "Motörhead (AAC)", url: "https://streams.radiobob.de/motoerhead/aac-64/mediaplayer" },
-{ name: "Newcomer (AAC)", url: "https://streams.radiobob.de/newcomer/aac-64/mediaplayer" },
-{ name: "Nu Metal (AAC)", url: "https://streams.radiobob.de/numetal/aac-64/mediaplayer" },
-{ name: "Ozzy Osbourne (AAC)", url: "https://streams.radiobob.de/ozzyosbourne/aac-64/mediaplayer" },
-{ name: "Power Metal (AAC)", url: "https://streams.radiobob.de/powermetal/aac-64/mediaplayer" },
-{ name: "Prog-Rock (AAC)", url: "https://streams.radiobob.de/progrock/aac-64/mediaplayer" },
-{ name: "Punk (AAC)", url: "https://streams.radiobob.de/bob-punk/aac-64/mediaplayer" },
-{ name: "Queen (AAC)", url: "https://streams.radiobob.de/bob-queen/aac-64/mediaplayer" },
-{ name: "Roadtrip (AAC)", url: "https://streams.radiobob.de/roadtrip/aac-64/mediaplayer" },
-{ name: "Rock am Ring Radio (AAC)", url: "https://streams.radiobob.de/rockamring/aac-64/mediaplayer" },
-{ name: "Rock Hits (AAC)", url: "https://streams.radiobob.de/bob-rockhits/aac-64/mediaplayer" },
-{ name: "Rock Oldies (AAC)", url: "https://streams.radiobob.de/rockoldies/aac-64/mediaplayer" },
-{ name: "Rockabilly (AAC)", url: "https://streams.radiobob.de/bob-rockabilly/aac-64/mediaplayer" },
-{ name: "Rockparty (AAC)", url: "https://streams.radiobob.de/rockparty/aac-64/mediaplayer" },
-{ name: "Rolling Stones (AAC)", url: "https://streams.radiobob.de/rollingstones/aac-64/mediaplayer" },
-{ name: "Singer/Songwriter (AAC)", url: "https://streams.radiobob.de/bob-singersong/aac-64/mediaplayer" },
-{ name: "Ska (AAC)", url: "https://streams.radiobob.de/ska/aac-64/mediaplayer" },
-{ name: "Southern Rock (AAC)", url: "https://streams.radiobob.de/southernrock/aac-64/mediaplayer" },
-{ name: "Stoner Rock-Stream (AAC)", url: "https://streams.radiobob.de/stonerrock/aac-64/mediaplayer" },
-{ name: "Summer Rock Hits (AAC)", url: "https://streams.radiobob.de/summerrock/aac-64/mediaplayer" },
-{ name: "Symphonic Metal (AAC)", url: "https://streams.radiobob.de/symphmetal/aac-64/mediaplayer" },
-{ name: "The BossHoss (AAC)", url: "https://streams.radiobob.de/bosshoss/aac-64/mediaplayer" },
-{ name: "Tobias Sammet (AAC)", url: "https://streams.radiobob.de/sammet/aac-64/mediaplayer" },
-{ name: "Unplugged (AAC)", url: "https://streams.radiobob.de/bob-chillout/aac-64/mediaplayer" },
-{ name: "Wacken (AAC)", url: "https://streams.radiobob.de/bob-wacken/aac-64/mediaplayer" },
-{ name: "Woman of Rock (AAC)", url: "https://streams.radiobob.de/womenofrock/aac-64/mediaplayer" },
-{ name: "Woodstock (AAC)", url: "https://streams.radiobob.de/woodstock/aac-64/mediaplayer" }
+            { name: "BOB! & Best of Rock", url: "dynamic" }, 
+            { name: "BOB! & Best of Rock AAC", url: "dynamic_aac" },
+            { name: "RADIO BOB!", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de" },
+            { name: "RADIO BOB! AAC", url: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de" },
+            { name: "Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de" },
+            { name: "Best of Rock AAC", url: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer" },    
+            { name: "Rock FM", url: "https://stream.regenbogen2.de/dab/mp3-128/private" },    
+            { name: "knixx.fm", url: "https://s1.knixx.fm/dein_webradio_32.aac" },
+            { name: "NDR 1", url: "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3" },
+            { name: "SWR3", url: "https://liveradio.swr.de/sw282p3/swr3/play.mp3" }, 
+            { name: "SWR4", url: "https://liveradio.swr.de/sw282p3/swr4fn/play.mp3" }, 
+            { name: "WDR 3", url: "https://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/128/stream.mp3" },
+            { name: "WDR 5", url: "https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3" },   
+            { name: "MDR Klassik", url: "https://mdr-284350-0.sslcast.mdr.de/mdr/284350/0/mp3/high/stream.mp3"}, 
+            { name: 'Absolut relax', url: 'https://absolut-relax.live-sm.absolutradio.de/absolut-relax' },
+            { name: 'Klassik Radio', url: 'https://klassikr.streamabc.net/klr-krdnational-mp3-192-8877033' },
+            { name: "knixx.fm Analog Sound", url: "https://s1.knixx.fm/dein_webradio_fm_sound_320.mp3" },    
+            { name: "Radio Geschmack", url: "https://s2.genx-stream.de:8702/;?type=http"},
+            { name: "Ambient Sleeping Pill", url: "https://radio.stereoscenic.com/asp-s" }    
         ];
 
- this.stations = [
-{ name: "National", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de", bitrate: 128000 },
-{ name: "Hessen", url: "https://streams.radiobob.de/bob-live/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "NRW", url: "https://streams.radiobob.de/live-nrw-mitte/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Schleswig-Holstein", url: "https://streams.radiobob.de/bob-shlive/mp3-128/mediaplayer", bitrate: 128000 },
-
-{ name: "2000er Rock", url: "https://streams.radiobob.de/2000er/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "70er Rock", url: "https://streams.radiobob.de/70errock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "80s Rock", url: "https://streams.radiobob.de/bob-80srock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "90s Rock", url: "https://streams.radiobob.de/bob-90srock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "AC/DC", url: "https://streams.radiobob.de/bob-acdc/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Alternative", url: "https://streams.radiobob.de/bob-alternative/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Blues", url: "https://streams.radiobob.de/blues/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Britpop", url: "https://streams.radiobob.de/bob-britpop/mp3-128/", bitrate: 128000 },
-{ name: "Christmas", url: "https://streams.radiobob.de/bob-christmas/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Classic Rock", url: "https://streams.radiobob.de/bob-classicrock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "College Rock", url: "https://streams.radiobob.de/collegerock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Country", url: "https://streams.radiobob.de/country/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Death Metal", url: "https://streams.radiobob.de/deathmetal/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Deutsch", url: "https://streams.radiobob.de/bob-deutsch/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Donots", url: "https://streams.radiobob.de/donots/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Electro Rock", url: "https://streams.radiobob.de/electrorock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Emo", url: "https://streams.radiobob.de/emo/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Festival", url: "https://streams.radiobob.de/bob-festival/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Folk Rock", url: "https://streams.radiobob.de/folkrock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Fury in the Slaughterhouse", url: "https://streams.radiobob.de/fury/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Gaming Rock", url: "https://streams.radiobob.de/gamingrock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Gothic", url: "https://streams.radiobob.de/gothic/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Grunge", url: "https://streams.radiobob.de/bob-grunge/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Guitar Heroes", url: "https://streams.radiobob.de/guitarheroes/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Hair Metal", url: "https://streams.radiobob.de/hairmetal/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Hardrock", url: "https://streams.radiobob.de/bob-hardrock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Harte Saite", url: "https://streams.radiobob.de/bob-hartesaite/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Iron Maiden", url: "https://streams.radiobob.de/ironmaiden/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "KISS", url: "https://streams.radiobob.de/kiss/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Kuschelrock", url: "https://streams.radiobob.de/bob-kuschelrock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Made in Germany", url: "https://streams.radiobob.de/madeingermany/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Metal", url: "https://streams.radiobob.de/bob-metal/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Metalcore", url: "https://streams.radiobob.de/metalcore/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Metallica", url: "https://streams.radiobob.de/metallica/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Mittelalter", url: "https://streams.radiobob.de/mittelalter/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Motörhead", url: "https://streams.radiobob.de/motoerhead/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Newcomer", url: "https://streams.radiobob.de/newcomer/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Nu Metal", url: "https://streams.radiobob.de/numetal/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Ozzy Osbourne", url: "https://streams.radiobob.de/ozzyosbourne/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Power Metal", url: "https://streams.radiobob.de/powermetal/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Prog-Rock", url: "https://streams.radiobob.de/progrock/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Punk", url: "https://streams.radiobob.de/bob-punk/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Queen", url: "https://streams.radiobob.de/bob-queen/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Roadtrip", url: "https://streams.radiobob.de/roadtrip/mp3-128/", bitrate: 128000 },
-{ name: "Rock am Ring Radio", url: "https://streams.radiobob.de/rockamring/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Rock Hits", url: "https://streams.radiobob.de/bob-rockhits/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Rock Oldies", url: "https://streams.radiobob.de/rockoldies/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Rockabilly", url: "https://streams.radiobob.de/bob-rockabilly/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Rockparty", url: "https://streams.radiobob.de/rockparty/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Rolling Stones", url: "https://streams.radiobob.de/rollingstones/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Singer/Songwriter", url: "https://streams.radiobob.de/bob-singersong/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Ska", url: "https://streams.radiobob.de/ska/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Southern Rock", url: "https://streams.radiobob.de/southernrock/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Stoner Rock-Stream", url: "https://streams.radiobob.de/stonerrock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Summer Rock Hits", url: "https://streams.radiobob.de/summerrock/mp3-128/", bitrate: 128000 },
-{ name: "Symphonic Metal", url: "https://streams.radiobob.de/symphmetal/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "The BossHoss", url: "https://streams.radiobob.de/bosshoss/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Tobias Sammet", url: "https://streams.radiobob.de/sammet/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Unplugged", url: "https://streams.radiobob.de/bob-chillout/mp3-128/mediaplayer/", bitrate: 128000 },
-{ name: "Wacken", url: "https://streams.radiobob.de/bob-wacken/mp3-128/mediaplayer", bitrate: 128000 },
-{ name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/streams.radiobob.de/", bitrate: 128000 },
-{ name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/streams.radiobob.de/", bitrate: 128000 }
-  
+        this.stations = [
+            { name: "RADIO BOB!", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de", bitrate: 128000 },
+            { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de", bitrate: 128000 },
+            { name: "Rock FM", url: "https://stream.regenbogen2.de/dab/mp3-128/private", bitrate: 128000 },   
+            { name: "knixx.fm", url: "https://s1.knixx.fm/dein_webradio_128.mp3", bitrate: 128000 },
+            { name: "NDR 1", url: "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3", bitrate: 128000 },
+            { name: "SWR3", url: "https://liveradio.swr.de/sw282p3/swr3/play.mp3", bitrate: 128000 }, 
+            { name: "SWR4", url: "https://liveradio.swr.de/sw282p3/swr4fn/play.mp3", bitrate: 128000 }, 
+            { name: "WDR 3", url: "https://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/128/stream.mp3", bitrate: 128000 },
+            { name: "WDR 5", url: "https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3", bitrate: 128000 },  
+            { name: "MDR Klassik", url: "https://mdr-284350-0.sslcast.mdr.de/mdr/284350/0/mp3/high/stream.mp3", bitrate:128000},  
+            { name: 'Absolut relax', url: 'https://absolut-relax.live-sm.absolutradio.de/absolut-relax', bitrate:128000 },    
+            { name: 'Klassik Radio', url: 'https://klassikr.streamabc.net/klr-krdnational-mp3-192-8877033', bitrate:192000 },
+            { name: "Radio Geschmack", url: "https://s2.genx-stream.de:8702/;?type=http", bitrate: 256000},
+            { name: "Ambient Sleeping Pill", url: "https://radio.stereoscenic.com/asp-s", bitrate: 128000 }    
         ];
 
         this.dynamicUrls = {
@@ -908,12 +732,7 @@ class App {
             t2: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de",
             t3: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de",
             t4: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer"
-        };        
-        
-  
-   
-   
-   
+        };
         
         this.dynamicStreamTimeout = null;
         this.state = {
@@ -1507,133 +1326,124 @@ switchLiveStreamTo(url) {
     }
     
 
+	updateStatusDisplay() {
+	    const formatBufferDuration = (s) => {
+	        const d = Math.max(0, Math.floor(s));
+	        const h = Math.floor(d / 3600);
+	        const m = Math.floor((d % 3600) / 60);
+	        const sec = Math.floor(d % 60);
+	        return h > 0 ?
+	            `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}` :
+	            `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+	    };
+	
+	    const formatTime = (ts) => {
+	        const d = new Date(ts);
+	        
 
-updateStatusDisplay() {
-    const formatBufferDuration = (s) => {
-        const d = Math.max(0, Math.floor(s));
-        const h = Math.floor(d / 3600);
-        const m = Math.floor((d % 3600) / 60);
-        const sec = Math.floor(d % 60);
-        return h > 0 ?
-            `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}` :
-            `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-    };
+	        const userLang = navigator.language || 'en';
 
-    const formatTime = (ts) => {
-        const d = new Date(ts);
-        return `${["So","Mo","Di","Mi","Do","Fr","Sa"][d.getDay()]} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
-    };
-
-        const getPlaybackTime = () => {
-
-        if (this.state.currentPlayingChunkData) {
-            return this.state.currentPlayingChunkData.startTime;
-        }
-
-        if (this.state.playlistChunks.length > 0) {
-            return this.state.playlistChunks[0].startTime;
-        }
-
-        if (this.state.playedChunksHistory.length > 0) {
-            return this.state.playedChunksHistory[this.state.playedChunksHistory.length - 1].startTime;
-        }
-
-        return this.state.firstChunkTimestamp || Date.now();
-    };
-
-    const getNewestTime = () => {
-
-    const lastPlaylist = this.state.playlistChunks.length > 0 
-        ? this.state.playlistChunks[this.state.playlistChunks.length - 1].startTime 
-        : 0;
-
-
-    const currentPlaying = this.state.currentPlayingChunkData
-        ? this.state.currentPlayingChunkData.startTime
-        : 0;
-
-
-    const newestSaved = Math.max(lastPlaylist, currentPlaying);
-
-    if (newestSaved > 0) {
-        return newestSaved;
-    }
-
-    return Date.now();
-};
-
-
-    let totalBufferSeconds = 0;
-    const bytesPerSecond = this.state.bitrate / 8;
-
-    if (bytesPerSecond > 0 && !this.state.isStopped) {
-        totalBufferSeconds = this.state.playlistChunks.reduce((acc, c) => acc + (c.length / bytesPerSecond), 0);
-        
-        const player = this.app.player;
-        const currentChunk = this.state.currentPlayingChunkData;
-        
-                if (this.state.isPlaying && currentChunk && player.currentChunkStartTime > 0 && player.audioCtx) {
-            const elapsed = player.audioCtx.currentTime - player.currentChunkStartTime;
-            const remainingInChunk = (currentChunk.length / bytesPerSecond) - elapsed;
-            totalBufferSeconds += Math.max(0, remainingInChunk);
-        } else if (this.state.isManualPause) {
-
-            if (this.state.playlistChunks.length > 0 && player.currentChunkOffset > 0) {
-                 const firstChunkInPlaylist = this.state.playlistChunks[0];
-                 const firstChunkDuration = firstChunkInPlaylist.length / bytesPerSecond;
-                 const remainingInFirstChunk = firstChunkDuration - player.currentChunkOffset;
-                 
-
-                 totalBufferSeconds -= player.currentChunkOffset;
-            }
-        }
-        
-
-        if (!this.state.isNetworkFrozen && this.app.streamer.chunkProcessor.rawBuffer) {
-            totalBufferSeconds += this.app.streamer.chunkProcessor.rawBuffer.length / bytesPerSecond;
-        }
-    }
-
-    const bufferText = `(${formatBufferDuration(totalBufferSeconds)})`;
-    const timeRange = `${formatTime(getPlaybackTime())} ➔ ${formatTime(getNewestTime())}`;
-
-    let statusText = "";
-    let statusClass = "";
-
-    if (this.state.isLiveMode) {
-        const stationName = this.els.liveStationSelect.options[this.els.liveStationSelect.selectedIndex]?.text || "";
-        statusText = `Live - ${stationName}`;
-        statusClass = (!this.state.isStopped && !this.state.isNetworkFrozen) ? "status-buffering-active" : "status-live";
-    } 
-    else if (!this.state.isStopped) {
-        let mode = 'Rec';
-        
-
-            if (!this.state.isNetworkFrozen && !this.state.isConnected) {
-            mode = this.state.isPlaying ? 'Play' : 'Try';
-            statusClass = "status-frozen";
-        } else {
-            if (this.state.isPlaying) {
-                mode = 'Play';
-            } else if (this.state.isNetworkFrozen) {
-                mode = 'Stop';
-            }
-            statusClass = this.state.isNetworkFrozen ? "status-buffering-idle" : "status-buffering-active";
-        }
-
-        
-        statusText = `${mode} - ${timeRange} ${bufferText}`;
-    } 
-    else {
-        const rangeStr = this.state.firstChunkTimestamp ? ` - ${timeRange} ${bufferText}` : "";
-        statusText = `Stop${rangeStr}`;
-        statusClass = "status-frozen";
-    }
-    
-    this.els.statusDisplay.innerText = statusText;
-    this.els.statusDisplay.className = statusClass;
-}
-
+	        const weekdays = userLang.startsWith('de')
+	            ? ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"] // Deutsch
+	            : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]; // Englisch (2 Buchstaben)
+	
+	        return `${weekdays[d.getDay()]} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+	    };
+	
+	    const getPlaybackTime = () => {
+	        if (this.state.currentPlayingChunkData) {
+	            return this.state.currentPlayingChunkData.startTime;
+	        }
+	        if (this.state.playlistChunks.length > 0) {
+	            return this.state.playlistChunks[0].startTime;
+	        }
+	        if (this.state.playedChunksHistory.length > 0) {
+	            return this.state.playedChunksHistory[this.state.playedChunksHistory.length - 1].startTime;
+	        }
+	        return this.state.firstChunkTimestamp || Date.now();
+	    };
+	
+	    const getNewestTime = () => {
+	        const lastPlaylist = this.state.playlistChunks.length > 0 
+	            ? this.state.playlistChunks[this.state.playlistChunks.length - 1].startTime 
+	            : 0;
+	
+	        const currentPlaying = this.state.currentPlayingChunkData
+	            ? this.state.currentPlayingChunkData.startTime
+	            : 0;
+	
+	        const newestSaved = Math.max(lastPlaylist, currentPlaying);
+	
+	        if (newestSaved > 0) {
+	            return newestSaved;
+	        }
+	        return Date.now();
+	    };
+	
+	    let totalBufferSeconds = 0;
+	    const bytesPerSecond = this.state.bitrate / 8;
+	
+	    if (bytesPerSecond > 0 && !this.state.isStopped) {
+	        totalBufferSeconds = this.state.playlistChunks.reduce((acc, c) => acc + (c.length / bytesPerSecond), 0);
+	        
+	        const player = this.app.player;
+	        const currentChunk = this.state.currentPlayingChunkData;
+	        
+	        if (this.state.isPlaying && currentChunk && player.currentChunkStartTime > 0 && player.audioCtx) {
+	            const elapsed = player.audioCtx.currentTime - player.currentChunkStartTime;
+	            const remainingInChunk = (currentChunk.length / bytesPerSecond) - elapsed;
+	            totalBufferSeconds += Math.max(0, remainingInChunk);
+	        } else if (this.state.isManualPause) {
+	            if (this.state.playlistChunks.length > 0 && player.currentChunkOffset > 0) {
+	                 const firstChunkInPlaylist = this.state.playlistChunks[0];
+	                 const firstChunkDuration = firstChunkInPlaylist.length / bytesPerSecond;
+	                 totalBufferSeconds -= player.currentChunkOffset;
+	            }
+	        }
+	        
+	        if (!this.state.isNetworkFrozen && this.app.streamer.chunkProcessor.rawBuffer) {
+	            totalBufferSeconds += this.app.streamer.chunkProcessor.rawBuffer.length / bytesPerSecond;
+	        }
+	    }
+	
+	    const bufferText = `(${formatBufferDuration(totalBufferSeconds)})`;
+	    const timeRange = `${formatTime(getPlaybackTime())} ➔ ${formatTime(getNewestTime())}`;
+	
+	    let statusText = "";
+	    let statusClass = "";
+	
+	    if (this.state.isLiveMode) {
+	        const stationName = this.els.liveStationSelect.options[this.els.liveStationSelect.selectedIndex]?.text || "";
+	        statusText = `Live - ${stationName}`;
+	        statusClass = (!this.state.isStopped && !this.state.isNetworkFrozen) ? "status-buffering-active" : "status-live";
+	    } 
+	    else if (!this.state.isStopped) {
+	        let mode = 'Rec';
+	        
+	        if (!this.state.isNetworkFrozen && !this.state.isConnected) {
+	            mode = this.state.isPlaying ? 'Play' : 'Try';
+	            statusClass = "status-frozen";
+	        } else {
+	            if (this.state.isPlaying) {
+	                mode = 'Play';
+	            } else if (this.state.isNetworkFrozen) {
+	                mode = 'Stop';
+	            }
+	            statusClass = this.state.isNetworkFrozen ? "status-buffering-idle" : "status-buffering-active";
+	        }
+	        
+	        statusText = `${mode} - ${timeRange} ${bufferText}`;
+	    } 
+	    else {
+	        const rangeStr = this.state.firstChunkTimestamp ? ` - ${timeRange} ${bufferText}` : "";
+	        statusText = `Stop${rangeStr}`;
+	        statusClass = "status-frozen";
+	    }
+	    
+	    this.els.statusDisplay.innerText = statusText;
+	    this.els.statusDisplay.className = statusClass;
+	}
+	
 
 
     updateButtons() {
@@ -2362,7 +2172,6 @@ class Player {
     };
 }
    
-
     
     async jumpChunks(amount) {
         if (this.state.isStopped || this.isJumping) return;
@@ -2396,12 +2205,10 @@ class Player {
         this.app.ui.update();
     }
 }
-
+    
 new App();
-        
     
 </script>
-
 
 </body>
 </html>
