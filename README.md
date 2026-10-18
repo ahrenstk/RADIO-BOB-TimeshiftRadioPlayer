@@ -59,7 +59,7 @@ Du benötigst lediglich einen modernen Webbrowser mit Unterstützung für:
 
 ## Datenschutzhinweis
 
-Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Voreinstellungen) lokal auf deinem Endgerät gespeichert. Es werden keine personenbezogenen Daten an externe Server übertragen, ausgenommen die direkte Verbindung zu den Stream-Servern von RADIO BOB!. Diese Anwendung ist ausschließlich für den privaten Gebrauch bestimmt, da kein aktiver Datenschutzhinweis oder Einwilligungsmechanismus vor dem Speichern der Daten im Browser integriert ist. Für andere Zwecke beachte bitte den Datenschutz und die Information an die Benutzer vor Aufruf der Anwendung.
+Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Voreinstellungen) lokal auf deinem Endgerät gespeichert. Es werden keine personenbezogenen Daten an externe Server übertragen, ausgenommen die direkte Verbindung zu den Stream-Servern von RADIO BOB!. Diese Anwendung ist ausschließlich für den privaten Gebrauch bestimmt, da kein aktiver Datenschutzhinweis oder Einwilligungsmechanismus vor dem Speichern der Daten im Browser integriert ist. Für andere Zwecke beachte bitte die Datenschutzbestimmungen und erweitere den Code entsprechend.
 
 ---
 
