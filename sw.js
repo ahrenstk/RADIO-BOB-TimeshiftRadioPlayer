@@ -1,4 +1,5 @@
-const CACHE_NAME = 'TimeshiftRadioPlayer-2026-10-18';
+const CACHE_PREFIX = 'RADIO-BOB-TimeshiftRadioPlayer-';
+const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-2026-10-18';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -19,7 +20,9 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys
+          .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
       );
     })
   );
@@ -29,7 +32,6 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = request.url;
-
 
   if (
     request.method !== 'GET' ||
@@ -42,7 +44,6 @@ self.addEventListener('fetch', (event) => {
   ) {
     return;
   }
-
 
   if (request.mode === 'navigate') {
     event.respondWith(
@@ -70,15 +71,13 @@ self.addEventListener('fetch', (event) => {
         } catch (err) {
           return (
             (await caches.match('./')) ||
-            (await caches.match('index.html')) ||
-            (await caches.match('/'))
+            (await caches.match('index.html'))
           );
         }
       })
     );
     return;
   }
-
 
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
