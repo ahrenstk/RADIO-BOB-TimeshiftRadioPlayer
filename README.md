@@ -23,21 +23,21 @@ Ich habe diese Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minute
 
 ## Hauptfunktionen
 
-- **Echtes Timeshift-Playback**: Pausiere RADIO BOB! live, spule in festen Schritten (1 Segment (meistens eine Minute) oder 10 Segmente (meinstens 10 Minuten)) vor und zurück.
-- **Lokale Zwischenspeicherung**: Audio-Chunks werden lokal in der **IndexedDB** gespeichert. So überstehen Pufferungen auch kurze Netzwerkausfälle oder Reconnects.
-- **Low-Level MPEG-Frame-Parsing**: Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
-- **Smarte Wiederverbindung & Überlappungserkennung**: Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
-- **Live- & Timeshift-Modus**: Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
-- **Automatische Löschung**: Beim Aufruf des Programms wird die Aufnahme auf zwei Stunden gekürzt.
-- **Interaktive Benutzeroberfläche**:
+- **Echtes Timeshift-Playback:** Pausiere RADIO BOB! live, spule in festen Schritten (1 Segment (meistens eine Minute) oder 10 Segmente (meinstens 10 Minuten)) vor und zurück.
+- **Lokale Zwischenspeicherung:** Audio-Chunks werden lokal in der **IndexedDB** gespeichert. So überstehen Pufferungen auch kurze Netzwerkausfälle oder Reconnects.
+- **Low-Level MPEG-Frame-Parsing:** Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
+- **Smarte Wiederverbindung & Überlappungserkennung:** Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
+- **Live- & Timeshift-Modus:** Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
+- **Automatische Löschung:** Beim Aufruf des Programms wird die Aufnahme auf zwei Stunden gekürzt.
+- **Interaktive Benutzeroberfläche:**
   - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt (jeweils eine Stunde).
   - Lautstärkefunktion, die leider aufgrund der Übersteuerung einiger Radiosender nicht optimal ist
   - Sleeptimer mit automatischer Stream-Abschaltung (Zeitinervall eine Stunde).
   - Aufnahmefunktion (Stop / Record) mit Slider, um versehentliche Aufnahmen oder Stop der Aufnahme zu verhindern
-- **Systemintegration**:
-  - **Media Session API**: Steuerung im Sperrbildschirm sowie Anzeige des aktuellen Stream-Status auf Smartphones und Desktops.
-  - **Screen Wake Lock**: Verhindert, dass das Gerät während des Hörens in den Ruhezustand wechselt.
-  - **PWA-Ready**: Enthält Manifest-Konfiguration und Service-Worker-Registrierung zur Installation als Progressive Web App.
+- **Systemintegration:**
+  - **Media Session API:** Steuerung im Sperrbildschirm sowie Anzeige des aktuellen Stream-Status auf Smartphones und Desktops.
+  - **Screen Wake Lock:** Verhindert, dass das Gerät während des Hörens in den Ruhezustand wechselt.
+  - **PWA-Ready:** Enthält Manifest-Konfiguration und Service-Worker-Registrierung zur Installation als Progressive Web App.
 
 ---
 
