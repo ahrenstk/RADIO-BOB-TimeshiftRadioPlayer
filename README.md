@@ -76,7 +76,7 @@ this.livestations = [
 ];
 ```
 
-Die ersten beiden Einträge entsprechen den unten aufgeführten dynamischen URLs (`t1`, `t2`, `t3`, `t4`). Die Software wechselt automatisch zu den Minuten **:03, :27, :33 und :57** jeder Stunde zwischen den Streams um Werbung und Nachrichten zu umgehen. Falls diese Umschaltlogik nicht gewünscht ist, muss sie im Code manuell deaktiviert oder entfernt werden.
+Die ersten beiden Einträge (`dynamic`, `dynamic_aac`) entsprechen den unten aufgeführten dynamischen URLs (`t1`, `t2`, `t3`, `t4`). Die Software wechselt automatisch zu den Minuten **:03, :27, :33 und :57** jeder Stunde zwischen den Streams um Werbung und Nachrichten zu umgehen. Falls du diese Umschaltlogik nicht benötigst, kannst du die beiden Zeilen löschen. Die Umschaltlogik kannst, musst du jedoch nicht entfernen.
 
 ```javascript
 this.stations = [
