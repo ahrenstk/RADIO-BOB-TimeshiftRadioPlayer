@@ -71,21 +71,21 @@ Durch die Nutzung dieser Anwendung werden Daten (wie Audio-Chunks und Sender-Vor
 Du kannst die verfügbaren RADIO BOB!-Streams direkt im Konstruktor der `App`-Klasse innerhalb des Scripts anpassen. Natürlich kannst du auch Sender nutzen, die nicht von **RADIO BOB!** stammen.
 
 ```javascript
-this.livestations = [
+this.livestations = {
     { name: "BOB! & Best of Rock", url: "dynamic" }, 
     { name: "BOB! & Best of Rock AAC", url: "dynamic_aac" },
     { name: "RADIO BOB!", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de" },
     { name: "RADIO BOB! AAC", url: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de" },
-];
+};
 ```
 
 Die ersten beiden Einträge (`dynamic`, `dynamic_aac`) entsprechen den unten aufgeführten dynamischen URLs (`t1`, `t2`, `t3`, `t4`). Die Software wechselt automatisch zu den Minuten **:03, :27, :33 und :57** jeder Stunde zwischen den Streams um Werbung und Nachrichten zu umgehen. Falls du diese Umschaltlogik nicht benötigst, kannst du die beiden Zeilen löschen. Die Umschaltlogik kannst, musst du jedoch nicht entfernen.
 
 ```javascript
-this.stations = [
+this.stations = {
     { name: "RADIO BOB! Livestream", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de", bitrate: 128000 },
     { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de", bitrate: 128000 },
-];
+};
 ```
 > **Wichtig**: Es können für die Aufnahme nur **MP3-Streams** verwendet werden. Bitte achte zudem darauf, dass die korrekte Bitrate angegeben ist.
 
