@@ -4,6 +4,9 @@ TimeshiftRadioPlayer ist eine moderne Ein-Datei-Webseite (index.html) und Progre
 
 **Achtung**: Bitte warte nach dem Start der allerersten Aufnahme einige Minuten, bevor du die zeitversetzte Wiedergabe startest.
 
+**English version:** **[https://github.com/ahrenstk/TimeshiftRadioPlayer](https://github.com/ahrenstk/TimeshiftRadioPlayer)** (only different radio stations)
+
+
 **Demo:** **[https://ahrens.tk/bob](https://ahrens.tk/bob)**
 
 
