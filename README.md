@@ -16,7 +16,7 @@ TimeshiftRadioPlayer ist eine moderne Ein-Datei-Webseite (index.html) und Progre
 
 ## Übersicht
 
-Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über einfache HTML5-`<audio>`-Tags abspielen, lädt der **TimeshiftRadioPlayer** kontinuierlich die Rohdaten des Radio BOB!-Streams, synchronisiert MPEG-Frames, unterteilt das Audio in Segmente und speichert diese dauerhaft im Browserspeicher (`IndexedDB`).
+Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über einfache HTML5-`<audio>`-Tags abspielen, lädt der **TimeshiftRadioPlayer** im Aufnahmemodus kontinuierlich die Rohdaten des Radio BOB!-Streams, synchronisiert MPEG-Frames, unterteilt das Audio in Segmente und speichert diese dauerhaft im Browserspeicher (`IndexedDB`).
 
 Egal ob du kurz vom Schreibtisch aufstehen musst, einen Songtitel oder die Rock-News verpasst hast oder gecachte Abschnitte überspringen möchtest – dieser Player gibt dir die volle Kontrolle über den Live-Stream.
 
