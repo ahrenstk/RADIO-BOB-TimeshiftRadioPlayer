@@ -20,7 +20,7 @@ Im Gegensatz zu herkömmlichen Webradio-Playern, die Live-Audio lediglich über 
 
 Egal ob du kurz vom Schreibtisch aufstehen musst, einen Songtitel oder die Rock-News verpasst hast oder gecachte Abschnitte überspringen möchtest – dieser Player gibt dir die volle Kontrolle über den Live-Stream.
 
-Ich habe diese Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minuten Vorlauf baut sie genügend Puffer auf, um selbst längere Funklöcher auf ein- bis zweistündigen Strecken mühelos zu überbrücken.
+Ich habe diese Software speziell für Bahnfahrten entwickelt: Mit etwa 15 Minuten Vorlauf baut sie genügend Puffer auf, um selbst längere Funklöcher auf ein- bis zweistündigen Strecken wie z. B. zwischen zwischen dem [Emsland](https://de.wikipedia.org/wiki/Emsland) und [Münster](https://de.wikipedia.org/wiki/M%C3%BCnster) mühelos überbrücken zu können.
 
 ---
 
