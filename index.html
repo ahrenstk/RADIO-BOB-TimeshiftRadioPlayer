@@ -47,23 +47,18 @@ SOFTWARE.
                 --bg-input: #282828;
                 --bg-reload: #4a4a4a;
 
-                --text-light: #cbd5e1;
+                --clr-light: #cbd5e1;
                 --text-muted: #a0a0ab;
                 --text-disabled: #b0b0b0;
                 --text-select-disabled: #c5c5c5;
 
                 --clr-cyan: #52c5c5;
-                --clr-white: #cbd5e1;
-                --clr-grey: #e0e0e0;
-                --clr-grey-buffering: #4a4a4a;
-
-                --clr-slider: #e0e0e0;
             }
 
             body {
                 font-family: sans-serif;
                 background: var(--bg-main);
-                color: var(--text-light);
+                color: var(--clr-light);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -117,7 +112,7 @@ SOFTWARE.
                 max-width: 280px;
                 padding: 0.45rem 2.5rem 0.45rem 1.5rem;
                 background: var(--bg-input);
-                color: var(--text-light);
+                color: var(--clr-light);
                 border: 2px solid var(--clr-cyan);
                 border-radius: 50px;
                 font-size: 1rem;
@@ -135,13 +130,13 @@ SOFTWARE.
             }
 
             .station-select.live-select {
-                border-color: var(--clr-white);
+                border-color: var(--clr-light);
                 background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
             }
 
             .station-select option {
                 background: var(--bg-input);
-                color: var(--text-light);
+                color: var(--clr-light);
                 font-weight: normal;
             }
 
@@ -156,11 +151,11 @@ SOFTWARE.
             }
 
             .slider-input {
-                background: linear-gradient(to right, var(--clr-slider) 0%, var(--clr-slider) 50%, #444 50%, #444 100%);
+                background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 50%, #444 50%, #444 100%);
             }
 
             .timer-input {
-                background: linear-gradient(to right, var(--clr-slider) 0%, var(--clr-slider) 0%, #444 0%, #444 100%);
+                background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 0%, #444 0%, #444 100%);
             }
 
             .slider-input::-webkit-slider-thumb,
@@ -169,7 +164,7 @@ SOFTWARE.
                 width: 20px;
                 height: 20px;
                 border-radius: 50%;
-                background: var(--clr-slider);
+                background: var(--clr-light);
                 cursor: pointer;
                 box-shadow:
                     0 0 10px rgba(255, 152, 0, 0.5),
@@ -182,7 +177,7 @@ SOFTWARE.
                 height: 20px;
                 border: none;
                 border-radius: 50%;
-                background: var(--clr-slider);
+                background: var(--clr-light);
                 cursor: pointer;
                 box-shadow:
                     0 0 10px rgba(255, 152, 0, 0.5),
@@ -222,19 +217,19 @@ SOFTWARE.
             }
 
             #startBtn.buffering-mode {
-                border-color: var(--clr-grey-buffering);
-                color: var(--clr-grey-buffering);
+                border-color: var(--clr-light);
+                color: var(--clr-light);
             }
 
             #liveBtn {
-                border: 3px solid var(--clr-white);
-                color: var(--text-light);
+                border: 3px solid var(--clr-light);
+                color: var(--clr-light);
                 letter-spacing: 1px;
             }
 
             #liveBtn.live-active {
-                border-color: var(--clr-white);
-                color: var(--text-light);
+                border-color: var(--clr-light);
+                color: var(--clr-light);
             }
 
             .split-btn-container {
@@ -291,10 +286,10 @@ SOFTWARE.
             }
             #statusDisplay.status-frozen,
             #statusDisplay.status-buffering-idle {
-                color: var(--clr-grey);
+                color: var(--clr-light);
             }
             #statusDisplay.status-live {
-                color: var(--clr-grey);
+                color: var(--clr-light);
             }
 
             .volume-container,
@@ -360,7 +355,7 @@ SOFTWARE.
                 background-color: var(--clr-cyan);
             }
             .buffer-underrun {
-                background-color: var(--clr-grey);
+                background-color: var(--clr-light);
             }
 
             @keyframes spin {
@@ -413,7 +408,7 @@ SOFTWARE.
             }
 
             .switch-text-left {
-                color: var(--clr-grey);
+                color: var(--clr-light);
             }
 
             .switch-text-right {
@@ -440,7 +435,7 @@ SOFTWARE.
 
             .switch-checkbox:not(:checked) + .switch-label .switch-button {
                 transform: translateX(0);
-                border-color: var(--clr-grey);
+                border-color: var(--clr-light);
                 background-color: var(--bg-input);
             }
 
@@ -585,7 +580,7 @@ SOFTWARE.
             <div class="switch-container" style="width: 100%; max-width: 280px; margin: 0.4rem auto">
                 <input type="checkbox" id="stopSwitch" class="switch-checkbox" style="display: none !important" />
                 <label for="stopSwitch" class="switch-label">
-                    <span class="switch-text switch-text-left" style="color: var(--clr-grey)">
+                    <span class="switch-text switch-text-left" style="color: var(--clr-light)">
                         <svg
                             viewBox="0 0 24 24"
                             width="16"
@@ -666,7 +661,7 @@ SOFTWARE.
         <script>
             class ChunkDB {
                 constructor() {
-                    this.dbName = "RADIO-BOB-TimeshiftRadioPlayer";
+        this.dbName = "RADIO-BOB-TimeshiftRadioPlayer";
                     this.storeName = "chunks";
                     this.settingsStoreName = "settings";
                     this.db = null;
@@ -1829,13 +1824,13 @@ SOFTWARE.
                     if (this.app.player.gainNode)
                         this.app.player.gainNode.gain.setValueAtTime(finalGain, this.app.player.audioCtx.currentTime);
 
-                    e.target.style.background = `linear-gradient(to right, var(--clr-slider) ${volume}%, #444 ${volume}%)`;
+                    e.target.style.background = `linear-gradient(to right, var(--clr-light) ${volume}%, #444 ${volume}%)`;
                 }
 
                 handleSleepTimerChange(e) {
                     const minutes = parseInt(e.target.value) || 0;
                     const percentage = (minutes / (parseInt(e.target.max) || 60)) * 100;
-                    e.target.style.background = `linear-gradient(to right, var(--clr-slider) ${percentage}%, #444 ${percentage}%)`;
+                    e.target.style.background = `linear-gradient(to right, var(--clr-light) ${percentage}%, #444 ${percentage}%)`;
                     this.state.sleepTimerEndTime = minutes > 0 ? Date.now() + minutes * 60000 : null;
                 }
 
@@ -2122,14 +2117,14 @@ SOFTWARE.
                 updateSleepTimerSlider() {
                     if (!this.state.sleepTimerEndTime) {
                         this.els.sleepTimerSlider.value = 0;
-                        this.els.sleepTimerSlider.style.background = `linear-gradient(to right, var(--clr-slider) 0%, #444 0%)`;
+                        this.els.sleepTimerSlider.style.background = `linear-gradient(to right, var(--clr-light) 0%, #444 0%)`;
                         return;
                     }
                     const remainingMinutes = Math.ceil((this.state.sleepTimerEndTime - Date.now()) / 60000);
                     const max = parseInt(this.els.sleepTimerSlider.max) || 60;
                     const percentage = (remainingMinutes / max) * 100;
                     this.els.sleepTimerSlider.value = remainingMinutes;
-                    this.els.sleepTimerSlider.style.background = `linear-gradient(to right, var(--clr-slider) ${percentage}%, #444 ${percentage}%)`;
+                    this.els.sleepTimerSlider.style.background = `linear-gradient(to right, var(--clr-light) ${percentage}%, #444 ${percentage}%)`;
                 }
 
                 updateMediaSession(title, artist) {
