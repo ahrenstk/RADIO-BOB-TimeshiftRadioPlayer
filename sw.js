@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'RADIO-BOB-TimeshiftRadioPlayer-';
-const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-2026-10-18';
+const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-2026-10-21';
 
 const ASSETS_TO_CACHE = [
   './',
