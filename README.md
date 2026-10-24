@@ -88,7 +88,10 @@ this.stations = {
     { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de", bitrate: 128000 },
 };
 ```
-> **Wichtig**: Es können für die Aufnahme nur **MP3-Streams** verwendet werden. Bitte achte zudem darauf, dass die korrekte Bitrate angegeben ist.
+
+Hier werden die Radio-Stationen aufgeführt, die aufgenommen werden sollen. Die Liste kann von den Live-Sendern abweichen.
+
+**Wichtig**: Es können für die Aufnahme nur **MP3-Streams** verwendet werden. Bitte achte zudem darauf, dass die korrekte Bitrate angegeben ist.
 
 ```javascript
 this.dynamicUrls = {
