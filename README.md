@@ -103,7 +103,8 @@ this.dynamicUrls = {
 ```
 Dynamische URLs für den automatischen Wechsel zu den Minuten :03, :27, :33 und :57 jeder Stunde.
 
-> **Hinweis zu Audio-Streams**: Web-Radio-Streams müssen Cross-Origin Resource Sharing (CORS) Header (`Access-Control-Allow-Origin: *`) unterstützen, damit die `fetch()`-API des Browsers die Rohdaten auslesen und in Chunks unterteilen kann.
+
+**Hinweis zu Audio-Streams**: Web-Radio-Streams müssen Cross-Origin Resource Sharing (CORS) Header (`Access-Control-Allow-Origin: *`) unterstützen, damit die `fetch()`-API des Browsers die Rohdaten auslesen und in Chunks unterteilen kann.
 
 
 ---
