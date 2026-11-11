@@ -33,7 +33,7 @@ Ich habe die Software **TimeshiftRadioPlayer** speziell für Bahnfahrten entwick
 - **Low-Level MPEG-Frame-Parsing:** Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
 - **Smarte Wiederverbindung & Überlappungserkennung:** Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
 - **Live- & Timeshift-Modus:** Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
-- **Automatische Löschung:** Beim Aufruf des Programms wird die Aufnahme auf zwei Stunden gekürzt (`const KEEP_CHUNKS = 120;`).
+- **Automatische Löschung:** Die Aufnahme wird auf drei Stunden gekürzt (`const KEEP_CHUNKS = 180;`).
 - **Interaktive Benutzeroberfläche:**
   - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt (jeweils eine Stunde).
   - Lautstärkefunktion, die leider aufgrund der Übersteuerung einiger Radiosender nicht optimal ist
@@ -85,14 +85,14 @@ Die ersten beiden Einträge (`dynamic`, `dynamic_aac`) entsprechen den unten auf
 
 ```javascript
 this.stations = {
-    { name: "RADIO BOB! Livestream", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de", bitrate: 128000 },
-    { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de", bitrate: 128000 },
+            { name: "RADIO BOB!", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de" },
+            { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de" },
 };
 ```
 
 Hier werden die Radio-Stationen aufgeführt, die aufgenommen werden sollen. Die Liste kann von den Live-Sendern abweichen.
 
-**Wichtig**: Es können für die Aufnahme nur **MP3-Streams** verwendet werden. Bitte achte zudem darauf, dass die korrekte Bitrate angegeben ist.
+**Wichtig**: Es können für die Aufnahme nur **MP3-Streams** verwendet werden.
 
 ```javascript
 this.dynamicUrls = {
