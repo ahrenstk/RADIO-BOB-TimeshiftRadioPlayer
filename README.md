@@ -33,7 +33,7 @@ Ich habe die Software **TimeshiftRadioPlayer** speziell für Bahnfahrten entwick
 - **Low-Level MPEG-Frame-Parsing:** Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
 - **Smarte Wiederverbindung & Überlappungserkennung:** Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
 - **Live- & Timeshift-Modus:** Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
-- **Automatische Löschung:** Die Aufnahme wird auf drei Stunden gekürzt (`const KEEP_CHUNKS = 180;`).
+- **Automatische Löschung:** Die Aufnahme wird auf drei Stunden gekürzt (`static MAX_CHUNKS = 180;`).
 - **Interaktive Benutzeroberfläche:**
   - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt (jeweils eine Stunde).
   - Lautstärkefunktion, die leider aufgrund der Übersteuerung einiger Radiosender nicht optimal ist
