@@ -578,8 +578,7 @@ class ChunkDB {
             parts.pop();
         }
         
-        const folderName = parts.join('_') || 'root';
-        this.dbName = `TimeshiftRadioPlayer_${folderName}`;
+        this.dbName = `RADIO-BOB-TimeshiftRadioPlayer`;
         this.storeName = "chunks";
         this.settingsStoreName = "settings";
         this.db = null;
