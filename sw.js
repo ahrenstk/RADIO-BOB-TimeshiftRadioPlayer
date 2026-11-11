@@ -1,5 +1,4 @@
-const CACHE_PREFIX = 'RADIO-BOB-TimeshiftRadioPlayer-';
-const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-2026-10-21';
+const CACHE_NAME = 'TimeshiftRadioPlayer-v2026-11-11';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -9,98 +8,86 @@ const ASSETS_TO_CACHE = [
   'icon-512.png'
 ];
 
-self.addEventListener('install', (event) => {
+
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS_TO_CACHE))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
+
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((keys) => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        keys
-          .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
+        cacheNames.map(cacheName => {
+          if (cacheName.startsWith('TimeshiftRadioPlayer-') && cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const request = event.request;
-  const url = request.url;
+  const url = new URL(request.url);
 
   if (
-    request.method !== 'GET' ||
+    request.method !== 'GET' || 
     request.destination === 'audio' ||
-    url.includes('stream') ||
-    url.includes('.mp3') ||
-    url.includes('.aac') ||
-    url.includes('?t=') ||
-    !url.startsWith(self.location.origin)
+    url.pathname.includes('stream') ||
+    url.pathname.includes('.mp3') ||
+    url.pathname.includes('.aac') ||
+    !url.href.startsWith(self.location.origin)
   ) {
     return;
   }
 
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      caches.match(request).then(async (cachedResponse) => {
-        if (cachedResponse) {
-          if (navigator.onLine) {
-            fetch(request)
-              .then((networkResponse) => {
-                if (networkResponse && networkResponse.status === 200) {
-                  caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse));
-                }
-              })
-              .catch(() => {});
-          }
-          return cachedResponse;
-        }
 
-        try {
-          const networkResponse = await fetch(request);
-          if (networkResponse && networkResponse.status === 200) {
-            const cache = await caches.open(CACHE_NAME);
-            cache.put(request, networkResponse.clone());
+  if (
+    request.mode === 'navigate' || 
+    request.destination === 'document' || 
+    request.headers.get('accept')?.includes('text/html')
+  ) {
+    event.respondWith(
+      caches.match('./index.html', { ignoreSearch: true })
+        .then((cached) => {
+          if (cached) {
+            return cached;
           }
-          return networkResponse;
-        } catch (err) {
-          return (
-            (await caches.match('./')) ||
-            (await caches.match('index.html'))
-          );
-        }
-      })
+
+          return caches.match('index.html') || caches.match('./');
+        })
+        .catch(() => {
+          return caches.match('./index.html') || caches.match('index.html');
+        })
     );
     return;
   }
 
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) {
-        if (navigator.onLine) {
-          fetch(request)
-            .then((networkResponse) => {
-              if (networkResponse && networkResponse.status === 200) {
-                caches.open(CACHE_NAME).then((cache) => cache.put(request, networkResponse));
-              }
-            })
-            .catch(() => {});
-        }
-        return cachedResponse;
-      }
 
-      return fetch(request).then((response) => {
-        if (response && response.status === 200) {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-        }
+  event.respondWith(
+    caches.match(request, { ignoreSearch: true }).then(response => {
+      if (response) {
         return response;
+      }
+      
+      return fetch(request).then(networkResponse => {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(request, responseToCache);
+          });
+        }
+        return networkResponse;
+      }).catch(() => {
+        return new Response('Offline', { status: 503, statusText: 'Offline' });
       });
     })
   );
 });
+
