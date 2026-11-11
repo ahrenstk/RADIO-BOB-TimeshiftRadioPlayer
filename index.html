@@ -109,31 +109,33 @@ SOFTWARE.
                 gap: 0.5rem;
             }
 
-            .station-select {
-                width: 100%;
-                max-width: 280px;
-                padding: 0.45rem 2.5rem 0.45rem 1.5rem;
-                background: var(--bg-input);
-                color: var(--clr-light);
-                border: 2px solid var(--clr-cyan);
-                border-radius: 50px;
-                font-size: 1rem;
-                font-weight: bold;
-                outline: none;
-                cursor: pointer;
-                text-align: center;
-                text-align-last: center;
-                appearance: none;
-                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300bcd4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-                background-repeat: no-repeat;
-                background-position: right 1.2rem center;
-                height: 40px;
-                line-height: normal;
-            }
+			.station-select {
+			    width: 100%;
+			    max-width: 280px;
+			    padding: 0.45rem 2.5rem 0.45rem 1.5rem;
+			    background: var(--bg-input);
+			    color: var(--clr-light);
+			    border: 2px solid var(--clr-cyan);
+			    border-radius: 50px;
+			    font-size: 1rem;
+			    font-weight: bold;
+			    outline: none;
+			    cursor: pointer;
+			    text-align: center;
+			    text-align-last: center;
+			    appearance: none;
+			    /* Nutzt das UTF-8 Zeichen '▾' mit deiner originalen Cyan-Farbe #00bcd4 */
+			    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='0' y='12' fill='%2300bcd4' font-size='14'>▾</text></svg>");
+			    background-repeat: no-repeat;
+			    background-position: right 1.2rem center;
+			    height: 40px;
+			    line-height: normal;
+			}
+			
 
             .station-select.live-select {
                 border-color: var(--clr-light);
-                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='0' y='12' fill='%23cbd5e1' font-size='14'>▾</text></svg>");
             }
 
             .station-select option {
@@ -271,7 +273,7 @@ SOFTWARE.
             .station-select:disabled {
                 background-color: var(--bg-card);
                 color: var(--text-select-disabled) !important;
-                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23b0b0b0' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>") !important;
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='0' y='12' fill='%23b0b0b0' font-size='14'>▾</text></svg>") !important;
             }
 
             #statusDisplay {
@@ -736,6 +738,7 @@ class App {
     constructor() {
         this.chunkDB = new ChunkDB();
         
+
              this.livestations = [
                         { name: "National & Best of Rock", url: "dynamic" },
                         { name: "National & Best of Rock AAC", url: "dynamic_aac" },
@@ -1583,12 +1586,13 @@ registerServiceWorker() {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').then((registration) => {
                     registration.update().catch(() => {
-                        console.log("Kaltstart: Update-Check offline übersprungen.");
+                        console.log("Cold start: Update check skipped offline.");
                     });
                 }).catch((err) => {
-                    console.warn("Service Worker im Offline-Modus geladen:", err);
+                    console.warn("Service Worker loaded in offline mode:", err);
                 });
             });
+
         }
     }
 
@@ -2192,6 +2196,7 @@ class StreamManager {
         this.state.isConnecting = false;
     }
     
+    
     async readLoop() {
         try {
             while (!this.state.isStopped && !this.state.isNetworkFrozen && this.reader) {
@@ -2209,25 +2214,25 @@ class StreamManager {
         }
     }
     
-ensureConnection() {
-    if (this.state.isStopped || this.state.isNetworkFrozen) return;
     
-    // Wenn der Browser meldet, dass wir offline sind, erst gar nicht versuchen!
-    if (navigator.onLine === false) {
-        this.state.isConnected = false;
-        this.state.isConnecting = false;
-        return;
-    }
-
-    const stalled = Date.now() - this.state.lastDataTime > 10000;
-    const idle = !this.state.isConnected && !this.state.isConnecting;
-    const cooldownPassed = Date.now() - this.lastConnectTime > 5000;
-    if (stalled && this.state.isConnected) {
-        this.connect();
-    } else if (idle && cooldownPassed) {
-        this.connect();
-    }
-}
+	ensureConnection() {
+	    if (this.state.isStopped || this.state.isNetworkFrozen) return;
+	    
+	    if (navigator.onLine === false) {
+	        this.state.isConnected = false;
+	        this.state.isConnecting = false;
+	        return;
+	    }
+	
+	    const stalled = Date.now() - this.state.lastDataTime > 10000;
+	    const idle = !this.state.isConnected && !this.state.isConnecting;
+	    const cooldownPassed = Date.now() - this.lastConnectTime > 5000;
+	    if (stalled && this.state.isConnected) {
+	        this.connect();
+	    } else if (idle && cooldownPassed) {
+	        this.connect();
+	    }
+	}
 
 }
 
@@ -2243,6 +2248,7 @@ class ChunkProcessor {
         this.lastChunkTailFrames = [];
     }
 
+
     reset() {
         this.rawBuffer = new Uint8Array(0);
         this.firstChunkInSession = true;
@@ -2250,11 +2256,13 @@ class ChunkProcessor {
         this.lastChunkTailFrames = [];
     }
 
+
     prepareReconnect() {
         this.rawBuffer = new Uint8Array(0);
         this.isReconnect = true;
         this.firstChunkInSession = true;
     }
+
 
     extractTailFrameSignatures(chunkData, count = 8) {
         const signatures = [];
@@ -2276,6 +2284,7 @@ class ChunkProcessor {
         }
         return signatures;
     }
+
 
     findOverlapOffset(buffer) {
         if (!this.lastChunkTailFrames || this.lastChunkTailFrames.length === 0) return -1;
@@ -2299,6 +2308,7 @@ class ChunkProcessor {
         }
         return -1;
     }
+
 
     async storeChunk(chunkData) {
         if (!chunkData || chunkData.length === 0) {
@@ -2331,7 +2341,8 @@ class ChunkProcessor {
         }
     }
 
-        getFrameSize(data, pos) {
+
+    getFrameSize(data, pos) {
         if (pos + 4 > data.length) return -1;
         if (data[pos] !== 0xFF || (data[pos + 1] & 0xE0) !== 0xE0) return -1;
 
@@ -2371,7 +2382,6 @@ class ChunkProcessor {
         const coefficients = (mpegVersion === 3) ? 144 : 72;
         return Math.floor((coefficients * bitrate) / sampleRate) + padding;
     }
-
 
 
     findFirstValidHeaderChain(data, offset, requiredChainLength = 3) {
@@ -2535,7 +2545,6 @@ class ChunkProcessor {
     }
 
 
-
     async isValidAudioChunk(data) {
         if (!data || data.length < 100) return false;
         let pos = 0;
@@ -2549,13 +2558,12 @@ class ChunkProcessor {
         return pos === data.length;
     }
 
-    
-
 }
 
 
 
 class Player {
+    
     constructor(app) {
         this.app = app;
         this.state = app.state;
@@ -2583,6 +2591,7 @@ class Player {
         this.jumpGeneration = 0;
     }
 
+
     async initAudioContext() {
         if (this.audioCtx && this.audioCtx.state !== 'closed') return;
         this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2592,6 +2601,7 @@ class Player {
         this.gainNode.gain.setValueAtTime(finalGain, this.audioCtx.currentTime);
         this.gainNode.connect(this.audioCtx.destination);
     }
+    
     
     async play() {
         await this.initAudioContext();
@@ -2613,187 +2623,183 @@ class Player {
         this.app.ui.updateMediaSession(this.app.stations[this.app.ui.els.stationSelect.value].name, "Timeshift Live Buffer");
     }
 
+
     pause(isManualAction = true) {
-    if (isManualAction) {
-        this.state.isManualPause = true;
-        this.state.isPlaying = false;
-        this.isRebuffering = false;
-    }
-    if (this.state.currentPlayingChunkData && this.currentChunkStartTime > 0 && this.audioCtx) {
-        const elapsed = Math.max(0, this.audioCtx.currentTime - this.currentChunkStartTime);
-        this.currentChunkOffset += elapsed;
-        
-        this.state.playlistChunks.unshift(this.state.currentPlayingChunkData);
-        this.state.currentPlayingChunkData = null;
-    }
-
-
-    if (this.audioCtx && this.gainNode) {
-        const now = this.audioCtx.currentTime;
-        this.gainNode.gain.cancelScheduledValues(now);
-        this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, now);
-        this.gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.05); // Sanftes Absenken
-    }
-
-    setTimeout(() => {
-        this.resetScheduledPlayback();
-    }, 50);
-   
-    if (this.state.wakeLock) { 
-        this.state.wakeLock.release().catch(() => {}); 
-        this.state.wakeLock = null; 
-    }
-    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused";
-}
+	    if (isManualAction) {
+	        this.state.isManualPause = true;
+	        this.state.isPlaying = false;
+	        this.isRebuffering = false;
+	    }
+	    if (this.state.currentPlayingChunkData && this.currentChunkStartTime > 0 && this.audioCtx) {
+	        const elapsed = Math.max(0, this.audioCtx.currentTime - this.currentChunkStartTime);
+	        this.currentChunkOffset += elapsed;
+	        
+	        this.state.playlistChunks.unshift(this.state.currentPlayingChunkData);
+	        this.state.currentPlayingChunkData = null;
+	    }
+	    if (this.audioCtx && this.gainNode) {
+	        const now = this.audioCtx.currentTime;
+	        this.gainNode.gain.cancelScheduledValues(now);
+	        this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, now);
+	        this.gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.05); // Sanftes Absenken
+	    }
+	
+	    setTimeout(() => {
+	        this.resetScheduledPlayback();
+	    }, 50);
+	   
+	    if (this.state.wakeLock) { 
+	        this.state.wakeLock.release().catch(() => {}); 
+	        this.state.wakeLock = null; 
+	    }
+	    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused";
+	}
 
 
     resetScheduledPlayback() {
-    this.jumpGeneration++;
-    this.virtualPlayTime = 0;
-    this.currentChunkStartTime = 0;
-
-    if (!this.state.isManualPause) {
-        this.currentChunkOffset = 0;
-    }
-    if (this.playbackTimeoutId) clearTimeout(this.playbackTimeoutId);
-    this.activeSources.forEach(src => { try { src.stop(0); src.disconnect(); } catch (e) {} });
-    this.activeSources.clear();
-}
-    
+	    this.jumpGeneration++;
+	    this.virtualPlayTime = 0;
+	    this.currentChunkStartTime = 0;
+	
+	    if (!this.state.isManualPause) {
+	        this.currentChunkOffset = 0;
+	    }
+	    if (this.playbackTimeoutId) clearTimeout(this.playbackTimeoutId);
+	    this.activeSources.forEach(src => { try { src.stop(0); src.disconnect(); } catch (e) {} });
+	    this.activeSources.clear();
+	}
+	 
+	    
     async playbackLoop() {
-    if (!this.state.isPlaying || this.state.isStopped || !this.audioCtx) {
-        return;
-    }
-    const currentGeneration = this.jumpGeneration;
-    const now = this.audioCtx.currentTime;
-    if (this.virtualPlayTime < now) {
-        this.virtualPlayTime = now + 0.05;
-    }
-    const scheduleAheadTime = 10.0;
-    if ((this.virtualPlayTime - now) > scheduleAheadTime || this.state.isDecoding) {
-        if (currentGeneration === this.jumpGeneration) {
-            this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 100);
-        }
-        return;
-    }
-    if (this.isRebuffering) {
-        if (this.state.playlistChunks.length >= 2 || !this.state.isConnected) {
-            this.isRebuffering = false;
-        } else {
-            if (currentGeneration === this.jumpGeneration) {
-                this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 200);
-            }
-            return;
-        }
-    }
-    if (this.state.playlistChunks.length === 0) {
-        if (now >= this.virtualPlayTime) {
-            this.isRebuffering = true;
-        }
-        if (currentGeneration === this.jumpGeneration) {
-            this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 250);
-        }
-        return;
-    }
-    this.state.isDecoding = true;
-    
-    const chunkEntry = this.state.playlistChunks.shift();
-    try {
+	    if (!this.state.isPlaying || this.state.isStopped || !this.audioCtx) {
+	        return;
+	    }
+	    const currentGeneration = this.jumpGeneration;
+	    const now = this.audioCtx.currentTime;
+	    if (this.virtualPlayTime < now) {
+	        this.virtualPlayTime = now + 0.05;
+	    }
+	    const scheduleAheadTime = 10.0;
+	    if ((this.virtualPlayTime - now) > scheduleAheadTime || this.state.isDecoding) {
+	        if (currentGeneration === this.jumpGeneration) {
+	            this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 100);
+	        }
+	        return;
+	    }
+	    if (this.isRebuffering) {
+	        if (this.state.playlistChunks.length >= 2 || !this.state.isConnected) {
+	            this.isRebuffering = false;
+	        } else {
+	            if (currentGeneration === this.jumpGeneration) {
+	                this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 200);
+	            }
+	            return;
+	        }
+	    }
+	    if (this.state.playlistChunks.length === 0) {
+	        if (now >= this.virtualPlayTime) {
+	            this.isRebuffering = true;
+	        }
+	        if (currentGeneration === this.jumpGeneration) {
+	            this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 250);
+	        }
+	        return;
+	    }
+	    this.state.isDecoding = true;
+	    
+	    const chunkEntry = this.state.playlistChunks.shift();
+	    try {
+	
+	        let rawData = await this.app.chunkDB.get(chunkEntry.id);
+	        
+	        if (currentGeneration !== this.jumpGeneration) {
+	            return; 
+	        }
+	        if (!rawData) {
+	            return;
+	        }
+	
+	        let isolatedBuffer = await new Promise((resolve, reject) => {
+	            const msgId = ++this.workerMsgId;
+	            
+	            const handler = (e) => {
+	                if (e.data && e.data.id === msgId) {
+	                    cleanup();
+	                    resolve(e.data.buffer);
+	                }
+	            };
+	            
+	            const timerId = setTimeout(() => {
+	                cleanup();
+	                reject(new Error("Worker timeout"));
+	            }, 500);
+	            const cleanup = () => {
+	                clearTimeout(timerId);
+	                this.audioWorker.removeEventListener('message', handler);
+	            };
+	            this.audioWorker.addEventListener('message', handler);
+	            
+	            const slicedBuffer = rawData.buffer.slice(0);
+	            this.audioWorker.postMessage({ id: msgId, buffer: slicedBuffer }, [slicedBuffer]);
+	        });
+	
+	        rawData = null;
+	        if (currentGeneration !== this.jumpGeneration) {
+	            return;
+	        }
+	        const audioBuffer = await this.audioCtx.decodeAudioData(isolatedBuffer).catch(() => null);
+	        isolatedBuffer = null;
+	        if (currentGeneration !== this.jumpGeneration) {
+	            return;
+	        }
+	        if (!audioBuffer || !this.state.isPlaying) {
+	            if (audioBuffer && !this.state.isPlaying) {
+	                this.state.playlistChunks.unshift(chunkEntry);
+	            }
+	            return;
+	        }
+	        if (this.state.currentPlayingChunkData) {
+	            this.state.playedChunksHistory.push(this.state.currentPlayingChunkData);
+	        }
+	        this.state.currentPlayingChunkData = chunkEntry;
+	        this.state.hasStartedPlayback = true;
+	        
+	        await this.app.chunkDB.setSetting("lastPlayingChunkId", chunkEntry.id);
+	        this.scheduleChunk(audioBuffer);
+	    } catch (e) {
+	    } finally {
+	        this.state.isDecoding = false;
+	        
+	        if (currentGeneration === this.jumpGeneration) {
+	            this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 10);
+	        }
+	    }
+	}
+	
 
-        let rawData = await this.app.chunkDB.get(chunkEntry.id);
-        
-        if (currentGeneration !== this.jumpGeneration) {
-            return; 
-        }
-        if (!rawData) {
-            return;
-        }
-
-        let isolatedBuffer = await new Promise((resolve, reject) => {
-            const msgId = ++this.workerMsgId;
-            
-            const handler = (e) => {
-                if (e.data && e.data.id === msgId) {
-                    cleanup();
-                    resolve(e.data.buffer);
-                }
-            };
-            
-            const timerId = setTimeout(() => {
-                cleanup();
-                reject(new Error("Worker timeout"));
-            }, 500);
-            const cleanup = () => {
-                clearTimeout(timerId);
-                this.audioWorker.removeEventListener('message', handler);
-            };
-            this.audioWorker.addEventListener('message', handler);
-            
-            const slicedBuffer = rawData.buffer.slice(0);
-            this.audioWorker.postMessage({ id: msgId, buffer: slicedBuffer }, [slicedBuffer]);
-        });
-
-        rawData = null;
-
-        if (currentGeneration !== this.jumpGeneration) {
-            return;
-        }
-        const audioBuffer = await this.audioCtx.decodeAudioData(isolatedBuffer).catch(() => null);
-        
-        isolatedBuffer = null;
-
-        if (currentGeneration !== this.jumpGeneration) {
-            return;
-        }
-        if (!audioBuffer || !this.state.isPlaying) {
-            if (audioBuffer && !this.state.isPlaying) {
-                this.state.playlistChunks.unshift(chunkEntry);
-            }
-            return;
-        }
-        if (this.state.currentPlayingChunkData) {
-            this.state.playedChunksHistory.push(this.state.currentPlayingChunkData);
-        }
-        this.state.currentPlayingChunkData = chunkEntry;
-        this.state.hasStartedPlayback = true;
-        
-        await this.app.chunkDB.setSetting("lastPlayingChunkId", chunkEntry.id);
-        this.scheduleChunk(audioBuffer);
-    } catch (e) {
-    } finally {
-        this.state.isDecoding = false;
-        
-        if (currentGeneration === this.jumpGeneration) {
-            this.playbackTimeoutId = setTimeout(() => this.playbackLoop(), 10);
-        }
-    }
-}
-
-
-
-   scheduleChunk(buffer) {
-    const source = this.audioCtx.createBufferSource();
-    source.buffer = buffer;
-    this.activeSources.add(source);
-
-    source.connect(this.gainNode);
-
-    const startTime = Math.max(this.audioCtx.currentTime, this.virtualPlayTime);
-    const offset = Math.min(this.currentChunkOffset, buffer.duration - 0.1);
-    const duration = buffer.duration - offset;
-
-    this.currentChunkOffset = 0;
-
-    source.start(startTime, offset);
-
-    this.currentChunkStartTime = startTime - offset;
-    this.virtualPlayTime = startTime + duration;
-
-    source.onended = () => {
-        this.activeSources.delete(source);
-        try { source.disconnect(); } catch (e) {}
-    };
-}
+    scheduleChunk(buffer) {
+	    const source = this.audioCtx.createBufferSource();
+	    source.buffer = buffer;
+	    this.activeSources.add(source);
+	
+	    source.connect(this.gainNode);
+	
+	    const startTime = Math.max(this.audioCtx.currentTime, this.virtualPlayTime);
+	    const offset = Math.min(this.currentChunkOffset, buffer.duration - 0.1);
+	    const duration = buffer.duration - offset;
+	
+	    this.currentChunkOffset = 0;
+	
+	    source.start(startTime, offset);
+	
+	    this.currentChunkStartTime = startTime - offset;
+	    this.virtualPlayTime = startTime + duration;
+	
+	    source.onended = () => {
+	        this.activeSources.delete(source);
+	        try { source.disconnect(); } catch (e) {}
+	    };
+	}
    
 
     
