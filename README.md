@@ -57,8 +57,9 @@ Du benötigst lediglich einen modernen Webbrowser mit Unterstützung für:
 
 ### Installation & Lokaler Aufruf
 
-1. Kopiere die Datei `index.html` und passe die Einstellungen nach Bedarf an.
-2. Für Progressive Web App (PWA) kopiere `index.html`, `manifest.json`, `sw.js`, `icon-192.png` und `icon-512.png` und passe die Einstellungen oder Dateien an
+- Kopiere die Datei `index.html` und passe die Einstellungen an z. B. Radiosender (index.html)
+- Für Progressive Web App (PWA) kopiere `index.html`, `manifest.json`, `sw.js`, `icon-192.png` und `icon-512.png` und passe z. B. dbname (index.html), id (manifest.json), CACHE_NAME (sw.js) an
+
    
 ---
 
