@@ -1,0 +1,691 @@
+<!-- ---------------------------------------------------------------------------
+
+MIT License
+
+Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/TimeshiftRadioPlayer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+----------------------------------------------------------------------------- -->
+
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TimeshiftRadio Downloader</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0e0e0e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MP3 Splitter">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <style>
+        :root {
+            --bg-main: #0e0e0e;
+            --bg-card: #1a1a1a;
+            --bg-input: #282828;
+            --text-light: #ffffff;
+            --text-muted: #a0a0ab;
+            --text-disabled: #666666;
+            --clr-cyan: #52c5c5;
+            --clr-grey: #e0e0e0;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-main); 
+            color: var(--text-light); 
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            min-height: 100dvh; 
+            margin: 0; 
+            padding: 1.5rem 1rem;
+            box-sizing: border-box;
+        }
+        .export-card { 
+            background: var(--bg-card); 
+            padding: 2rem 1.5rem; 
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 520px;
+            text-align: center;
+            border: 2px solid var(--clr-cyan); 
+            box-shadow: 0 12px 32px rgba(0, 188, 212, 0.12), 0 4px 12px rgba(0,0,0,0.6);
+            box-sizing: border-box;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 1.35rem;
+            color: var(--clr-cyan);
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+        .startDateDisplay {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+        }
+        #statusText { 
+            font-size: 0.9rem;
+            color: var(--clr-grey); 
+            font-weight: 600;
+            min-height: 1.4rem; 
+            margin-bottom: 1.25rem; 
+            display: block;
+        }
+        .btn { 
+            background: transparent;
+            padding: 0 1.2rem;       
+            border-radius: 50px; 
+            cursor: pointer; 
+            width: 100%;
+            max-width: 320px;
+            margin: 0.5rem auto;       
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            font-size: 0.95rem;            
+            font-weight: bold;
+            height: 48px;
+            border: 2.5px solid var(--clr-cyan); 
+            color: var(--clr-cyan);
+            text-decoration: none;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .btn:hover:not(:disabled) {
+            background-color: rgba(82, 197, 197, 0.12);
+            transform: translateY(-1px);
+        }
+        button:disabled, .btn:disabled {
+            opacity: 0.45 !important;
+            color: var(--text-disabled) !important;
+            border-color: var(--text-disabled) !important;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .progress-bar-container {
+            width: 100%;
+            max-width: 320px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 0 auto 1.25rem auto;
+            overflow: hidden;
+            display: none;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: var(--clr-cyan);
+            transition: width 0.15s linear;
+        }
+        .track-list-container {
+            margin-top: 1.5rem;
+            text-align: left;
+            display: none;
+        }
+        .track-list-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--clr-cyan);
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .select-all-row {
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        .select-all-row input[type="checkbox"], .track-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--clr-cyan);
+            cursor: pointer;
+        }
+        .track-item {
+            background: var(--bg-input);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.6rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+        }
+        .track-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .track-meta-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .back-link:hover {
+            color: var(--text-light);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="export-card">
+        <h1>TimeshiftRadio Downloader</h1>
+        <div class="startDateDisplay" id="startDateDisplay">---</div>
+        
+        <button id="mergeBtnTop" class="btn" style="display:none; margin-bottom: 1.25rem;">Download MP3</button>
+        <div id="statusText">Loading recording data...</div>
+        <div class="progress-bar-container" id="progressBarContainer">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+        
+        <div class="track-list-container" id="trackListContainer">
+            <div class="track-list-title">
+                <span>Recorded Chunks</span>
+                <span id="trackCountBadge" style="font-size:0.8rem; opacity:0.8;">0 Chunks</span>
+            </div>
+            <div class="select-all-row">
+                <input type="checkbox" id="selectAllCheckbox" checked>
+                <label for="selectAllCheckbox" style="cursor: pointer; flex-grow: 1;">Select / Deselect All</label>
+            </div>
+            
+            <div id="trackList"></div>
+            <div class="select-all-row" style="margin-top: 0.75rem; margin-bottom: 0;">
+                <input type="checkbox" id="selectAllCheckboxBottom" checked>
+                <label for="selectAllCheckboxBottom" style="cursor: pointer; flex-grow: 1;">Select / Deselect All</label>
+            </div>
+        </div>
+        <button id="mergeBtnBottom" class="btn" style="display:none; margin-top: 1.5rem;">Download MP3</button>
+        <div>
+            <a href="./index.html" class="back-link">← Back to Radio Player</a>
+        </div>
+    </div>
+    <script>
+        class StreamSplitterManager {
+            constructor() {
+                const path = window.location.pathname;
+                const parts = path.split('/').filter(Boolean);
+                
+                if (parts.length > 0 && parts[parts.length - 1].includes('.')) {
+                    parts.pop();
+                }
+                
+                this.dbName = "RADIO-BOB-TimeshiftRadioPlayer";
+                
+                this.storeName = "chunks";
+                this.metaStoreName = "metadata";
+                this.db = null;
+                this.previewAudio = new Audio();
+                this.currentPlayingIdx = null;
+                this.chunkKeys = [];
+                this.chunksData = [];
+                this.lastCheckedCheckbox = null;
+                this.bitrate = 128000;
+                this.els = {
+                    status: document.getElementById('statusText'),
+                    startDateDisplay: document.getElementById('startDateDisplay'),
+                    progressContainer: document.getElementById('progressBarContainer'),
+                    progressFill: document.getElementById('progressBarFill'),
+                    trackListContainer: document.getElementById('trackListContainer'),
+                    trackList: document.getElementById('trackList'),
+                    trackCountBadge: document.getElementById('trackCountBadge'),
+                    selectAllCheckbox: document.getElementById('selectAllCheckbox'),
+                    selectAllCheckboxBottom: document.getElementById('selectAllCheckboxBottom'), 
+                    mergeBtnTop: document.getElementById('mergeBtnTop'),
+                    mergeBtnBottom: document.getElementById('mergeBtnBottom')
+                };
+                this.#init();
+            }
+            async #init() {
+                try {
+                    await this.#openDB();
+                    await this.#loadData();
+                } catch (err) {
+                    console.error("Init Error:", err);
+                    this.els.status.innerText = "Error loading: " + err.message;
+                }
+            }
+            #openDB() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, 2);
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains(this.storeName)) db.createObjectStore(this.storeName);
+                        if (!db.objectStoreNames.contains(this.metaStoreName)) db.createObjectStore(this.metaStoreName);
+                        if (!db.objectStoreNames.contains("settings")) db.createObjectStore("settings");
+                    };
+                    request.onsuccess = (e) => {
+                        this.db = e.target.result;
+                        resolve();
+                    };
+                    request.onerror = (e) => reject(e.target.error);
+                });
+            }
+            #getSetting(key) {
+                return new Promise((resolve) => {
+                    if (!this.db || !this.db.objectStoreNames.contains("settings")) {
+                        return resolve(null);
+                    }
+                    try {
+                        const tx = this.db.transaction("settings", "readonly");
+                        const store = tx.objectStore("settings");
+                        const request = store.get(key);
+                        request.onsuccess = () => resolve(request.result !== undefined ? request.result : null);
+                        request.onerror = () => resolve(null);
+                    } catch (e) {
+                        resolve(null);
+                    }
+                });
+            }
+            async #loadData() {
+                const savedBitrate = await this.#getSetting("lastDetectedBitrate");
+                if (savedBitrate) {
+                    this.bitrate = savedBitrate;
+                }
+
+                const keys = await this.#getAllKeys(this.storeName);
+                
+                if (!keys || keys.length === 0) {
+                    this.els.status.innerText = "No audio chunks found in IndexedDB.";
+                    this.els.startDateDisplay.innerText = "---";
+                    return;
+                }
+                this.chunkKeys = keys.filter(key => {
+                    const parts = key.split('_');
+                    return parts[0] === 'c' && parts.length >= 4 && !isNaN(parseInt(parts[1])) && !isNaN(parseInt(parts[2]));
+                });
+                if (this.chunkKeys.length === 0) {
+                    this.els.status.innerText = "No valid audio chunks found in IndexedDB.";
+                    this.els.startDateDisplay.innerText = "---";
+                    return;
+                }
+                this.chunkKeys.sort((a, b) => {
+                    const tA = parseInt(a.split('_')[1]) || 0;
+                    const tB = parseInt(b.split('_')[1]) || 0;
+                    return tA - tB;
+                });
+                
+                const firstParts = this.chunkKeys[0].split('_');
+                const lastParts = this.chunkKeys[this.chunkKeys.length - 1].split('_');
+                
+                if (firstParts.length > 1) {
+                    const startTs = parseInt(firstParts[1]);
+                    if (!isNaN(startTs)) {
+                        const startDate = new Date(startTs);
+                        const startStr = startDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                        let endStr = "";
+                        if (lastParts.length > 1) {
+                            const endTs = parseInt(lastParts[1]);
+                            if (!isNaN(endTs)) {
+                                const endDate = new Date(endTs);
+                                if (endDate.toDateString() !== startDate.toDateString()) {
+                                    const endDateFormatted = endDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                                    endStr = ` – ${endDateFormatted}`;
+                                }
+                            }
+                        }
+                        this.els.startDateDisplay.innerText = startStr + endStr;
+                    }
+                }
+                await this.#processRecording();
+            }
+            
+            
+            #getAllKeys(storeName) {
+                return new Promise((resolve, reject) => {
+                    const tx = this.db.transaction(storeName, "readonly");
+                    const store = tx.objectStore(storeName);
+                    const request = store.getAllKeys();
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+            
+            
+            async #getChunk(key) {
+                return new Promise((resolve, reject) => {
+                    const tx = this.db.transaction(this.storeName, "readonly");
+                    const store = tx.objectStore(this.storeName);
+                    const request = store.get(key);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+            
+            
+            async #processRecording() {
+                this.els.progressContainer.style.display = 'block';
+                this.els.status.innerText = "Analyzing recording data...";
+                
+                this.chunksData = [];
+                
+                for (let i = 0; i < this.chunkKeys.length; i++) {
+                    const key = this.chunkKeys[i];
+                    const parts = key.split('_'); // parts: ["c", "timestamp", "length", "random"]
+                    
+                    let dateStr = "";
+                    let timeStr = "Unknown";
+                    let sizeBytes = 0;
+
+                    if (parts.length > 1) {
+                        const ts = parseInt(parts[1]);
+                        if (!isNaN(ts)) {
+                            const chunkDate = new Date(ts);
+                            dateStr = chunkDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                            const weekday = chunkDate.toLocaleDateString('en-US', { weekday: 'short' });
+                            const timeOnly = chunkDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+                            timeStr = `${weekday}, ${timeOnly}`;
+                        }
+                    }
+                    
+
+                    if (parts.length > 2) {
+                        const parsedSize = parseInt(parts[2]);
+                        if (!isNaN(parsedSize)) {
+                            sizeBytes = parsedSize;
+                        }
+                    }
+                    
+
+                    const sizeKb = (sizeBytes / 1024).toFixed(1);
+                    let durationStr = "";
+                    const bytesPerSecond = this.bitrate / 8;
+                    if (bytesPerSecond > 0 && sizeBytes > 0) {
+                        const durationSeconds = Math.round(sizeBytes / bytesPerSecond);
+                        const mins = Math.floor(durationSeconds / 60);
+                        const secs = durationSeconds % 60;
+                        durationStr = mins > 0 ? `${mins}:${String(secs).padStart(2, '0')} min` : `${secs}s`;
+                    }
+                    
+                    this.chunksData.push({
+                        key: key,
+                        index: i + 1,
+                        dateStr: dateStr,
+                        timeStr: timeStr,
+                        sizeKb: sizeKb,
+                        durationStr: durationStr,
+                        blob: null
+                    });
+                    
+                    const pct = Math.round(((i + 1) / this.chunkKeys.length) * 100);
+                    this.#updateProgress(pct, `Analyzing chunks (${i + 1}/${this.chunkKeys.length})...`);
+                }
+                
+                this.#renderChunkList();
+                this.#setupSelectAllListeners();
+                this.els.progressContainer.style.display = 'none';
+                this.els.status.innerText = `${this.chunksData.length} Chunks loaded.`;
+                
+                this.els.mergeBtnTop.style.display = 'flex';
+                this.els.mergeBtnBottom.style.display = 'flex';
+                this.els.mergeBtnTop.onclick = () => this.#mergeAndDownload();
+                this.els.mergeBtnBottom.onclick = () => this.#mergeAndDownload();
+            }
+
+
+            #updateProgress(percent, text) {
+                this.els.progressFill.style.width = percent + '%';
+                if (text) this.els.status.innerText = text;
+            }
+
+            #renderChunkList() {
+                this.els.trackListContainer.style.display = 'block';
+                this.els.trackCountBadge.innerText = `${this.chunksData.length} Chunks`;
+                
+                let html = '';
+                this.chunksData.forEach((chunk, idx) => {
+                    let formattedMeta = chunk.timeStr;
+                    if (chunk.dateStr) {
+                        const parts = chunk.timeStr.split(', ');
+                        const weekday = parts[0] || '';
+                        const timeOnly = parts[1] || chunk.timeStr;
+                        formattedMeta = `${weekday}, ${chunk.dateStr}, ${timeOnly}`;
+                    }
+                    const durationText = chunk.durationStr ? ` (${chunk.durationStr})` : '';
+                    
+                    html += `
+                        <div class="track-item">
+                            <input type="checkbox" class="chunk-checkbox" id="chk_${idx}" checked data-index="${idx}">
+                            <div class="track-info">
+                                <div class="track-meta-header">
+                                    <span>${formattedMeta}</span>
+                                    <span>Chunk #${chunk.index} &bull; ${chunk.sizeKb} KB${durationText}</span>
+                                </div>
+                            </div>
+                            <button class="play-preview-btn" data-index="${idx}" style="background:transparent; border:none; color:var(--clr-cyan); cursor:pointer; padding: 4px; display:flex; align-items:center; justify-content:center;">
+                                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="currentColor" class="play-icon"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                this.els.trackList.innerHTML = html;
+                
+                this.cachedCheckboxes = Array.from(this.els.trackList.querySelectorAll('.chunk-checkbox'));
+                this.cachedPreviewBtns = Array.from(this.els.trackList.querySelectorAll('.play-preview-btn'));
+                
+                this.els.trackList.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.play-preview-btn');
+                    if (btn) {
+                        const idx = parseInt(btn.getAttribute('data-index'), 10);
+                        this.#togglePlayPreview(idx, btn);
+                        return;
+                    }
+                    
+                    const chk = e.target.closest('.chunk-checkbox');
+                    if (chk) {
+                        if (e.shiftKey && this.lastCheckedCheckbox) {
+                            let start = false;
+                            const targetState = chk.checked;
+                            this.cachedCheckboxes.forEach(c => {
+                                if (c === this.lastCheckedCheckbox || c === chk) {
+                                    start = !start;
+                                }
+                                if (start || c === this.lastCheckedCheckbox || c === chk) {
+                                    c.checked = targetState;
+                                }
+                            });
+                        }
+                        this.lastCheckedCheckbox = chk;
+                        this.#updateMasterCheckboxStates();
+                    }
+                });
+            }
+
+
+            #setupSelectAllListeners() {
+                const handleMasterChange = (isChecked) => {
+                    const checkboxes = this.cachedCheckboxes || [];
+                    checkboxes.forEach(chk => {
+                        chk.checked = isChecked;
+                    });
+                    this.els.selectAllCheckbox.checked = isChecked;
+                    this.els.selectAllCheckbox.indeterminate = false;
+                    this.els.selectAllCheckboxBottom.checked = isChecked;
+                    this.els.selectAllCheckboxBottom.indeterminate = false;
+                };
+                this.els.selectAllCheckbox.addEventListener('change', (e) => handleMasterChange(e.target.checked));
+                this.els.selectAllCheckboxBottom.addEventListener('change', (e) => handleMasterChange(e.target.checked));
+            }
+
+            #updateMasterCheckboxStates() {
+                const checkboxes = this.cachedCheckboxes || [];
+                const allChecked = checkboxes.every(c => c.checked);
+                const anyChecked = checkboxes.some(c => c.checked);
+                [this.els.selectAllCheckbox, this.els.selectAllCheckboxBottom].forEach(master => {
+                    master.checked = allChecked;
+                    master.indeterminate = !allChecked && anyChecked;
+                });
+            }
+
+            async #mergeAndDownload() {
+                const checkboxes = this.cachedCheckboxes || [];
+                const selectedKeys = [];
+                
+                checkboxes.forEach(chk => {
+                    if (chk.checked) {
+                        const idx = parseInt(chk.getAttribute('data-index'), 10);
+                        if (this.chunksData[idx]) {
+                            selectedKeys.push(this.chunksData[idx].key);
+                        }
+                    }
+                });
+                
+                if (selectedKeys.length === 0) {
+                    alert("Please select at least one chunk.");
+                    return;
+                }
+                
+                this.els.mergeBtnTop.disabled = true;
+                this.els.mergeBtnBottom.disabled = true;
+                this.els.status.innerText = "Loading selected chunks...";
+                this.els.progressContainer.style.display = 'block';
+                
+                const selectedBlobs = [];
+                
+                for (let i = 0; i < selectedKeys.length; i++) {
+                    const data = await this.#getChunk(selectedKeys[i]);
+                    if (data) {
+                        selectedBlobs.push(new Blob([data], { type: 'audio/mp3' }));
+                    }
+                    const pct = Math.round(((i + 1) / selectedKeys.length) * 100);
+                    this.#updateProgress(pct, `Processing chunks (${i + 1}/${selectedKeys.length})...`);
+                }
+                
+                this.els.status.innerText = "Merging chunks to MP3...";
+                const mergedBlob = new Blob(selectedBlobs, { type: 'audio/mpeg' });
+                
+                let firstTimestamp = Date.now();
+                if (selectedKeys.length > 0) {
+                    const parts = selectedKeys[0].split('_');
+                    if (parts.length > 1) {
+                        firstTimestamp = parseInt(parts[1], 10) || Date.now();
+                    }
+                }
+                
+                const firstDate = new Date(firstTimestamp);
+                const year = firstDate.getFullYear();
+                const month = String(firstDate.getMonth() + 1).padStart(2, '0');
+                const day = String(firstDate.getDate()).padStart(2, '0');
+                const dateStr = `${year}-${month}-${day}`;
+                const weekdayStr = firstDate.toLocaleDateString('en-US', { weekday: 'short' });
+                const startTimeFormatted = firstDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(/:/g, '-');
+                
+                const filename = `Radio_Recording_${dateStr}_${weekdayStr}_${startTimeFormatted}.mp3`;
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(mergedBlob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                this.els.progressContainer.style.display = 'none';
+                this.els.mergeBtnTop.disabled = false;
+                this.els.mergeBtnBottom.disabled = false;
+                this.els.status.innerText = "MP3 download started!";
+            }
+
+            async #togglePlayPreview(idx, btn) {
+                const chunk = this.chunksData[idx];
+                const svg = btn.querySelector('svg');
+                
+                const playIcon = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+                const pauseIcon = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+                
+                if (this.currentPlayingIdx === idx) {
+                    if (this.previewAudio.paused) {
+                        this.previewAudio.play().catch(()=>{});
+                        svg.innerHTML = pauseIcon;
+                        this.els.status.innerText = `Playing chunk #${chunk.index}`;
+                    } else {
+                        this.previewAudio.pause();
+                        svg.innerHTML = playIcon;
+                        this.els.status.innerText = `${this.chunksData.length} Chunks loaded.`;
+                    }
+                } else {
+                    const allButtons = this.cachedPreviewBtns || [];
+                    allButtons.forEach(b => b.querySelector('svg').innerHTML = playIcon);
+                    
+                    if (this.previewAudio) {
+                        this.previewAudio.pause();
+                        URL.revokeObjectURL(this.previewAudio.src);
+                    }
+                    
+                    this.els.status.innerText = `Loading preview for chunk #${chunk.index}...`;
+                    const data = await this.#getChunk(chunk.key);
+                    
+                    if (data) {
+                        const tempBlob = new Blob([data], { type: 'audio/mp3' });
+                        this.previewAudio.src = URL.createObjectURL(tempBlob);
+                        this.previewAudio.play().catch(()=>{});
+                        svg.innerHTML = pauseIcon;
+                        this.currentPlayingIdx = idx;
+                        this.els.status.innerText = `Playing chunk #${chunk.index}`;
+                        
+                        this.previewAudio.onended = () => {
+                            svg.innerHTML = playIcon;
+                            this.currentPlayingIdx = null;
+                            URL.revokeObjectURL(this.previewAudio.src);
+                            
+                            const nextIdx = idx + 1;
+                            const nextBtn = allButtons[nextIdx];
+                            if (nextBtn) {
+                                this.#togglePlayPreview(nextIdx, nextBtn);
+                            } else {
+                                this.els.status.innerText = `${this.chunksData.length} Chunks loaded.`;
+                            }
+                        };
+                    } else {
+                        this.els.status.innerText = "Error loading chunk.";
+                    }
+                }
+            }
+   
+   
+        }
+
+        new StreamSplitterManager();
+    </script>
+</body>
+</html>
