@@ -32,17 +32,18 @@ Ich habe die Software **TimeshiftRadioPlayer** speziell für Bahnfahrten entwick
 - **Lokale Zwischenspeicherung:** Audio-Chunks werden lokal in der **IndexedDB** gespeichert. So überstehen Pufferungen auch kurze Netzwerkausfälle, Reconnects sowie Neustarts der Anwendung.
 - **Low-Level MPEG-Frame-Parsing:** Ein eigener Stream-Parser prüft MPEG-Sync-Words, Frame-Header, Bitraten und Abtastraten, um saubere, unbeschädigte Segmentgrenzen zu garantieren.
 - **Smarte Wiederverbindung & Überlappungserkennung:** Verwendet Frame-Signaturen am Ende eines Segments, um doppelte Audioabschnitte beim erneuten Verbinden zu erkennen und zu eliminieren.
-- **Live- & Timeshift-Modus:** Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe.
-- **Automatische Löschung:** Beim Start bleiben nur die neuesten 180 Chunks (ca. 3 Stunden) erhalten (`static MAX_CHUNKS = 180;`).
+- **Live- & Timeshift-Modus:** Wechsle sofort zwischen direktem, latenzarmem Live-Streaming und der Timeshift-Puffer-Wiedergabe
+- **Automatische Löschung:** Beim Start bleiben nur die neuesten 180 Chunks (ca. 3 Stunden) erhalten (`static MAX_CHUNKS = 180;`)
 - **Interaktive Benutzeroberfläche:**
   - Geteilte Puffer-Zeitleiste, die sowohl den vergangenen (rückspulbaren) als auch den zukünftigen (gepufferten) Speicherbereich anzeigt (jeweils eine Stunde).
   - Lautstärkefunktion, die leider aufgrund der Übersteuerung einiger Radiosender nicht optimal ist
-  - Sleeptimer mit automatischer Stream-Abschaltung (Zeitinervall eine Stunde).
+  - Sleeptimer mit automatischer Stream-Abschaltung (Zeitinervall eine Stunde)
   - Aufnahmefunktion (Stop / Record) mit Slider, um versehentliche Aufnahmen oder Stop der Aufnahme zu verhindern
 - **Systemintegration:**
-  - **Media Session API:** Steuerung im Sperrbildschirm sowie Anzeige des aktuellen Stream-Status auf Smartphones und Desktops.
-  - **Screen Wake Lock:** Verhindert, dass das Gerät während des Hörens in den Ruhezustand wechselt.
-  - **PWA-Ready:** Enthält Manifest-Konfiguration und Service-Worker-Registrierung zur Installation als Progressive Web App.
+  - **Media Session API:** Steuerung im Sperrbildschirm sowie Anzeige des aktuellen Stream-Status auf Smartphones und Desktops
+  - **Screen Wake Lock:** Verhindert, dass das Gerät während des Hörens in den Ruhezustand wechselt
+  - **PWA-Ready:** Enthält Manifest-Konfiguration und Service-Worker-Registrierung zur Installation als Progressive Web App
+- **Herunterladen von Chunks:** Lade alle Chunks mit dem Programm `download-chunks.html` herunter
 
 ---
 
