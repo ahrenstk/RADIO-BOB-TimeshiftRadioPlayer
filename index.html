@@ -41,9 +41,7 @@ SOFTWARE.
 	    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 	    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 	
-	
 		<style>
-			
 			:root {
 			    --bg-main: #0e0e0e;
 			    --bg-card: var(--bg-main);
@@ -57,7 +55,7 @@ SOFTWARE.
 			    --border-width: 0.1em;
 			}
 			body {
-			    font-family: sans-serif;
+			    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 			    background: var(--bg-main);
 			    color: var(--clr-light);
 			    display: flex;
@@ -198,6 +196,7 @@ SOFTWARE.
 			        0 0.12em 0.25em rgba(0, 0, 0, 0.4);
 			}
 			.btn {
+			    font-family: inherit;
 			    background: transparent;
 			    padding: 0 1em;
 			    border-radius: 99em;
@@ -281,7 +280,9 @@ SOFTWARE.
 			    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' width='1em' height='1em'><text x='0' y='12' fill='%23b0b0b0' font-size='14'>▾</text></svg>") !important;
 			}
 			#statusDisplay {
-			    font-size: 1.1em;
+			    font-family: inherit;
+			    font-size: 1em;
+			    font-weight: normal;
 			    color: var(--clr-cyan);
 			    min-height: 1em;
 			    display: block;
