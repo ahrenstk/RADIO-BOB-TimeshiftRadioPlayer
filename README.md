@@ -5,7 +5,7 @@
 
 **Achtung**: Bitte warte nach dem Start der allerersten Aufnahme einige Minuten, bevor du die zeitversetzte Wiedergabe startest.
 
-**English version:** **[https://github.com/ahrenstk/TimeshiftRadioPlayer](https://github.com/ahrenstk/TimeshiftRadioPlayer)** (different dbname, manifest-id, sw-js-CACHE_NAME and radio stations)
+**English version:** **[https://github.com/ahrenstk/TimeshiftRadioPlayer](https://github.com/ahrenstk/TimeshiftRadioPlayer)**
 
 
 **Demo:** **[http://ahrenstk.github.io/RADIO-BOB-TimeshiftRadioPlayer](http://ahrenstk.github.io/RADIO-BOB-TimeshiftRadioPlayer)**
