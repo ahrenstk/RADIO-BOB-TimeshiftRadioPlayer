@@ -1,8 +1,8 @@
 <!-- ---------------------------------------------------------------------------
 
-MIT License
+MIT License 101 ok
 
-Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer
+Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/TimeshiftRadioPlayer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,6 +40,7 @@ SOFTWARE.
 	    <link rel="icon" type="image/png" href="icon-192.png">
 	    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 	    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+	
 	
 		<style>
 			:root {
@@ -342,6 +343,16 @@ SOFTWARE.
 			.buffer-underrun {
 			    background-color: var(--clr-light);
 			}
+			.slider-input,
+            .timer-input {
+                appearance: none;
+                width: 100%;
+                height: 0.5em;
+                border-radius: 0.35em;
+                outline: none;
+                cursor: pointer;
+                touch-action: pan-x;
+            }
 			.switch-container {
 			    display: flex;
 			    position: relative;
@@ -441,6 +452,9 @@ SOFTWARE.
 			    background-color: var(--bg-input) !important;
 			    border: var(--border-width) solid var(--text-disabled, #b0b0b0) !important;
 			}
+		
+
+			
 		</style>
 		
 	</head>
@@ -566,6 +580,7 @@ SOFTWARE.
 			        });
 			    }
 			
+			
 			    setSetting(key, value) {
 			        return new Promise((resolve, reject) => {
 			            const tx = this.db.transaction(this.settingsStoreName, "readwrite");
@@ -576,26 +591,26 @@ SOFTWARE.
 			        });
 			    }
 			
-getAllChunksData(keys) {
-    if (!keys || keys.length === 0) return [];
-
-    const results = [];
-
-    for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        const parts = key.split('_');
-
-        if (parts.length >= 4) {
-            results.push({ 
-                id: key, 
-                length: parseInt(parts[2], 10), 
-                startTime: parseInt(parts[1], 10) 
-            });
-        }
-    }
-
-    return results.sort((a, b) => a.startTime - b.startTime);
-}
+			
+				getAllChunksData(keys) {
+				    if (!keys || keys.length === 0) return [];
+				
+				    const results = [];
+				
+				    for (let i = 0; i < keys.length; i++) {
+				        const key = keys[i];
+				        const parts = key.split('_');
+				
+				        if (parts.length >= 4) {
+				            results.push({ 
+				                id: key, 
+				                length: parseInt(parts[2], 10), 
+				                startTime: parseInt(parts[1], 10) 
+				            });
+				        }
+				    }
+				    return results.sort((a, b) => a.startTime - b.startTime);
+				}
 			
 			
 			    getSetting(key) {
@@ -615,6 +630,7 @@ getAllChunksData(keys) {
 			        });
 			    }
 			   
+			   
 			    set(id, uint8Data) {
 			        return new Promise((resolve, reject) => {
 			            const tx = this.db.transaction(this.storeName, "readwrite");
@@ -625,6 +641,7 @@ getAllChunksData(keys) {
 			        });
 			    }
 			
+			
 			    get(id) {
 			        return new Promise((resolve, reject) => {
 			            const tx = this.db.transaction(this.storeName, "readonly");
@@ -634,6 +651,7 @@ getAllChunksData(keys) {
 			            request.onerror = () => reject(request.error);
 			        });
 			    }
+			    
 			    
 			    clearAll() {
 			        return new Promise((resolve, reject) => {
@@ -661,6 +679,7 @@ getAllChunksData(keys) {
 			        });
 			    }
 			    
+			    
 			    getAllKeys() {
 			        return new Promise((resolve, reject) => {
 			            if (!this.db) return resolve([]);
@@ -677,56 +696,226 @@ getAllChunksData(keys) {
 			    constructor() {
 			        this.chunkDB = new ChunkDB();
 			        
-			        this.livestations = [
-			            { name: "BOB! & Best of Rock", url: "dynamic" }, 
-			            { name: "BOB! & Best of Rock AAC", url: "dynamic_aac" },
-			            { name: "RADIO BOB!", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de" },
-			            { name: "RADIO BOB! AAC", url: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de" },
-			            { name: "Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de" },
-			            { name: "Best of Rock AAC", url: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer" },
-			            { name: "1Live Rock", url: "https://wdr-1live-rockhits.icecast.wdr.de/wdr/1live/rockhits/mp3/128/stream.mp3" },                
-			            { name: "Rock FM", url: "https://stream.regenbogen2.de/dab/mp3-128/private" },    
-			            { name: "knixx.fm", url: "https://s1.knixx.fm/dein_webradio_32.aac" },
-			            { name: "NDR 1", url: "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3" },
-			            { name: "SWR3", url: "https://liveradio.swr.de/sw282p3/swr3/play.mp3" }, 
-			            { name: "SWR4", url: "https://liveradio.swr.de/sw282p3/swr4fn/play.mp3" }, 
-			            { name: "WDR 3", url: "https://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/128/stream.mp3" },
-			            { name: "WDR 5", url: "https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3" },   
-			            { name: "MDR Klassik", url: "https://mdr-284350-0.sslcast.mdr.de/mdr/284350/0/mp3/high/stream.mp3"}, 
-			            { name: 'Absolut relax', url: 'https://absolut-relax.live-sm.absolutradio.de/absolut-relax' },
-			            { name: 'Klassik Radio', url: 'https://klassikr.streamabc.net/klr-krdnational-mp3-192-8877033' },
-			            { name: "knixx.fm Analog Sound", url: "https://s1.knixx.fm/dein_webradio_fm_sound_320.mp3" },    
-			            { name: "Radio Geschmack", url: "https://s2.genx-stream.de:8702/;?type=http"},
-			            { name: "Ambient Sleeping Pill", url: "https://radio.stereoscenic.com/asp-s" }    
-			        ];
+					this.livestations = [
+					    { name: "National & Best of Rock", url: "dynamic" },
+					    { name: "National & Best of Rock AAC", url: "dynamic_aac" },
+					    { name: "National", url: "https://streams.radiobob.de/bob-national/mp3-128/mediaplayer" },
+					    { name: "Hessen", url: "https://streams.radiobob.de/bob-live/mp3-128/mediaplayer" },
+					    { name: "NRW", url: "https://streams.radiobob.de/live-nrw-mitte/mp3-128/mediaplayer" },
+					    { name: "Schleswig-Holstein", url: "https://streams.radiobob.de/bob-shlive/mp3-128/mediaplayer" },
+					    { name: "2000er Rock", url: "https://streams.radiobob.de/2000er/mp3-128/mediaplayer" },
+					    { name: "70er Rock", url: "https://streams.radiobob.de/70errock/mp3-128/mediaplayer" },
+					    { name: "80s Rock", url: "https://streams.radiobob.de/bob-80srock/mp3-128/mediaplayer" },
+					    { name: "90s Rock", url: "https://streams.radiobob.de/bob-90srock/mp3-128/mediaplayer" },
+					    { name: "AC/DC", url: "https://streams.radiobob.de/bob-acdc/mp3-128/mediaplayer" },
+					    { name: "Alternative", url: "https://streams.radiobob.de/bob-alternative/mp3-128/mediaplayer" },
+					    { name: "Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/mediaplayer" },
+					    { name: "Blues", url: "https://streams.radiobob.de/blues/mp3-128/mediaplayer" },
+					    { name: "Britpop", url: "https://streams.radiobob.de/bob-britpop/mp3-128/mediaplayer" },
+					    { name: "Christmas", url: "https://streams.radiobob.de/bob-christmas/mp3-128/mediaplayer" },
+					    { name: "Classic Rock", url: "https://streams.radiobob.de/bob-classicrock/mp3-128/mediaplayer" },
+					    { name: "College Rock", url: "https://streams.radiobob.de/collegerock/mp3-128/mediaplayer" },
+					    { name: "Country", url: "https://streams.radiobob.de/country/mp3-128/mediaplayer" },
+					    { name: "Death Metal", url: "https://streams.radiobob.de/deathmetal/mp3-128/mediaplayer" },
+					    { name: "Deutsch", url: "https://streams.radiobob.de/bob-deutsch/mp3-128/mediaplayer" },
+					    { name: "Donots", url: "https://streams.radiobob.de/donots/mp3-128/mediaplayer" },
+					    { name: "Electro Rock", url: "https://streams.radiobob.de/electrorock/mp3-128/mediaplayer" },
+					    { name: "Emo", url: "https://streams.radiobob.de/emo/mp3-128/mediaplayer" },
+					    { name: "Festival", url: "https://streams.radiobob.de/bob-festival/mp3-128/mediaplayer" },
+					    { name: "Folk Rock", url: "https://streams.radiobob.de/folkrock/mp3-128/mediaplayer" },
+					    { name: "Fury in the Slaughterhouse", url: "https://streams.radiobob.de/fury/mp3-128/mediaplayer" },
+					    { name: "Gaming Rock", url: "https://streams.radiobob.de/gamingrock/mp3-128/mediaplayer" },
+					    { name: "Gothic", url: "https://streams.radiobob.de/gothic/mp3-128/mediaplayer" },
+					    { name: "Grunge", url: "https://streams.radiobob.de/bob-grunge/mp3-128/mediaplayer" },
+					    { name: "Guitar Heroes", url: "https://streams.radiobob.de/guitarheroes/mp3-128/mediaplayer" },
+					    { name: "Hair Metal", url: "https://streams.radiobob.de/hairmetal/mp3-128/mediaplayer" },
+					    { name: "Hardrock", url: "https://streams.radiobob.de/bob-hardrock/mp3-128/mediaplayer" },
+					    { name: "Harte Saite", url: "https://streams.radiobob.de/bob-hartesaite/mp3-128/mediaplayer" },
+					    { name: "Iron Maiden", url: "https://streams.radiobob.de/ironmaiden/mp3-128/mediaplayer" },
+					    { name: "KISS", url: "https://streams.radiobob.de/kiss/mp3-128/mediaplayer" },
+					    { name: "Kuschelrock", url: "https://streams.radiobob.de/bob-kuschelrock/mp3-128/mediaplayer" },
+					    { name: "Made in Germany", url: "https://streams.radiobob.de/madeingermany/mp3-128/mediaplayer" },
+					    { name: "Metal", url: "https://streams.radiobob.de/bob-metal/mp3-128/mediaplayer" },
+					    { name: "Metalcore", url: "https://streams.radiobob.de/metalcore/mp3-128/mediaplayer" },
+					    { name: "Metallica", url: "https://streams.radiobob.de/metallica/mp3-128/mediaplayer" },
+					    { name: "Mittelalter", url: "https://streams.radiobob.de/mittelalter/mp3-128/mediaplayer" },
+					    { name: "Motörhead", url: "https://streams.radiobob.de/motoerhead/mp3-128/mediaplayer" },
+					    { name: "Newcomer", url: "https://streams.radiobob.de/newcomer/mp3-128/mediaplayer" },
+					    { name: "Nu Metal", url: "https://streams.radiobob.de/numetal/mp3-128/mediaplayer" },
+					    { name: "Ozzy Osbourne", url: "https://streams.radiobob.de/ozzyosbourne/mp3-128/mediaplayer" },
+					    { name: "Power Metal", url: "https://streams.radiobob.de/powermetal/mp3-128/mediaplayer" },
+					    { name: "Prog-Rock", url: "https://streams.radiobob.de/progrock/mp3-128/mediaplayer" },
+					    { name: "Punk", url: "https://streams.radiobob.de/bob-punk/mp3-128/mediaplayer" },
+					    { name: "Queen", url: "https://streams.radiobob.de/bob-queen/mp3-128/mediaplayer" },
+					    { name: "Roadtrip", url: "https://streams.radiobob.de/roadtrip/mp3-128/mediaplayer" },
+					    { name: "Rock am Ring Radio", url: "https://streams.radiobob.de/rockamring/mp3-128/mediaplayer" },
+					    { name: "Rock Hits", url: "https://streams.radiobob.de/bob-rockhits/mp3-128/mediaplayer" },
+					    { name: "Rock Oldies", url: "https://streams.radiobob.de/rockoldies/mp3-128/mediaplayer" },
+					    { name: "Rockabilly", url: "https://streams.radiobob.de/bob-rockabilly/mp3-128/mediaplayer" },
+					    { name: "Rockparty", url: "https://streams.radiobob.de/rockparty/mp3-128/mediaplayer" },
+					    { name: "Rolling Stones", url: "https://streams.radiobob.de/rollingstones/mp3-128/mediaplayer" },
+					    { name: "Singer/Songwriter", url: "https://streams.radiobob.de/bob-singersong/mp3-128/mediaplayer" },
+					    { name: "Ska", url: "https://streams.radiobob.de/ska/mp3-128/mediaplayer" },
+					    { name: "Southern Rock", url: "https://streams.radiobob.de/southernrock/mp3-128/mediaplayer" },
+					    { name: "Stoner Rock-Stream", url: "https://streams.radiobob.de/stonerrock/mp3-128/mediaplayer" },
+					    { name: "Summer Rock Hits", url: "https://streams.radiobob.de/summerrock/mp3-128/mediaplayer" },
+					    { name: "Symphonic Metal", url: "https://streams.radiobob.de/symphmetal/mp3-128/mediaplayer" },
+					    { name: "The BossHoss", url: "https://streams.radiobob.de/bosshoss/mp3-128/mediaplayer" },
+					    { name: "Tobias Sammet", url: "https://streams.radiobob.de/sammet/mp3-128/mediaplayer" },
+					    { name: "Unplugged", url: "https://streams.radiobob.de/bob-chillout/mp3-128/mediaplayer" },
+					    { name: "Wacken", url: "https://streams.radiobob.de/bob-wacken/mp3-128/mediaplayer" },
+					    { name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/mediaplayer" },
+					    { name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/mediaplayer" },
+					    { name: "National (AAC)", url: "https://streams.radiobob.de/bob-national/aac-64/mediaplayer" },
+					    { name: "Hessen (AAC)", url: "https://streams.radiobob.de/bob-live/aac-64/mediaplayer" },
+					    { name: "NRW (AAC)", url: "https://streams.radiobob.de/live-nrw-mitte/aac-64/mediaplayer" },
+					    { name: "Schleswig-Holstein (AAC)", url: "https://streams.radiobob.de/bob-shlive/aac-64/mediaplayer" },
+					    { name: "2000er Rock (AAC)", url: "https://streams.radiobob.de/2000er/aac-64/mediaplayer" },
+					    { name: "70er Rock (AAC)", url: "https://streams.radiobob.de/70errock/aac-64/mediaplayer" },
+					    { name: "80s Rock (AAC)", url: "https://streams.radiobob.de/bob-80srock/aac-64/mediaplayer" },
+					    { name: "90s Rock (AAC)", url: "https://streams.radiobob.de/bob-90srock/aac-64/mediaplayer" },
+					    { name: "AC/DC (AAC)", url: "https://streams.radiobob.de/bob-acdc/aac-64/mediaplayer" },
+					    { name: "Alternative (AAC)", url: "https://streams.radiobob.de/bob-alternative/aac-64/mediaplayer" },
+					    { name: "Best of Rock (AAC)", url: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer" },
+					    { name: "Blues (AAC)", url: "https://streams.radiobob.de/blues/aac-64/mediaplayer" },
+					    { name: "Britpop (AAC)", url: "https://streams.radiobob.de/bob-britpop/aac-64/mediaplayer" },
+					    { name: "Christmas (AAC)", url: "https://streams.radiobob.de/bob-christmas/aac-64/mediaplayer" },
+					    { name: "Classic Rock (AAC)", url: "https://streams.radiobob.de/bob-classicrock/aac-64/mediaplayer" },
+					    { name: "College Rock (AAC)", url: "https://streams.radiobob.de/collegerock/aac-64/mediaplayer" },
+					    { name: "Country (AAC)", url: "https://streams.radiobob.de/country/aac-64/mediaplayer" },
+					    { name: "Death Metal (AAC)", url: "https://streams.radiobob.de/deathmetal/aac-64/mediaplayer" },
+					    { name: "Deutsch (AAC)", url: "https://streams.radiobob.de/bob-deutsch/aac-64/mediaplayer" },
+					    { name: "Donots (AAC)", url: "https://streams.radiobob.de/donots/aac-64/mediaplayer" },
+					    { name: "Electro Rock (AAC)", url: "https://streams.radiobob.de/electrorock/aac-64/mediaplayer" },
+					    { name: "Emo (AAC)", url: "https://streams.radiobob.de/emo/aac-64/mediaplayer" },
+					    { name: "Festival (AAC)", url: "https://streams.radiobob.de/bob-festival/aac-64/mediaplayer" },
+					    { name: "Folk Rock (AAC)", url: "https://streams.radiobob.de/folkrock/aac-64/mediaplayer" },
+					    { name: "Fury in the Slaughterhouse (AAC)", url: "https://streams.radiobob.de/fury/aac-64/mediaplayer" },
+					    { name: "Gaming Rock (AAC)", url: "https://streams.radiobob.de/gamingrock/aac-64/mediaplayer" },
+					    { name: "Gothic (AAC)", url: "https://streams.radiobob.de/gothic/aac-64/mediaplayer" },
+					    { name: "Grunge (AAC)", url: "https://streams.radiobob.de/bob-grunge/aac-64/mediaplayer" },
+					    { name: "Guitar Heroes (AAC)", url: "https://streams.radiobob.de/guitarheroes/aac-64/mediaplayer" },
+					    { name: "Hair Metal (AAC)", url: "https://streams.radiobob.de/hairmetal/aac-64/mediaplayer" },
+					    { name: "Hardrock (AAC)", url: "https://streams.radiobob.de/bob-hardrock/aac-64/mediaplayer" },
+					    { name: "Harte Saite (AAC)", url: "https://streams.radiobob.de/bob-hartesaite/aac-64/mediaplayer" },
+					    { name: "Iron Maiden (AAC)", url: "https://streams.radiobob.de/ironmaiden/aac-64/mediaplayer" },
+					    { name: "KISS (AAC)", url: "https://streams.radiobob.de/kiss/aac-64/mediaplayer" },
+					    { name: "Kuschelrock (AAC)", url: "https://streams.radiobob.de/bob-kuschelrock/aac-64/mediaplayer" },
+					    { name: "Made in Germany (AAC)", url: "https://streams.radiobob.de/madeingermany/aac-64/mediaplayer" },
+					    { name: "Metal (AAC)", url: "https://streams.radiobob.de/bob-metal/aac-64/mediaplayer" },
+					    { name: "Metalcore (AAC)", url: "https://streams.radiobob.de/metalcore/aac-64/mediaplayer" },
+					    { name: "Metallica (AAC)", url: "https://streams.radiobob.de/metallica/aac-64/mediaplayer" },
+					    { name: "Mittelalter (AAC)", url: "https://streams.radiobob.de/mittelalter/aac-64/mediaplayer" },
+					    { name: "Motörhead (AAC)", url: "https://streams.radiobob.de/motoerhead/aac-64/mediaplayer" },
+					    { name: "Newcomer (AAC)", url: "https://streams.radiobob.de/newcomer/aac-64/mediaplayer" },
+					    { name: "Nu Metal (AAC)", url: "https://streams.radiobob.de/numetal/aac-64/mediaplayer" },
+					    { name: "Ozzy Osbourne (AAC)", url: "https://streams.radiobob.de/ozzyosbourne/aac-64/mediaplayer" },
+					    { name: "Power Metal (AAC)", url: "https://streams.radiobob.de/powermetal/aac-64/mediaplayer" },
+					    { name: "Prog-Rock (AAC)", url: "https://streams.radiobob.de/progrock/aac-64/mediaplayer" },
+					    { name: "Punk (AAC)", url: "https://streams.radiobob.de/bob-punk/aac-64/mediaplayer" },
+					    { name: "Queen (AAC)", url: "https://streams.radiobob.de/bob-queen/aac-64/mediaplayer" },
+					    { name: "Roadtrip (AAC)", url: "https://streams.radiobob.de/roadtrip/aac-64/mediaplayer" },
+					    { name: "Rock am Ring Radio (AAC)", url: "https://streams.radiobob.de/rockamring/aac-64/mediaplayer" },
+					    { name: "Rock Hits (AAC)", url: "https://streams.radiobob.de/bob-rockhits/aac-64/mediaplayer" },
+					    { name: "Rock Oldies (AAC)", url: "https://streams.radiobob.de/rockoldies/aac-64/mediaplayer" },
+					    { name: "Rockabilly (AAC)", url: "https://streams.radiobob.de/bob-rockabilly/aac-64/mediaplayer" },
+					    { name: "Rockparty (AAC)", url: "https://streams.radiobob.de/rockparty/aac-64/mediaplayer" },
+					    { name: "Rolling Stones (AAC)", url: "https://streams.radiobob.de/rollingstones/aac-64/mediaplayer" },
+					    { name: "Singer/Songwriter (AAC)", url: "https://streams.radiobob.de/bob-singersong/aac-64/mediaplayer" },
+					    { name: "Ska (AAC)", url: "https://streams.radiobob.de/ska/aac-64/mediaplayer" },
+					    { name: "Southern Rock (AAC)", url: "https://streams.radiobob.de/southernrock/aac-64/mediaplayer" },
+					    { name: "Stoner Rock-Stream (AAC)", url: "https://streams.radiobob.de/stonerrock/aac-64/mediaplayer" },
+					    { name: "Summer Rock Hits (AAC)", url: "https://streams.radiobob.de/summerrock/aac-64/mediaplayer" },
+					    { name: "Symphonic Metal (AAC)", url: "https://streams.radiobob.de/symphmetal/aac-64/mediaplayer" },
+					    { name: "The BossHoss (AAC)", url: "https://streams.radiobob.de/bosshoss/aac-64/mediaplayer" },
+					    { name: "Tobias Sammet (AAC)", url: "https://streams.radiobob.de/sammet/aac-64/mediaplayer" },
+					    { name: "Unplugged (AAC)", url: "https://streams.radiobob.de/bob-chillout/aac-64/mediaplayer" },
+					    { name: "Wacken (AAC)", url: "https://streams.radiobob.de/bob-wacken/aac-64/mediaplayer" },
+					    { name: "Woman of Rock (AAC)", url: "https://streams.radiobob.de/womenofrock/aac-64/mediaplayer" },
+					    { name: "Woodstock (AAC)", url: "https://streams.radiobob.de/woodstock/aac-64/mediaplayer" },
+					];
+					
+
+					this.stations = [
+					    { name: "National", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de" },
+					    { name: "Hessen", url: "https://streams.radiobob.de/bob-live/mp3-128/mediaplayer" },
+					    { name: "NRW", url: "https://streams.radiobob.de/live-nrw-mitte/mp3-128/mediaplayer" },
+					    { name: "Schleswig-Holstein", url: "https://streams.radiobob.de/bob-shlive/mp3-128/mediaplayer" },
+					    { name: "2000er Rock", url: "https://streams.radiobob.de/2000er/mp3-128/mediaplayer/" },
+					    { name: "70er Rock", url: "https://streams.radiobob.de/70errock/mp3-128/streams.radiobob.de/" },
+					    { name: "80s Rock", url: "https://streams.radiobob.de/bob-80srock/mp3-128/mediaplayer" },
+					    { name: "90s Rock", url: "https://streams.radiobob.de/bob-90srock/mp3-128/mediaplayer" },
+					    { name: "AC/DC", url: "https://streams.radiobob.de/bob-acdc/mp3-128/mediaplayer" },
+					    { name: "Alternative", url: "https://streams.radiobob.de/bob-alternative/mp3-128/mediaplayer" },
+					    { name: "Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/mediaplayer" },
+					    { name: "Blues", url: "https://streams.radiobob.de/blues/mp3-128/streams.radiobob.de/" },
+					    { name: "Britpop", url: "https://streams.radiobob.de/bob-britpop/mp3-128/" },
+					    { name: "Christmas", url: "https://streams.radiobob.de/bob-christmas/mp3-128/mediaplayer/" },
+					    { name: "Classic Rock", url: "https://streams.radiobob.de/bob-classicrock/mp3-128/mediaplayer" },
+					    { name: "College Rock", url: "https://streams.radiobob.de/collegerock/mp3-128/streams.radiobob.de/" },
+					    { name: "Country", url: "https://streams.radiobob.de/country/mp3-128/mediaplayer/" },
+					    { name: "Death Metal", url: "https://streams.radiobob.de/deathmetal/mp3-128/mediaplayer/" },
+					    { name: "Deutsch", url: "https://streams.radiobob.de/bob-deutsch/mp3-128/mediaplayer" },
+					    { name: "Donots", url: "https://streams.radiobob.de/donots/mp3-128/streams.radiobob.de/" },
+					    { name: "Electro Rock", url: "https://streams.radiobob.de/electrorock/mp3-128/streams.radiobob.de/" },
+					    { name: "Emo", url: "https://streams.radiobob.de/emo/mp3-128/mediaplayer/" },
+					    { name: "Festival", url: "https://streams.radiobob.de/bob-festival/mp3-128/streams.radiobob.de/" },
+					    { name: "Folk Rock", url: "https://streams.radiobob.de/folkrock/mp3-128/streams.radiobob.de/" },
+					    { name: "Fury in the Slaughterhouse", url: "https://streams.radiobob.de/fury/mp3-128/mediaplayer/" },
+					    { name: "Gaming Rock", url: "https://streams.radiobob.de/gamingrock/mp3-128/streams.radiobob.de/" },
+					    { name: "Gothic", url: "https://streams.radiobob.de/gothic/mp3-128/mediaplayer" },
+					    { name: "Grunge", url: "https://streams.radiobob.de/bob-grunge/mp3-128/mediaplayer" },
+					    { name: "Guitar Heroes", url: "https://streams.radiobob.de/guitarheroes/mp3-128/streams.radiobob.de/" },
+					    { name: "Hair Metal", url: "https://streams.radiobob.de/hairmetal/mp3-128/streams.radiobob.de/" },
+					    { name: "Hardrock", url: "https://streams.radiobob.de/bob-hardrock/mp3-128/mediaplayer" },
+					    { name: "Harte Saite", url: "https://streams.radiobob.de/bob-hartesaite/mp3-128/mediaplayer" },
+					    { name: "Iron Maiden", url: "https://streams.radiobob.de/ironmaiden/mp3-128/streams.radiobob.de/" },
+					    { name: "KISS", url: "https://streams.radiobob.de/kiss/mp3-128/streams.radiobob.de/" },
+					    { name: "Kuschelrock", url: "https://streams.radiobob.de/bob-kuschelrock/mp3-128/mediaplayer" },
+					    { name: "Made in Germany", url: "https://streams.radiobob.de/madeingermany/mp3-128/streams.radiobob.de/" },
+					    { name: "Metal", url: "https://streams.radiobob.de/bob-metal/mp3-128/mediaplayer" },
+					    { name: "Metalcore", url: "https://streams.radiobob.de/metalcore/mp3-128/mediaplayer" },
+					    { name: "Metallica", url: "https://streams.radiobob.de/metallica/mp3-128/mediaplayer/" },
+					    { name: "Mittelalter", url: "https://streams.radiobob.de/mittelalter/mp3-128/mediaplayer" },
+					    { name: "Motörhead", url: "https://streams.radiobob.de/motoerhead/mp3-128/streams.radiobob.de/" },
+					    { name: "Newcomer", url: "https://streams.radiobob.de/newcomer/mp3-128/mediaplayer/" },
+					    { name: "Nu Metal", url: "https://streams.radiobob.de/numetal/mp3-128/streams.radiobob.de/" },
+					    { name: "Ozzy Osbourne", url: "https://streams.radiobob.de/ozzyosbourne/mp3-128/streams.radiobob.de/" },
+					    { name: "Power Metal", url: "https://streams.radiobob.de/powermetal/mp3-128/streams.radiobob.de/" },
+					    { name: "Prog-Rock", url: "https://streams.radiobob.de/progrock/mp3-128/mediaplayer/" },
+					    { name: "Punk", url: "https://streams.radiobob.de/bob-punk/mp3-128/mediaplayer" },
+					    { name: "Queen", url: "https://streams.radiobob.de/bob-queen/mp3-128/mediaplayer/" },
+					    { name: "Roadtrip", url: "https://streams.radiobob.de/roadtrip/mp3-128/" },
+					    { name: "Rock am Ring Radio", url: "https://streams.radiobob.de/rockamring/mp3-128/streams.radiobob.de/" },
+					    { name: "Rock Hits", url: "https://streams.radiobob.de/bob-rockhits/mp3-128/mediaplayer" },
+					    { name: "Rock Oldies", url: "https://streams.radiobob.de/rockoldies/mp3-128/mediaplayer" },
+					    { name: "Rockabilly", url: "https://streams.radiobob.de/bob-rockabilly/mp3-128/streams.radiobob.de/" },
+					    { name: "Rockparty", url: "https://streams.radiobob.de/rockparty/mp3-128/mediaplayer/" },
+					    { name: "Rolling Stones", url: "https://streams.radiobob.de/rollingstones/mp3-128/streams.radiobob.de/" },
+					    { name: "Singer/Songwriter", url: "https://streams.radiobob.de/bob-singersong/mp3-128/mediaplayer" },
+					    { name: "Ska", url: "https://streams.radiobob.de/ska/mp3-128/streams.radiobob.de/" },
+					    { name: "Southern Rock", url: "https://streams.radiobob.de/southernrock/mp3-128/mediaplayer" },
+					    { name: "Stoner Rock-Stream", url: "https://streams.radiobob.de/stonerrock/mp3-128/streams.radiobob.de/" },
+					    { name: "Summer Rock Hits", url: "https://streams.radiobob.de/summerrock/mp3-128/" },
+					    { name: "Symphonic Metal", url: "https://streams.radiobob.de/symphmetal/mp3-128/mediaplayer/" },
+					    { name: "The BossHoss", url: "https://streams.radiobob.de/bosshoss/mp3-128/mediaplayer/" },
+					    { name: "Tobias Sammet", url: "https://streams.radiobob.de/sammet/mp3-128/mediaplayer/" },
+					    { name: "Unplugged", url: "https://streams.radiobob.de/bob-chillout/mp3-128/mediaplayer/" },
+					    { name: "Wacken", url: "https://streams.radiobob.de/bob-wacken/mp3-128/mediaplayer" },
+					    { name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/streams.radiobob.de/" },
+					    { name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/streams.radiobob.de/" },
 			
-			        this.stations = [
-			            { name: "RADIO BOB!", url: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de" },
-			            { name: "RADIO BOB! Best of Rock", url: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de" },
-					    { name: "1Live Rock", url: "https://wdr-1live-rockhits.icecast.wdr.de/wdr/1live/rockhits/mp3/128/stream.mp3" },   
-					    { name: "Rock FM", url: "https://stream.regenbogen2.de/dab/mp3-128/private" },   
-					    { name: "knixx.fm", url: "https://s1.knixx.fm/dein_webradio_128.mp3" },
-					    { name: "NDR 1", url: "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3" },
-					    { name: "SWR3", url: "https://liveradio.swr.de/sw282p3/swr3/play.mp3" }, 
-					    { name: "SWR4", url: "https://liveradio.swr.de/sw282p3/swr4fn/play.mp3" }, 
-					    { name: "WDR 3", url: "https://wdr-wdr3-live.icecast.wdr.de/wdr/wdr3/live/mp3/128/stream.mp3" },
-					    { name: "WDR 5", url: "https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3" },  
-					    { name: "MDR Klassik", url: "https://mdr-284350-0.sslcast.mdr.de/mdr/284350/0/mp3/high/stream.mp3" },  
-					    { name: 'Absolut relax', url: 'https://absolut-relax.live-sm.absolutradio.de/absolut-relax' },    
-					    { name: 'Klassik Radio', url: 'https://klassikr.streamabc.net/klr-krdnational-mp3-192-8877033' },
-					    { name: "Radio Geschmack", url: "https://s2.genx-stream.de:8702/;?type=http" },
-					    { name: "Ambient Sleeping Pill", url: "https://radio.stereoscenic.com/asp-s" }     
-			        ];
-			
-			
-			        this.dynamicUrls = {
-			            t1: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de",
-			            t2: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de",
-			            t3: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de",
-			            t4: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer"
+                    this.dynamicUrls = {
+			            dynamic: {
+			                primary: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de",
+			                secondary: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de"
+			            },
+			            dynamic_aac: {
+			                primary: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de",
+			                secondary: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer"
+			            }
 			        };
 			        
-			        this.dynamicStreamTimeout = null;
 			        this.state = {
 				        bitrate: 160000,
 				        streamUrl: '',
@@ -755,7 +944,24 @@ getAllChunksData(keys) {
 			        document.addEventListener("DOMContentLoaded", () => this.init());
 			    }
 			
-			
+		
+				checkLiveStreamSwitch() {
+				    if (!this.state.isLiveMode || this.ui.isLiveSwitching) return;
+				
+				    const selected = this.livestations[this.ui.els.liveStationSelect.value];
+				    if (selected?.url && this.dynamicUrls[selected.url]) {
+				        const targetUrl = this.getLiveUrl(selected.url);
+				        const absoluteTargetUrl = new URL(targetUrl, window.location.href).href;
+				        const absoluteCurrentUrl = this.ui.els.liveAudio.src ? new URL(this.ui.els.liveAudio.src, window.location.href).href : '';
+				
+				
+				        if (absoluteTargetUrl !== absoluteCurrentUrl) {
+				            this.ui.switchLiveStreamTo(targetUrl);
+				        }
+				    }
+				}
+		
+		
 			    async init() {
 			        this.ui.collectElements();
 			        await this.chunkDB.init();
@@ -766,31 +972,40 @@ getAllChunksData(keys) {
 			        this.registerServiceWorker();
 			    }
 			    
+
 			    
-			    getLiveUrl() {
-			        const minute = new Date().getMinutes();
-			        if (minute >= 3 && minute < 27) return this.dynamicUrls.t1;
-			        if (minute >= 27 && minute < 33) return this.dynamicUrls.t2;
-			        if (minute >= 33 && minute < 57) return this.dynamicUrls.t1;
-			        return this.dynamicUrls.t2;
-			    }
-			
-			
-			    getLiveUrl2() {
-			        const minute = new Date().getMinutes();
-			        if (minute >= 3 && minute < 27) return this.dynamicUrls.t3;
-			        if (minute >= 27 && minute < 33) return this.dynamicUrls.t4;
-			        if (minute >= 33 && minute < 57) return this.dynamicUrls.t3;
-			        return this.dynamicUrls.t4;
-			    }
+				getLiveUrl(streamType = "dynamic") {
+				    const stream = this.dynamicUrls[streamType];
+				    if (!stream) return "";
+				
+				    const minute = new Date().getMinutes();
+				    
+				    const switchMinutes = [3, 27, 33, 57];
+				    
+				    let activeIndex = -1;
+				    for (let i = 0; i < switchMinutes.length; i++) {
+				        if (minute >= switchMinutes[i]) {
+				            activeIndex = i;
+				        }
+				    }
+				    
+				    if (activeIndex === -1) {
+				        activeIndex = switchMinutes.length - 1;
+				    }
+				    
+				    const isPrimary = (activeIndex % 2 === 0);
+				
+				    return isPrimary ? stream.primary : stream.secondary;
+				}			    
 			    
-			    
+
 			    startWatchdog() {
 			        if (this.state.watchdogIntervalId) clearInterval(this.state.watchdogIntervalId);
 			        this.ui.update();
 			        this.state.watchdogIntervalId = setInterval(() => {
 			            this.handleSleepTimer();
 			            this.streamer.ensureConnection();
+			            this.checkLiveStreamSwitch();
 			            this.ui.update();
 			        }, 1000);
 			    }
@@ -809,61 +1024,6 @@ getAllChunksData(keys) {
 			    }
 			    
 			
-				handleDynamicLiveStream(isInitialCall = false) {
-				    if (!this.state.isLiveMode) {
-				        return;
-				    }
-				
-				    const switchMinutes = [3, 27, 33, 57];
-				    const now = new Date();
-				    const currentMinute = now.getMinutes();
-				    let nextSwitchMinute = -1;
-				
-				    for (const minute of switchMinutes) {
-				        if (currentMinute < minute) {
-				            nextSwitchMinute = minute;
-				            break;
-				        }
-				    }
-				    
-				    if (nextSwitchMinute === -1) {
-				        nextSwitchMinute = switchMinutes[0];
-				    }
-				
-				    const nextSwitchDate = new Date();
-				    if (nextSwitchMinute <= currentMinute) {
-				        nextSwitchDate.setHours(now.getHours() + 1);
-				    }
-				    nextSwitchDate.setMinutes(nextSwitchMinute, 0, 0);
-				
-				    const delay = nextSwitchDate.getTime() - now.getTime();
-				
-				   
-				    if (isInitialCall) {
-				        const selected = this.livestations[this.ui.els.liveStationSelect.value];
-				        if (selected?.url === "dynamic") {
-				            this.ui.switchLiveStreamTo(this.getLiveUrl());
-				        } else if (selected?.url === "dynamic_aac") {
-				            this.ui.switchLiveStreamTo(this.getLiveUrl2());
-				        }
-				    }
-				    
-				
-				    this.dynamicStreamTimeout = setTimeout(() => {
-				        if (this.state.isLiveMode && !this.ui.isLiveSwitching) {
-				            const selected = this.livestations[this.ui.els.liveStationSelect.value];
-				            if (selected?.url === "dynamic") {
-				                this.ui.switchLiveStreamTo(this.getLiveUrl());
-				            } else if (selected?.url === "dynamic_aac") {
-				                this.ui.switchLiveStreamTo(this.getLiveUrl2());
-				            }
-				        }
-				
-				        this.handleDynamicLiveStream();
-				    }, delay + 50);
-				}
-			
-			
 			    async requestWakeLock() {
 			    if ('wakeLock' in navigator) {
 			        try {
@@ -876,8 +1036,8 @@ getAllChunksData(keys) {
 			            } catch (err) {}
 			        }
 			    }
+		
 			    
-			 
 			    async loadStoredChunks() {
 			        this.ui.els.startBtn.disabled = true;
 			        this.ui.els.statusDisplay.innerText = "";
@@ -887,8 +1047,7 @@ getAllChunksData(keys) {
 			        if (savedBitrate) {
 			            this.state.bitrate = savedBitrate;
 			        }
-			
-			
+
 			        const keys = await this.chunkDB.getAllKeys();
 			        if (!keys || keys.length === 0) {
 			            this.state.isStopped = true;
@@ -901,22 +1060,24 @@ getAllChunksData(keys) {
 			            return;
 			        }
 			
-			        keys.sort((a, b) => (parseInt(a.split('\_')[1]) || 0) - (parseInt(b.split('\_')[1]) || 0));
+			        keys.sort((a, b) => {
+			            const timeA = parseInt(a.split('_')[1], 10) || 0;
+			            const timeB = parseInt(b.split('_')[1], 10) || 0;
+			            return timeA - timeB;
+			        });
 			        
 			        const KEEP_CHUNKS = ChunkDB.MAX_CHUNKS;
 			        if (keys.length > KEEP_CHUNKS) {
 			            const excessKeys = keys.slice(0, keys.length - KEEP_CHUNKS);
-			            const oldestKeyToKeep = keys[keys.length - KEEP_CHUNKS];
 			            keys.splice(0, keys.length - KEEP_CHUNKS);
 			
-			            
 			            await new Promise((resolve, reject) => {
 			                const tx = this.chunkDB.db.transaction(this.chunkDB.storeName, "readwrite");
 			                const store = tx.objectStore(this.chunkDB.storeName);
 			                
-			
-			                const range = IDBKeyRange.upperBound(excessKeys[excessKeys.length - 1]);
-			                const request = store.delete(range);
+			                for (let i = 0; i < excessKeys.length; i++) {
+			                    store.delete(excessKeys[i]);
+			                }
 			                
 			                tx.oncomplete = () => resolve();
 			                tx.onerror = (e) => reject(tx.error || e.target.error);
@@ -943,7 +1104,7 @@ getAllChunksData(keys) {
 			                    this.player.currentChunkOffset = parseFloat(lastOffset);
 			                }
 			            } else {
-			                 if (loadedChunks.length > 1) {
+			                if (loadedChunks.length > 1) {
 			                    this.state.playedChunksHistory = loadedChunks.slice(0, -1);
 			                    this.state.playlistChunks = [loadedChunks[loadedChunks.length - 1]];
 			                } else {
@@ -961,6 +1122,7 @@ getAllChunksData(keys) {
 			        this.ui.els.startBtn.disabled = false;
 			        this.ui.els.startBtn.innerText = "Start Timeshift";
 			    }
+
 			    
 			
 			    async startRadio() {
@@ -1002,32 +1164,48 @@ getAllChunksData(keys) {
 			    }
 			
 			    
-			    registerServiceWorker() {
-			        if ('serviceWorker' in navigator) {
-			            let refreshing = false;
-			
-			            navigator.serviceWorker.addEventListener('controllerchange', () => {
-			                if (!refreshing && navigator.onLine) {
-			                    refreshing = true;
-			                    window.location.reload();
-			                }
-			            });
-			
-			            window.addEventListener('load', () => {
-			                navigator.serviceWorker.register('./sw.js').then((registration) => {
-			                    registration.update().catch(() => {
-			                        console.log("Cold start: Update check skipped offline.");
-			                    });
-			                }).catch((err) => {
-			                    console.warn("Service Worker loaded in offline mode:", err);
-			                });
-			            });
-			
-			        }
-			    }
-			
-			
-			
+				registerServiceWorker() {
+				    if (!('serviceWorker' in navigator)) return;
+				
+				    let refreshing = false;
+
+				    this._onControllerChange = () => {
+				        if (!refreshing) {
+				            refreshing = true;
+				            window.location.reload();
+				        }
+				    };
+				
+				    this._onVisibilityChangeSW = () => {
+				        if (document.visibilityState === 'visible' && this._swRegistration) {
+				            this._swRegistration.update().catch(() => {});
+				        }
+				    };
+				
+                    this._initSW = async () => {
+				        try {
+				            this._swRegistration = await navigator.serviceWorker.register('./sw.js');
+				            this._swRegistration.update().catch(() => {});
+
+				            document.addEventListener('visibilitychange', this._onVisibilityChangeSW);
+				        } catch (err) {
+				        }
+				    };
+				
+				    this._onLoadSW = () => {
+				        this._initSW();
+				    };
+				
+				    navigator.serviceWorker.addEventListener('controllerchange', this._onControllerChange);
+				
+				    if (document.readyState === 'complete') {
+				        this._initSW();
+				    } else {
+				        window.addEventListener('load', this._onLoadSW);
+				    }
+				}
+
+
 			}
 			
 			class UIManager {
@@ -1037,6 +1215,8 @@ getAllChunksData(keys) {
 			        this.state = app.state;
 			        this.els = {};
 			        this.isLiveSwitching = false;
+			        this.targetLiveVolume = 1.0;
+                    this.fadeInterval = null;
 			
 			        this.icons = {
 			            play: `<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`,
@@ -1059,7 +1239,33 @@ getAllChunksData(keys) {
 			        this.els.switchLabel = this.els.switchContainer.querySelector('.switch-label');
 			    }
 			
-			
+
+				destroy() {
+				    if (this._onOnline) {
+				        // Diese Events liegen direkt auf dem UIManager (this)
+				        window.removeEventListener('online', this._onOnline);
+				        window.removeEventListener('offline', this._onOffline);
+				        window.removeEventListener('beforeunload', this._onBeforeUnload);
+				        document.removeEventListener('visibilitychange', this._onVisibilityChange);
+				        document.removeEventListener('gesturestart', this._onGestureStart);
+				        document.removeEventListener('touchend', this._onTouchEnd);
+				        document.removeEventListener('touchcancel', this._onTouchEnd);
+				
+
+				        if ('serviceWorker' in navigator && this.app._onControllerChange) {
+				            navigator.serviceWorker.removeEventListener('controllerchange', this.app._onControllerChange);
+				        }
+				        if (this.app._onVisibilityChangeSW) {
+				            document.removeEventListener('visibilitychange', this.app._onVisibilityChangeSW);
+				        }
+				        if (this.app._onLoadSW) {
+				            window.removeEventListener('load', this.app._onLoadSW);
+				        }
+				    }
+				}
+				
+					
+
 			    async initStations() {
 			        this.app.stations.forEach((station, index) => {
 			            const option = document.createElement('option');
@@ -1075,98 +1281,117 @@ getAllChunksData(keys) {
 			            this.els.liveStationSelect.appendChild(option);
 			        });
 			
-			        let savedIndex = await this.app.chunkDB.getSetting("selectedStationIndex") || 0;
-			        this.els.stationSelect.value = savedIndex;
-			        this.state.streamUrl = this.app.stations[savedIndex].url;
+					const savedName = await this.app.chunkDB.getSetting("selectedStationName");
+					let targetIndex = this.app.stations.findIndex(s => s.name === savedName);
+					if (targetIndex === -1) targetIndex = 0;
+					
+					this.els.stationSelect.value = targetIndex;
+					this.state.streamUrl = this.app.stations[targetIndex].url;
+					
+
 			        this.state.bitrate = 128000;
 			
-			        let savedLiveIndex = await this.app.chunkDB.getSetting("selectedLiveStationIndex") || 0;
-			        this.els.liveStationSelect.value = savedLiveIndex;
+					const savedLiveName = await this.app.chunkDB.getSetting("selectedLiveStationName");
+					let targetLiveIndex = this.app.livestations.findIndex(s => s.name === savedLiveName);
+					if (targetLiveIndex === -1) targetLiveIndex = 0;
+					
+					this.els.liveStationSelect.value = targetLiveIndex;
 			        
 			        this.els.startBtn.innerHTML = this.icons.play;
 			    }
-			    
-			    
-			    bindEvents() {
+		
 			
-			        this.els.startBtn.addEventListener('click', () => {
-			            if (this.state.isLiveMode) this.stopLiveMode();
-			            if (this.state.isDecoding) return;
-			            
-			            if (this.state.isStopped) this.app.startRadio();
-			            else if (this.state.isPlaying) this.app.player.pause();
-			            else this.app.player.play();
-			            this.update();
-			        });
-			
-			        this.els.liveBtn.addEventListener('click', () => {
-			            if (!this.state.isLiveMode) this.startLiveMode();
-			            else this.stopLiveMode();
-			        });
-			
-			        this.els.rewindBtn.addEventListener('click', () => this.app.player.jumpChunks(-1));
-			        this.els.rewindBtn2.addEventListener('click', () => this.app.player.jumpChunks(-10));
-			        this.els.skipBtn.addEventListener('click', () => this.app.player.jumpChunks(1));
-			        this.els.skipBtn2.addEventListener('click', () => this.app.player.jumpChunks(10));
-			
-			
-			  
-			        this.#bindSwitch();
-			        this.els.stationSelect.addEventListener('change', (e) => this.handleStationChange(e));
-			        this.els.liveStationSelect.addEventListener('change', (e) => this.handleLiveStationChange(e));
-			
-			
-			        this.els.volumeSlider.addEventListener('input', (e) => this.handleVolumeChange(e));
-			        this.els.sleepTimerSlider.addEventListener('input', (e) => this.handleSleepTimerChange(e));
-			        
-			        this.#setupDraggableSlider(this.els.volumeSlider);
-			        this.#setupDraggableSlider(this.els.sleepTimerSlider);
-			
-			
-			        window.addEventListener('online', () => {
-			            this.app.state.isConnected = true;
-			            this.app.streamer.ensureConnection();
-			        });
-			
-			        window.addEventListener('offline', () => {
-			            this.app.state.isConnected = false;
-			            this.app.streamer.disconnect(false);
-			            this.update();
-			        });
-			
-			        window.addEventListener('beforeunload', (e) => {
-			            e.preventDefault();
-			            e.returnValue = true;
-			        });
-			
-			        document.addEventListener('visibilitychange', () => {
-			            if ((this.state.isPlaying || this.state.isLiveMode) && document.visibilityState === 'visible') {
-			                this.app.requestWakeLock();
-			            }
-			        });
-			
-			        document.addEventListener('gesturestart', (e) => {
-			            e.preventDefault();
-			        });
-			
-			
-			        this.els.startBtn.closest('.player-card').addEventListener('touchstart', (e) => {
-			            const btn = e.target.closest('.btn');
-			            if (btn && !btn.disabled) {
-			                btn.classList.add('active-touch');
-			            }
-			        }, { passive: true });
-			
-			
-			        const removeTouchFeedback = () => {
-			            document.querySelectorAll('.btn').forEach(b => b.classList.remove('active-touch'));
-			        };
-			        document.addEventListener('touchend', removeTouchFeedback);
-			        document.addEventListener('touchcancel', removeTouchFeedback);
-			    }
-			    
-			    
-			
+				bindEvents() {
+				    this.els.startBtn.addEventListener('click', () => {
+				        if (this.state.isLiveMode) this.stopLiveMode();
+				        if (this.state.isDecoding) return;
+				        
+				        if (this.state.isStopped) this.app.startRadio();
+				        else if (this.state.isPlaying) this.app.player.pause();
+				        else this.app.player.play();
+				        this.update();
+				    });
+				
+				    this.els.liveBtn.addEventListener('click', () => {
+				        if (!this.state.isLiveMode) this.startLiveMode();
+				        else this.stopLiveMode();
+				    });
+				
+				    this.els.rewindBtn.addEventListener('click', () => this.app.player.jumpChunks(-1));
+				    this.els.rewindBtn2.addEventListener('click', () => this.app.player.jumpChunks(-10));
+				    this.els.skipBtn.addEventListener('click', () => this.app.player.jumpChunks(1));
+				    this.els.skipBtn2.addEventListener('click', () => this.app.player.jumpChunks(10));
+				
+				    this.#bindSwitch();
+				    this.els.stationSelect.addEventListener('change', (e) => this.handleStationChange(e));
+				    this.els.liveStationSelect.addEventListener('change', (e) => this.handleLiveStationChange(e));
+				
+				    this.els.volumeSlider.addEventListener('input', (e) => this.handleVolumeChange(e));
+				    this.els.sleepTimerSlider.addEventListener('input', (e) => this.handleSleepTimerChange(e));
+				    
+
+				    this._onOnline = () => {
+				        this.app.state.isConnected = true;
+				        this.app.streamer.ensureConnection();
+				    };
+				    this._onOffline = () => {
+				        this.app.state.isConnected = false;
+				        this.app.streamer.disconnect(false);
+				        this.update();
+				    };
+				    this._onBeforeUnload = (e) => {
+				        e.preventDefault();
+				        e.returnValue = true;
+				    };
+				    this._onVisibilityChange = () => {
+				        if ((this.state.isPlaying || this.state.isLiveMode) && document.visibilityState === 'visible') {
+				            this.app.requestWakeLock();
+				        }
+				    };
+				    this._onGestureStart = (e) => {
+				        e.preventDefault();
+				    };
+				    this._onTouchEnd = () => {
+				        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active-touch'));
+				    };
+				
+
+				    window.addEventListener('online', this._onOnline);
+				    window.addEventListener('offline', this._onOffline);
+				    window.addEventListener('beforeunload', this._onBeforeUnload);
+				    document.addEventListener('visibilitychange', this._onVisibilityChange);
+				    document.addEventListener('gesturestart', this._onGestureStart);
+				    document.addEventListener('touchend', this._onTouchEnd);
+				    document.addEventListener('touchcancel', this._onTouchEnd);
+				
+
+                    this.els.liveAudio.addEventListener('loadedmetadata', () => {
+					    if (!this.isLiveSwitching) return;
+					    
+					    this.els.liveAudio.play()
+					        .then(() => {
+					            this.isLiveSwitching = false;
+					        })
+					        .catch(() => {
+					            this.isLiveSwitching = false;
+					        });
+					});
+					
+				    this.els.liveAudio.addEventListener('error', () => {
+				        if (!this.isLiveSwitching) return;
+				        this.isLiveSwitching = false;
+				    });
+				
+				    this.els.startBtn.closest('.player-card').addEventListener('touchstart', (e) => {
+				        const btn = e.target.closest('.btn');
+				        if (btn && !btn.disabled) {
+				            btn.classList.add('active-touch');
+				        }
+				    }, { passive: true });
+				}
+							    
+
+							    
 			
 			    #bindSwitch() {
 			        let isDragging = false, startX = 0, currentTranslate = 0;
@@ -1224,13 +1449,13 @@ getAllChunksData(keys) {
 			    }
 			
 			
-			    
-			
 			    async handleStationChange(e) {
-			        const idx = parseInt(e.target.value, 10);
-			        this.state.streamUrl = this.app.stations[idx].url;
-			        this.state.bitrate = 128000;
-			        await this.app.chunkDB.setSetting("selectedStationIndex", idx);
+					const idx = parseInt(e.target.value, 10);
+					    const station = this.app.stations[idx];
+					    if (station) {
+					        this.state.streamUrl = station.url;
+					        await this.app.chunkDB.setSetting("selectedStationName", station.name);
+					    }
 			        
 			        if (!this.state.isStopped && !this.state.isNetworkFrozen) {
 			            this.app.streamer.disconnect();
@@ -1238,14 +1463,19 @@ getAllChunksData(keys) {
 			        }
 			    }
 			    
+			    
 			    async handleLiveStationChange(e) {
-			        const idx = parseInt(e.target.value, 10);
-			        await this.app.chunkDB.setSetting("selectedLiveStationIndex", idx);
+					const idx = parseInt(e.target.value, 10);
+					    const station = this.app.livestations[idx];
+					    if (station) {
+					        await this.app.chunkDB.setSetting("selectedLiveStationName", station.name);
+					    }
 			        if (this.state.isLiveMode) {
 			            this.stopLiveMode();
 			            this.startLiveMode();
 			        }
 			    }
+			
 			
 			    handleVolumeChange(e) {
 			        const volume = e.target.value;
@@ -1254,9 +1484,9 @@ getAllChunksData(keys) {
 			        
 			        if (this.state.isLiveMode) this.els.liveAudio.volume = finalGain;
 			        if (this.app.player.gainNode) this.app.player.gainNode.gain.setValueAtTime(finalGain, this.app.player.audioCtx.currentTime);
-			
 			        e.target.style.background = `linear-gradient(to right, var(--clr-light) ${volume}%, var(--bg-inactive) ${volume}%)`;
 			    }
+			
 			
 			    handleSleepTimerChange(e) {
 			        const minutes = parseInt(e.target.value) || 0;
@@ -1265,14 +1495,16 @@ getAllChunksData(keys) {
 			        this.state.sleepTimerEndTime = minutes > 0 ? Date.now() + minutes * 60000 : null;
 			    }
 			    
+			    
 			    startLiveMode() {
 			        if (this.state.isLiveMode) return;
 			        this.app.player.pause();
 			
 			        const selected = this.app.livestations[this.els.liveStationSelect.value];
 			        let url = selected.url;
-			        if (url === "dynamic") url = this.app.getLiveUrl();
-			        else if (url === "dynamic_aac") url = this.app.getLiveUrl2();
+			        if (this.app.dynamicUrls[url]) {
+			            url = this.app.getLiveUrl(url);
+			        }
 			
 			        this.els.liveAudio.src = url;
 			        this.els.liveAudio.load();
@@ -1281,87 +1513,81 @@ getAllChunksData(keys) {
 			        
 			        this.updateMediaSession(selected.name, "Live Radio Stream");
 			        this.update();
-			        this.app.handleDynamicLiveStream(true);
 			    }
-			    
-			    stopLiveMode() {
-			        if (!this.state.isLiveMode) return; 
-			        this.state.isLiveMode = false;
-			        this.els.liveAudio.pause();
-			        this.els.liveAudio.removeAttribute('src');
-			        this.els.liveAudio.load();
-			        if (this.app.dynamicStreamTimeout) {
-			        clearTimeout(this.app.dynamicStreamTimeout);
-			        this.app.dynamicStreamTimeout = null;
-			    }
-			        this.update();
-			    }
-			    
-			switchLiveStreamTo(url) {
-			    if (this.isLiveSwitching || !url || (this.els.liveAudio.src && new URL(url, window.location.href).href === this.els.liveAudio.src)) {
-			        return;
-			    }
-			    this.isLiveSwitching = true;
-			    const audio = this.els.liveAudio;
+
+				stopLiveMode() {
+				    if (!this.state.isLiveMode) return; 
+				    this.state.isLiveMode = false;
+				    this.isLiveSwitching = false;
+
+				    this.#cancelActiveLiveSwitch();
+				    
+				    const audio = this.els.liveAudio;
+				    audio.pause();
+				    audio.src = "";
+				    audio.removeAttribute('src');
+				    try {
+				        audio.load();
+				    } catch(e) {}
+				    
+				    this.update();
+				}
+				
+				#cancelActiveLiveSwitch() {
+				    this.isLiveSwitching = false;
+				    const audio = this.els.liveAudio;
+				    
+				    // Eventuelle Altreferenz löschen
+				    if (this.activeLiveSwitch) {
+				        const s = this.activeLiveSwitch;
+				        if (s.safetyTimeout) clearTimeout(s.safetyTimeout);
+				        if (s.fadeInterval) clearInterval(s.fadeInterval);
+				        
+				        if (s.onMetadataLoaded) audio.removeEventListener('loadedmetadata', s.onMetadataLoaded);
+				        if (s.onSwitchError) audio.removeEventListener('error', s.onSwitchError);
+				        
+				        this.activeLiveSwitch = null;
+				    }
+				}
+				
+				
+
+				async switchLiveStreamTo(url) {
+				    if (!url || !this.state.isLiveMode) return;
+				
+				    const absoluteTargetUrl = new URL(url, window.location.href).href;
+				    const absoluteCurrentUrl = this.els.liveAudio.src ? new URL(this.els.liveAudio.src, window.location.href).href : '';
+				
+				    if (absoluteTargetUrl === absoluteCurrentUrl) return;
+				    this.isLiveSwitching = true;
+				    
+				    const audio = this.els.liveAudio;
+				
+				    audio.pause();
+				    audio.currentTime = 0;
+				    audio.src = "";
+				    audio.removeAttribute('src');
+				    audio.load();
+				
+				    this.#cancelActiveLiveSwitch();
+				    await new Promise(resolve => setTimeout(resolve, 50));
+				
+                    try {
+				        audio.src = url;
+				        const targetVolume = this.getPerceivedGain(this.els.volumeSlider.value / 100);
+				        audio.volume = targetVolume;
+				        audio.load();
+				        
+				        await audio.play();
+				        this.isLiveSwitching = false;
+				    } catch (err) {
+				        this.isLiveSwitching = false;
+				    }
+				}
+				
+
 			
-			
-			    const fadeVolume = (from, to, duration, callback) => {
-			        const steps = 15;
-			        const stepTime = duration / steps;
-			        const volumeStep = (to - from) / steps;
-			        let currentStep = 0;
-			
-			        const interval = setInterval(() => {
-			            currentStep++;
-			            const nextVolume = Math.max(0, Math.min(1, from + volumeStep * currentStep));
-			            audio.volume = nextVolume;
-			
-			            if (currentStep >= steps) {
-			                clearInterval(interval);
-			                audio.volume = to;
-			                if (callback) callback();
-			            }
-			        }, stepTime);
-			    };
-			
-			    const targetVolume = this.getPerceivedGain(this.els.volumeSlider.value / 100);
-			
-			    const onMetadataLoaded = () => {
-			        audio.play()
-			            .then(() => {
-			                fadeVolume(0, targetVolume, 150, () => {
-			                    cleanup();
-			                });
-			            })
-			            .catch(() => {
-			                cleanup();
-			            });
-			    };
-			
-			    const onSwitchError = () => {
-			        cleanup();
-			        audio.load();
-			    };
-			
-			    const cleanup = () => {
-			        audio.removeEventListener('loadedmetadata', onMetadataLoaded);
-			        audio.removeEventListener('error', onSwitchError);
-			        this.isLiveSwitching = false;
-			    };
-			
-			    audio.addEventListener('loadedmetadata', onMetadataLoaded);
-			    audio.addEventListener('error', onSwitchError);
-			
-			
-			    const currentVol = audio.volume;
-			    fadeVolume(currentVol, 0, 150, () => {
-			        audio.pause();
-			        audio.src = url;
-			        audio.load();
-			    });
-			}
-			
-			
+
 			
 			
 			    update() {
@@ -1371,6 +1597,7 @@ getAllChunksData(keys) {
 			        this.#updateControls();
 			        this.#updateSleepTimerSlider();
 			    }
+			
 			
 			    #updateBufferBars() {
 			        let forwardPercent = 0, rewindPercent = 0;
@@ -1403,14 +1630,11 @@ getAllChunksData(keys) {
 				
 				    const formatTime = (ts) => {
 				        const d = new Date(ts);
-				        
-			
-				        const userLang = navigator.language || 'en';
-			
-				        const weekdays = userLang.startsWith('de')
-				            ? ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"] 
-				            : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-				
+					    let weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+    					const browserLang = (navigator.language || '').toLowerCase();
+    					if (browserLang.startsWith('de')) {
+    					    weekdays = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+    					}
 				        return `${weekdays[d.getDay()]} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 				    };
 				
@@ -1506,7 +1730,6 @@ getAllChunksData(keys) {
 				}
 				
 			
-			
 			    #updateButtons() {
 			        const canPlay = this.state.playlistChunks.length >= 1 || this.state.isPlaying || this.state.isManualPause;
 			        
@@ -1574,53 +1797,7 @@ getAllChunksData(keys) {
 			        return Math.min(1.0, Math.pow(linearVolume, 0.35) * (1.2 - 0.2 * linearVolume));
 			    }
 			    
-			  #setupDraggableSlider(slider) {
-			        const handleDrag = (clientX) => {
-			            const rect = slider.getBoundingClientRect();
-			            const width = rect.width;
-			            let pct = (clientX - rect.left) / width;
-			            pct = Math.max(0, Math.min(1, pct));
-			            
-			            const min = parseFloat(slider.min) || 0;
-			            const max = parseFloat(slider.max) || 100;
-			            const step = parseFloat(slider.step) || 1;
-			            
-			            let value = min + pct * (max - min);
-			            value = Math.round(value / step) * step;
-			            value = Math.max(min, Math.min(max, value));
-			            
-			            if (parseFloat(slider.value) !== value) {
-			                slider.value = value;
-			                slider.dispatchEvent(new Event('input', { bubbles: true }));
-			            }
-			        };
-			
-			        const onStart = (e) => {
-			            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-			            if (clientX === undefined) return;
-			            slider.isDragging = true;
-			            handleDrag(clientX);
-			            if (e.cancelable) e.preventDefault();
-			        };
-			
-			        const onMove = (e) => {
-			            if (!slider.isDragging) return;
-			            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-			            if (clientX === undefined) return;
-			            handleDrag(clientX);
-			            if (e.cancelable) e.preventDefault();
-			        };
-			
-			        const onEnd = () => {
-			            slider.isDragging = false;
-			        };
-			
-			        slider.addEventListener('pointerdown', onStart);
-			        window.addEventListener('pointermove', onMove);
-			        window.addEventListener('pointerup', onEnd);
-			        window.addEventListener('pointercancel', onEnd);
-			        slider.style.touchAction = 'none';
-			    }
+
 			
 			    
 			    
@@ -1643,10 +1820,24 @@ getAllChunksData(keys) {
 			        this.controller = new AbortController();
 			        this.state.isConnecting = true;
 			        this.state.lastDataTime = Date.now();
+			
+			        const connectTimeoutId = setTimeout(() => {
+			            if (this.state.isConnecting && this.controller) {
+			                this.controller.abort();
+			            }
+			        }, 8000);
+			
 			        try {
 			            const url = this.state.streamUrl + (this.state.streamUrl.includes("?") ? "&" : "?") + "t=" + Date.now();
 			            const response = await fetch(url, { signal: this.controller.signal, cache: "no-store", mode: "cors" });
-			            if (!response.ok) return;
+			            
+
+			            clearTimeout(connectTimeoutId);
+			
+			            if (!response.ok) {
+			                this.state.isConnecting = false;
+			                return;
+			            }
 			            if (!response.body) {
 			                this.state.isConnecting = false;
 			                return;
@@ -1658,11 +1849,13 @@ getAllChunksData(keys) {
 			            this.chunkProcessor.prepareReconnect();
 			            await this.#readLoop();
 			        } catch (e) {
+			            clearTimeout(connectTimeoutId);
 			            this.state.isConnected = false;
 			            this.state.isConnecting = false;
 			            this.reader = null;
 			        }
 			    }
+			
 			
 			
 			    disconnect(forceFlush = false) {
@@ -1703,12 +1896,6 @@ getAllChunksData(keys) {
 				ensureConnection() {
 				    if (this.state.isStopped || this.state.isNetworkFrozen) return;
 				    
-				    if (navigator.onLine === false) {
-				        this.state.isConnected = false;
-				        this.state.isConnecting = false;
-				        return;
-				    }
-				
 				    const stalled = Date.now() - this.state.lastDataTime > 10000;
 				    const idle = !this.state.isConnected && !this.state.isConnecting;
 				    const cooldownPassed = Date.now() - this.lastConnectTime > 5000;
@@ -1768,6 +1955,61 @@ getAllChunksData(keys) {
 			        }
 			        return signatures;
 			    }
+
+				#extractValidChunk(targetMaxBytes) {
+				    let currentPos = 0;
+				    const validSegments = [];
+				    let segmentStart = 0;
+				    let accumulatedLength = 0;
+				
+				    while (currentPos < this.rawBuffer.length && (accumulatedLength + (currentPos - segmentStart)) < targetMaxBytes) {
+				        const frameSize = this.#getFrameSize(this.rawBuffer, currentPos);
+				        if (frameSize <= 0 || currentPos + frameSize > this.rawBuffer.length) {
+				            if (currentPos > segmentStart) {
+				                validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
+				                accumulatedLength += (currentPos - segmentStart);
+				            }
+				            if (frameSize <= 0) {
+				                const nextSync = this.#findFirstValidHeaderChain(this.rawBuffer, currentPos + 1);
+				                if (nextSync !== -1) { 
+				                    currentPos = nextSync; 
+				                    segmentStart = nextSync;
+				                    continue; 
+				                } else {
+				                    segmentStart = this.rawBuffer.length;
+				                    currentPos = this.rawBuffer.length;
+				                    break;
+				                }
+				            } else {
+				                segmentStart = currentPos;
+				                break;
+				            }
+				        }
+				
+				        if ((accumulatedLength + (currentPos - segmentStart) + frameSize) > targetMaxBytes) {
+				            break;
+				        }
+				        currentPos += frameSize;
+				    }
+				
+				    if (currentPos > segmentStart) {
+				        validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
+				        accumulatedLength += (currentPos - segmentStart);
+				    }
+				
+				    if (accumulatedLength > 0) {
+				        const chunkData = new Uint8Array(accumulatedLength);
+				        let offset = 0;
+				        for (let i = 0; i < validSegments.length; i++) {
+				            chunkData.set(validSegments[i], offset);
+				            offset += validSegments[i].length;
+				        }
+				        this.rawBuffer = this.rawBuffer.slice(currentPos);
+				        return chunkData;
+				    }
+				    return null;
+				}
+
 			
 			
 			    #findOverlapOffset(buffer) {
@@ -1888,160 +2130,81 @@ getAllChunksData(keys) {
 			        return -1;
 			    }
 			
-			
-			    process(newData, forceFlush = false) {
-			        let combined = new Uint8Array(this.rawBuffer.length + newData.length);
-			        combined.set(this.rawBuffer);
-			        combined.set(newData, this.rawBuffer.length);
-			        this.rawBuffer = combined;
-			        
-			        if (this.firstChunkInSession) {
-			            let startPos = this.#findFirstValidHeaderChain(this.rawBuffer, 0);
-			            if (startPos !== -1 && startPos + 3 < this.rawBuffer.length) {
-			                const mpegVersion = (this.rawBuffer[startPos + 1] & 0x18) >> 3;
-			                const bitrateIdx = (this.rawBuffer[startPos + 2] & 0xF0) >> 4;
-			
-			                const bitratesMPEG1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0];
-			                const bitratesMPEG2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 0];
-			
-			                let detectedBitrate = (mpegVersion === 3) ? bitratesMPEG1[bitrateIdx] * 1000 : bitratesMPEG2[bitrateIdx] * 1000;
-			
-			                if (detectedBitrate > 0 && detectedBitrate !== this.state.bitrate) {
-			                    this.state.bitrate = detectedBitrate;
-			                    this.app.chunkDB.setSetting("lastDetectedBitrate", detectedBitrate);
-			                }
-			            }
-			        }        
-			        if (this.isReconnect && this.rawBuffer.length > 0) {
-			            const overlapOffset = this.#findOverlapOffset(this.rawBuffer);
-			            if (overlapOffset !== -1) {
-			                this.rawBuffer = this.rawBuffer.subarray(overlapOffset);
-			            }
-			            this.isReconnect = false;
-			        }
-			        
-			        const bytesPerChunk = (this.state.bitrate / 8) * 60;
-			        const safeBufferSize = bytesPerChunk + 65536;
-			
-			        while (this.rawBuffer.length >= safeBufferSize) {
-			            let startPos = this.firstChunkInSession ? this.#findFirstValidHeaderChain(this.rawBuffer, 0) : 0;
-			            
-			            if (startPos === -1) { 
-			                this.rawBuffer = new Uint8Array(0); 
-			                break; 
-			            }
-			            if (startPos > 0) {
-			                this.rawBuffer = this.rawBuffer.subarray(startPos);
-			            }
-			            
-			            this.firstChunkInSession = false;
-			            let currentPos = 0;
-			            let validSegments = [];
-			            let segmentStart = 0;
-			            let accumulatedLength = 0;
-			
-			            while (currentPos < this.rawBuffer.length && (accumulatedLength + (currentPos - segmentStart)) < bytesPerChunk) {
-			                let frameSize = this.#getFrameSize(this.rawBuffer, currentPos);
-			                if (frameSize <= 0 || currentPos + frameSize > this.rawBuffer.length) {
-			                    if (currentPos > segmentStart) {
-			                        validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
-			                        accumulatedLength += (currentPos - segmentStart);
-			                    }
-			                    if (frameSize <= 0) {
-			                        let nextSync = this.#findFirstValidHeaderChain(this.rawBuffer, currentPos + 1);
-			                        if (nextSync !== -1) { 
-			                            currentPos = nextSync; 
-			                            segmentStart = nextSync;
-			                            continue; 
-			                        } else {
-			                            segmentStart = this.rawBuffer.length;
-			                            currentPos = this.rawBuffer.length;
-			                            break;
-			                        }
-			                    } else {
-			                        segmentStart = currentPos;
-			                        break;
-			                    }
-			                }
-			
-			                if ((accumulatedLength + (currentPos - segmentStart) + frameSize) > bytesPerChunk) {
-			                    break;
-			                }
-			                
-			                currentPos += frameSize;
-			            }
-			
-			            if (currentPos > segmentStart) {
-			                validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
-			                accumulatedLength += (currentPos - segmentStart);
-			            }
-			
-			            if (accumulatedLength > 0) {
-			                const chunkData = new Uint8Array(accumulatedLength);
-			                let offset = 0;
-			                for (const seg of validSegments) {
-			                    chunkData.set(seg, offset);
-			                    offset += seg.length;
-			                }
-			                this.rawBuffer = this.rawBuffer.subarray(currentPos);
-			                this.#storeChunk(chunkData);
-			            } else {
-			                if (this.rawBuffer.length >= safeBufferSize) {
-			                    this.rawBuffer = this.rawBuffer.subarray(safeBufferSize);
-			                }
-			                break;
-			            }
-			        }
-			
-			        if (forceFlush && this.rawBuffer.length > 0) {
-			            let currentPos = 0;
-			            let validSegments = [];
-			            let segmentStart = 0;
-			            let accumulatedLength = 0;
-			
-			            while (currentPos < this.rawBuffer.length) {
-			                let frameSize = this.#getFrameSize(this.rawBuffer, currentPos);
-			                if (frameSize <= 0 || currentPos + frameSize > this.rawBuffer.length) {
-			                    if (currentPos > segmentStart) {
-			                        validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
-			                        accumulatedLength += (currentPos - segmentStart);
-			                    }
-			                    if (frameSize <= 0) {
-			                        let nextSync = this.#findFirstValidHeaderChain(this.rawBuffer, currentPos + 1);
-			                        if (nextSync !== -1) {
-			                            currentPos = nextSync;
-			                            segmentStart = nextSync;
-			                            continue;
-			                        } else {
-			                            segmentStart = this.rawBuffer.length;
-			                            currentPos = this.rawBuffer.length;
-			                            break;
-			                        }
-			                    } else {
-			                        segmentStart = currentPos;
-			                        break;
-			                    }
-			                }
-			                currentPos += frameSize;
-			            }
-			
-			            if (currentPos > segmentStart) {
-			                validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
-			                accumulatedLength += (currentPos - segmentStart);
-			            }
-			
-			            if (accumulatedLength > 0) {
-			                const chunkData = new Uint8Array(accumulatedLength);
-			                let offset = 0;
-			                for (const seg of validSegments) {
-			                    chunkData.set(seg, offset);
-			                    offset += seg.length;
-			                }
-			                this.#storeChunk(chunkData);
-			            }
-			            this.rawBuffer = new Uint8Array(0);
-			        }
-			    }
+
+				process(newData, forceFlush = false) {
+				    if (newData && newData.length > 0) {
+				        if (this.rawBuffer.length === 0) {
+				            this.rawBuffer = newData;
+				        } else {
+				            const combined = new Uint8Array(this.rawBuffer.length + newData.length);
+				            combined.set(this.rawBuffer);
+				            combined.set(newData, this.rawBuffer.length);
+				            this.rawBuffer = combined;
+				        }
+				    }
+				    
+				    if (this.firstChunkInSession && this.rawBuffer.length > 4) {
+				        const startPos = this.#findFirstValidHeaderChain(this.rawBuffer, 0);
+				        if (startPos !== -1 && startPos + 3 < this.rawBuffer.length) {
+				            const mpegVersion = (this.rawBuffer[startPos + 1] & 0x18) >> 3;
+				            const bitrateIdx = (this.rawBuffer[startPos + 2] & 0xF0) >> 4;
+				
+				            const bitratesMPEG1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0];
+				            const bitratesMPEG2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 0];
+				
+				            const detectedBitrate = (mpegVersion === 3) ? bitratesMPEG1[bitrateIdx] * 1000 : bitratesMPEG2[bitrateIdx] * 1000;
+				
+				            if (detectedBitrate > 0 && detectedBitrate !== this.state.bitrate) {
+				                this.state.bitrate = detectedBitrate;
+				                this.app.chunkDB.setSetting("lastDetectedBitrate", detectedBitrate);
+				            }
+				        }
+				    }        
+				
+				    if (this.isReconnect && this.rawBuffer.length > 0) {
+				        const overlapOffset = this.#findOverlapOffset(this.rawBuffer);
+				        if (overlapOffset !== -1) {
+				            this.rawBuffer = this.rawBuffer.slice(overlapOffset);
+				        }
+				        this.isReconnect = false;
+				    }
+				    
+				    const bytesPerChunk = (this.state.bitrate / 8) * 60;
+				    const safeBufferSize = bytesPerChunk + 65536;
+				
+				    while (this.rawBuffer.length >= safeBufferSize) {
+				        const startPos = this.firstChunkInSession ? this.#findFirstValidHeaderChain(this.rawBuffer, 0) : 0;
+				        
+				        if (startPos === -1) { 
+				            this.rawBuffer = new Uint8Array(0); 
+				            break; 
+				        }
+				        if (startPos > 0) {
+				            this.rawBuffer = this.rawBuffer.slice(startPos);
+				        }
+				        this.firstChunkInSession = false;
+				        
+				        const chunkData = this.#extractValidChunk(bytesPerChunk);
+				        if (chunkData) {
+				            this.#storeChunk(chunkData);
+				        } else {
+				            if (this.rawBuffer.length >= safeBufferSize) {
+				                this.rawBuffer = this.rawBuffer.slice(safeBufferSize);
+				            }
+				            break;
+				        }
+				    }
+				
+				    if (forceFlush && this.rawBuffer.length > 0) {
+				        const chunkData = this.#extractValidChunk(this.rawBuffer.length);
+				        if (chunkData) {
+				            this.#storeChunk(chunkData);
+				        }
+				        this.rawBuffer = new Uint8Array(0);
+				    }
+				}
+
+
 			
 			
 			    #isValidAudioChunk(data) {
@@ -2058,9 +2221,8 @@ getAllChunksData(keys) {
 			    }
 			
 			}
-			
-			
-			
+		
+
 			class Player {
 			    
 			    constructor(app) {
@@ -2074,54 +2236,171 @@ getAllChunksData(keys) {
 			        this.currentChunkStartTime = 0;
 			        this.isRebuffering = false;
 			        this.currentChunkOffset = 0;
-			        
-			        const workerCode = `
-			            self.onmessage = e => { 
-			                const { id, buffer } = e.data;
-			                self.postMessage({ id, buffer }, [buffer]); 
-			            };
-			        `;
-			        const blob = new Blob([workerCode], { type: 'application/javascript' });
-			        const workerUrl = URL.createObjectURL(blob);
-			
-			        this.audioWorker = new Worker(workerUrl);
-			        URL.revokeObjectURL(workerUrl); 
-			        this.workerMsgId = 0;
 			        this.jumpGeneration = 0;
+			        
+			        this.decodedCache = new Map();
+                    this.MAX_DECODED_CACHE = 3;
+			        
+			        this.lastGainNode = null;
+                    this.FADE_TIME = 0.05;
 			    }
-			
-			
-			    async initAudioContext() {
-			        if (this.audioCtx && this.audioCtx.state !== 'closed') return;
-			        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-			        if (this.audioCtx.state === "suspended") await this.audioCtx.resume();
-			        this.gainNode = this.audioCtx.createGain();
-			        const finalGain = this.app.ui.getPerceivedGain(this.app.ui.els.volumeSlider.value / 100);
-			        this.gainNode.gain.setValueAtTime(finalGain, this.audioCtx.currentTime);
-			        this.gainNode.connect(this.audioCtx.destination);
+
+				async #getOrDecodeChunk(chunkId) {
+				    if (!chunkId || !this.audioCtx) return null;
+				    if (this.decodedCache.has(chunkId)) {
+				        const cached = this.decodedCache.get(chunkId);
+				        this.decodedCache.delete(chunkId);
+				        this.decodedCache.set(chunkId, cached);
+				        return cached;
+				    }
+				
+					const decodePromise = (async () => {
+					    try {
+					        const rawData = await this.app.chunkDB.get(chunkId);
+					        if (!rawData) return null;
+					        return await this.audioCtx.decodeAudioData(rawData.buffer);
+					    } catch (e) {
+					        this.decodedCache.delete(chunkId);
+					        return null;
+					    }
+					})();
+
+				    if (this.decodedCache.size >= this.MAX_DECODED_CACHE) {
+				        const oldestKey = this.decodedCache.keys().next().value;
+				        this.decodedCache.delete(oldestKey);
+				    }
+				    this.decodedCache.set(chunkId, decodePromise);
+				
+				    return decodePromise;
+				}
+				
+
+			    #preloadNeighbors() {
+
+			        if (this.state.playlistChunks.length > 0) {
+			            const nextId = this.state.playlistChunks[0].id;
+			            if (!this.decodedCache.has(nextId)) {
+			                this.#getOrDecodeChunk(nextId);
+			            }
+			        }
+
+			        if (this.state.playedChunksHistory.length > 0) {
+			            const prevId = this.state.playedChunksHistory[this.state.playedChunksHistory.length - 1].id;
+			            if (!this.decodedCache.has(prevId)) {
+			                this.#getOrDecodeChunk(prevId);
+			            }
+			        }
 			    }
-			    
-			    
-			    async play() {
+
+			
+                async initAudioContext() {
+			        if (!this.audioCtx || this.audioCtx.state === 'closed') {
+			            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+			            if (!AudioContextClass) {
+			                return;
+			            }
+			            this.audioCtx = new AudioContextClass();
+
+			            this.gainNode = this.audioCtx.createGain();
+			            const initialGain = this.app.ui.getPerceivedGain(this.app.ui.els.volumeSlider.value / 100);
+			            this.gainNode.gain.setValueAtTime(initialGain, this.audioCtx.currentTime);
+			            this.gainNode.connect(this.audioCtx.destination);
+
+			            this.audioCtx.onstatechange = () => {
+			                if ((this.audioCtx.state === 'suspended' || this.audioCtx.state === 'interrupted') && this.state.isPlaying) {
+			                    this.audioCtx.resume().catch(() => {});
+			                }
+			            };
+			        }
+
+			        if (this.audioCtx.state === "suspended") {
+			            try {
+			                await this.audioCtx.resume();
+			            } catch (err) {}
+			        }
+			    }
+
+
+				async jumpChunks(amount) {
+				        if (this.state.isStopped || this.isJumping) return;
+				
+				        this.isJumping = true;
+				        const wasPlaying = this.state.isPlaying;
+				
+				        let preservedOffset = 0;
+				        if (this.state.currentPlayingChunkData && this.currentChunkStartTime > 0 && this.audioCtx) {
+				            preservedOffset = Math.max(0, this.audioCtx.currentTime - this.currentChunkStartTime) + this.currentChunkOffset;
+				        } else {
+				            preservedOffset = this.currentChunkOffset;
+				        }
+				
+				        this.resetScheduledPlayback();
+				        this.currentChunkOffset = preservedOffset;
+				
+				
+				        if (this.state.currentPlayingChunkData) {
+				            this.state.playlistChunks.unshift(this.state.currentPlayingChunkData);
+				            this.state.currentPlayingChunkData = null;
+				        }
+				
+				        if (amount > 0) {
+				            const toSkip = Math.min(amount, this.state.playlistChunks.length);
+				            for (let i = 0; i < toSkip; i++) {
+				                if (this.state.playlistChunks.length > 0) {
+				                    this.state.playedChunksHistory.push(this.state.playlistChunks.shift());
+				                }
+				            }
+				        } else {
+				
+				            const toRewind = Math.min(Math.abs(amount), this.state.playedChunksHistory.length);
+				            for (let i = 0; i < toRewind; i++) {
+				                if (this.state.playedChunksHistory.length > 0) {
+				                    this.state.playlistChunks.unshift(this.state.playedChunksHistory.pop());
+				                }
+				            }
+				        }
+				
+				        if (wasPlaying) {
+				            await this.#playbackLoop();
+				        }
+				        
+				        this.isJumping = false;
+				        this.app.ui.update();
+				    }
+
+
+                async play() {
 			        await this.initAudioContext();
-			        if (this.audioCtx.state === "suspended") await this.audioCtx.resume();
-			
+			        if (!this.audioCtx) return;
+
+			        if (this.audioCtx.state === "suspended") {
+			            try {
+			                await this.audioCtx.resume();
+			            } catch (err) {}
+			        }
+
 			        const finalGain = this.app.ui.getPerceivedGain(this.app.ui.els.volumeSlider.value / 100);
-			        this.gainNode.gain.setValueAtTime(finalGain, this.audioCtx.currentTime);
-			
+			        if (this.gainNode) {
+			            this.gainNode.gain.setValueAtTime(finalGain, this.audioCtx.currentTime);
+			        }
+
 			        this.state.isManualPause = false;
 			        this.state.isPlaying = true;
 			        this.isRebuffering = false;
-			
+
 			        if (!this.state.hasStartedPlayback) {
 			            this.virtualPlayTime = this.audioCtx.currentTime;
 			        }
-			        
+
 			        this.app.requestWakeLock();
 			        this.#playbackLoop();
-			        this.app.ui.updateMediaSession(this.app.stations[this.app.ui.els.stationSelect.value].name, "Timeshift Live Buffer");
-			    }
-			
+
+			        const selectedStation = this.app.stations[this.app.ui.els.stationSelect.value];
+			        if (selectedStation) {
+			            this.app.ui.updateMediaSession(selectedStation.name, "Timeshift Live Buffer");
+			        }
+			    }			    
+
 			
 			    pause(isManualAction = true) {
 				    if (isManualAction) {
@@ -2149,234 +2428,183 @@ getAllChunksData(keys) {
 				}
 			
 			
-			
-			    resetScheduledPlayback() {
-				    this.jumpGeneration++;
-				    this.virtualPlayTime = 0;
-				    this.currentChunkStartTime = 0;
-				
-				    if (!this.state.isManualPause) {
-				        this.currentChunkOffset = 0;
-				    }
-				    if (this.playbackTimeoutId) clearTimeout(this.playbackTimeoutId);
-				    
-				    const now = this.audioCtx ? this.audioCtx.currentTime : 0;
-				    this.activeSources.forEach(item => {
-				        try {
-				            const { source, gainNode } = item;
-				            gainNode.gain.cancelScheduledValues(now);
-				            gainNode.gain.setValueAtTime(gainNode.gain.value, now);
-				            gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.03); 
-				            source.stop(now + 0.03);
-				        } catch (e) {
-				            try { item.stop(0); item.disconnect(); } catch(err){}
-				        }
-				    });
-				    this.activeSources.clear();
-				}
-			
-			
-				    
 			    async #playbackLoop() {
-				    if (!this.state.isPlaying || this.state.isStopped || !this.audioCtx) {
-				        return;
-				    }
-				    const currentGeneration = this.jumpGeneration;
-				    const now = this.audioCtx.currentTime;
-				    if (this.virtualPlayTime < now) {
-				        this.virtualPlayTime = now + 0.05;
-				    }
-				    const scheduleAheadTime = 10.0;
-				    if ((this.virtualPlayTime - now) > scheduleAheadTime || this.state.isDecoding) {
-				        if (currentGeneration === this.jumpGeneration) {
-				            this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 100);
-				        }
-				        return;
-				    }
-				    if (this.isRebuffering) {
-				        if (this.state.playlistChunks.length >= 2 || !this.state.isConnected) {
-				            this.isRebuffering = false;
-				        } else {
-				            if (currentGeneration === this.jumpGeneration) {
-				                this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 200);
-				            }
-				            return;
-				        }
-				    }
-				    if (this.state.playlistChunks.length === 0) {
-				        if (now >= this.virtualPlayTime) {
-				            this.isRebuffering = true;
-				        }
-				        if (currentGeneration === this.jumpGeneration) {
-				            this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 250);
-				        }
-				        return;
-				    }
-				    this.state.isDecoding = true;
-				    
-				    const chunkEntry = this.state.playlistChunks.shift();
-				    try {
-				
-				        let rawData = await this.app.chunkDB.get(chunkEntry.id);
-				        
-				        if (currentGeneration !== this.jumpGeneration) {
-				            return; 
-				        }
-				        if (!rawData) {
-				            return;
-				        }
-				
-			        let isolatedBuffer = await new Promise((resolve, reject) => {
-			            const msgId = ++this.workerMsgId;
-			            
-			            const handler = (e) => {
-			                if (e.data && e.data.id === msgId) {
-			                    cleanup();
-			                    resolve(e.data.buffer);
-			                }
-			            };
-			            
-			            const timerId = setTimeout(() => {
-			                cleanup();
+			        if (!this.state.isPlaying || this.state.isStopped || !this.audioCtx) {
+			            return;
+			        }
 			
-			                try {
-			                    resolve(rawData.buffer.slice(0));
-			                } catch (err) {
-			                    resolve(rawData.buffer);
-			                }
-			            }, 500);
-			            
-			            const cleanup = () => {
-			                clearTimeout(timerId);
-			                this.audioWorker.removeEventListener('message', handler);
-			            };
-			            this.audioWorker.addEventListener('message', handler);
-			            
-			            try {
-			                const slicedBuffer = rawData.buffer.slice(0);
-			                this.audioWorker.postMessage({ id: msgId, buffer: slicedBuffer }, [slicedBuffer]);
-			            } catch (err) {
-			                cleanup();
-			                resolve(rawData.buffer);
-			            }
-			        });
+			        const currentGeneration = this.jumpGeneration;
+			        const now = this.audioCtx.currentTime;
 			
-				
-				        rawData = null;
-				        if (currentGeneration !== this.jumpGeneration) {
-				            return;
-				        }
-				        const audioBuffer = await this.audioCtx.decodeAudioData(isolatedBuffer).catch(() => null);
-				        isolatedBuffer = null;
-				        if (currentGeneration !== this.jumpGeneration) {
-				            return;
-				        }
-				        if (!audioBuffer || !this.state.isPlaying) {
-				            if (audioBuffer && !this.state.isPlaying) {
-				                this.state.playlistChunks.unshift(chunkEntry);
-				            }
-				            return;
-				        }
-                        if (this.state.currentPlayingChunkData) {
-                            this.state.playedChunksHistory.push(this.state.currentPlayingChunkData);
-                        }
-				        this.state.currentPlayingChunkData = chunkEntry;
-				        this.state.hasStartedPlayback = true;
-				        
-				        await this.app.chunkDB.setSetting("lastPlayingChunkId", chunkEntry.id);
-				        await this.app.chunkDB.setSetting("lastPlayingChunkOffset", 0);
-				        this.#scheduleChunk(audioBuffer);
-				    } catch (e) {
-				    } finally {
+			        if (this.virtualPlayTime < now) {
+			            this.virtualPlayTime = now + 0.05;
+			        }
+			
+			        const scheduleAheadTime = 10.0;
+			        if ((this.virtualPlayTime - now) > scheduleAheadTime || this.state.isDecoding) {
 			            if (currentGeneration === this.jumpGeneration) {
-			                this.state.isDecoding = false;
+			                this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 100);
+			            }
+			            return;
+			        }
+			
+			        if (this.isRebuffering) {
+			            if (this.state.playlistChunks.length >= 2 || !this.state.isConnected) {
+			                this.isRebuffering = false;
+			            } else {
+			                if (currentGeneration === this.jumpGeneration) {
+			                    this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 200);
+			                }
+			                return;
+			            }
+			        }
+			
+			        if (this.state.playlistChunks.length === 0) {
+			            if (now >= this.virtualPlayTime) {
+			                this.isRebuffering = true;
+			            }
+			            if (currentGeneration === this.jumpGeneration) {
+			                this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 250);
+			            }
+			            return;
+			        }
+			
+			        this.state.isDecoding = true;
+			        const chunkEntry = this.state.playlistChunks.shift();
+			
+			        try {
+
+			            const audioBuffer = await this.#getOrDecodeChunk(chunkEntry.id);
+			
+
+			            if (currentGeneration !== this.jumpGeneration) {
+			                return;
+			            }
+			
+			            if (!audioBuffer) {
+			                return;
+			            }
+			
+			            if (!this.state.isPlaying) {
+			                this.state.playlistChunks.unshift(chunkEntry);
+			                return;
+			            }
+			
+			            if (this.state.currentPlayingChunkData) {
+			                this.state.playedChunksHistory.push(this.state.currentPlayingChunkData);
+			            }
+			            this.state.currentPlayingChunkData = chunkEntry;
+			            this.state.hasStartedPlayback = true;
+			
+			            await this.app.chunkDB.setSetting("lastPlayingChunkId", chunkEntry.id);
+			            await this.app.chunkDB.setSetting("lastPlayingChunkOffset", 0);
+			
+
+			            this.#scheduleChunk(audioBuffer);
+			
+
+                        this.#preloadNeighbors();
+			        } catch (e) {
+			        } finally {
+			            this.state.isDecoding = false;
+			            if (currentGeneration === this.jumpGeneration) {
 			                this.playbackTimeoutId = setTimeout(() => this.#playbackLoop(), 10);
 			            }
-				    }
-				}
-				
-			
-			    #scheduleChunk(buffer) {
-				    const source = this.audioCtx.createBufferSource();
-				    source.buffer = buffer;
-				    
-			
-				    const localGain = this.audioCtx.createGain();
-				    source.connect(localGain);
-				    localGain.connect(this.gainNode);
-				
-				    const startTime = Math.max(this.audioCtx.currentTime, this.virtualPlayTime);
-				    const offset = Math.max(0, Math.min(this.currentChunkOffset, buffer.duration - 0.1));
-				    const duration = buffer.duration - offset;
-				
-				    this.currentChunkOffset = 0;
-			
-				    localGain.gain.setValueAtTime(0, startTime);
-				    localGain.gain.linearRampToValueAtTime(1.0, startTime + 0.015);
-				
-				    source.start(startTime, offset);
-				
-				    this.currentChunkStartTime = startTime - offset;
-				    this.virtualPlayTime = startTime + duration;
-				
-				    const item = { source, gainNode: localGain };
-				    this.activeSources.add(item);
-				
-				    source.onended = () => {
-				        this.activeSources.delete(item);
-				        try { source.disconnect(); localGain.disconnect(); } catch (e) {}
-				    };
-				}
-			
-			   
-			
-			    
-			    async jumpChunks(amount) {
-			        if (this.state.isStopped || this.isJumping) return;
-			
-			        this.isJumping = true;
-			        const wasPlaying = this.state.isPlaying;
-			
-			        let preservedOffset = 0;
-			        if (this.state.currentPlayingChunkData && this.currentChunkStartTime > 0 && this.audioCtx) {
-			            preservedOffset = Math.max(0, this.audioCtx.currentTime - this.currentChunkStartTime) + this.currentChunkOffset;
-			        } else {
-			            preservedOffset = this.currentChunkOffset;
 			        }
-			
-			
-			
-			        this.resetScheduledPlayback();
-			        this.currentChunkOffset = preservedOffset;
-			
-			
-			        if (amount > 0) {
-			            if (this.state.currentPlayingChunkData) this.state.playedChunksHistory.push(this.state.currentPlayingChunkData);
-			            const toSkip = Math.min(amount, this.state.playlistChunks.length);
-			            for (let i = 0; i < toSkip - 1; i++) {
-			                if (this.state.playlistChunks.length > 0) this.state.playedChunksHistory.push(this.state.playlistChunks.shift());
-			            }
-			        } else {
-			            if (this.state.currentPlayingChunkData) this.state.playlistChunks.unshift(this.state.currentPlayingChunkData);
-			            const toRewind = Math.min(Math.abs(amount), this.state.playedChunksHistory.length);
-			            for (let i = 0; i < toRewind; i++) {
-			                 if (this.state.playedChunksHistory.length > 0) this.state.playlistChunks.unshift(this.state.playedChunksHistory.pop());
-			            }
-			        }
-			        
-			        this.state.currentPlayingChunkData = null;
-			        
-			        if (wasPlaying) {
-			            await this.#playbackLoop();
-			        }
-			        
-			        this.isJumping = false;
-			        this.app.ui.update();
 			    }
+			
+
+			    resetScheduledPlayback() {
+			        this.jumpGeneration++;
+			        this.virtualPlayTime = 0;
+			        this.currentChunkStartTime = 0;
+			        this.lastGainNode = null; 
+			    
+			        if (!this.state.isManualPause) {
+			            this.currentChunkOffset = 0;
+			        }
+			        if (this.playbackTimeoutId) clearTimeout(this.playbackTimeoutId);
+			        
+			        const now = this.audioCtx ? this.audioCtx.currentTime : 0;
+			        this.activeSources.forEach(item => {
+			            try {
+			                const { source, gainNode } = item;
+			                gainNode.gain.cancelScheduledValues(now);
+			                gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+			                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.03); 
+			                source.stop(now + 0.03);
+			            } catch (e) {
+			                try { item.stop(0); item.disconnect(); } catch(err){}
+			            }
+			        });
+			        this.activeSources.clear();
+			    }
+				
+
+			    #scheduleChunk(buffer) {
+			        const source = this.audioCtx.createBufferSource();
+			        source.buffer = buffer;
+			
+			        const localGain = this.audioCtx.createGain();
+			        source.connect(localGain);
+			        localGain.connect(this.gainNode);
+			
+			        const now = this.audioCtx.currentTime;
+			        const offset = Math.max(0, Math.min(this.currentChunkOffset, buffer.duration - 0.1));
+			        const duration = buffer.duration - offset;
+			        this.currentChunkOffset = 0;
+			
+			        const isSeamless = (this.virtualPlayTime > now && this.lastGainNode !== null);
+			        const fadeDuration = this.FADE_TIME;
+			
+			        let startTime = Math.max(now, this.virtualPlayTime);
+			        if (isSeamless) {
+			            startTime = Math.max(now, this.virtualPlayTime - fadeDuration);
+			        }
+			
+			        if (isSeamless) {
+			            const prevGain = this.lastGainNode;
+			            try {
+
+			                prevGain.gain.cancelScheduledValues(startTime);
+			                prevGain.gain.setValueAtTime(1.0, startTime);
+			                prevGain.gain.linearRampToValueAtTime(0.0, startTime + fadeDuration);
+			            } catch (e) {}
+			
+
+			            localGain.gain.setValueAtTime(0.0, startTime);
+			            localGain.gain.linearRampToValueAtTime(1.0, startTime + fadeDuration);
+			        } else {
+
+			            localGain.gain.setValueAtTime(0.0, startTime);
+			            localGain.gain.linearRampToValueAtTime(1.0, startTime + 0.01);
+			        }
+			
+			        source.start(startTime, offset);
+			
+			        this.currentChunkStartTime = startTime - offset;
+			        this.virtualPlayTime = startTime + duration;
+			        this.lastGainNode = localGain;
+			
+			        const item = { source, gainNode: localGain };
+			        this.activeSources.add(item);
+			
+			        source.onended = () => {
+			            if (this.lastGainNode === localGain) {
+			                this.lastGainNode = null;
+			            }
+			            this.activeSources.delete(item);
+			            try { 
+			                source.disconnect(); 
+			                localGain.disconnect(); 
+			            } catch (e) {}
+			        };
+			    }
+			
+
 			}
 			
 			new App();
-		    
 	    
 	</script>
 	
