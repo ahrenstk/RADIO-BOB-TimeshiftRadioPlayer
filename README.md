@@ -12,7 +12,7 @@
 
 
 
-![RADIO BOB! TimeshiftRadioPlayer](https://raw.githubusercontent.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer/main/RADIO-BOB-TimeshiftRadioPlayer.jpg)
+![RADIO BOB! TimeshiftRadioPlayer](https://raw.githubusercontent.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer/main/TimeshiftRadioPlayer.jpg)
 
 ---
 
