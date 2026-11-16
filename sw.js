@@ -1,4 +1,4 @@
-const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-v2026-11-13a';
+const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-v2026-11-15';
 
 const ASSETS_TO_CACHE = [
   './',
