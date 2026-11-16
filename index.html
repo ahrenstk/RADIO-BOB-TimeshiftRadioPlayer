@@ -154,8 +154,8 @@ SOFTWARE.
 			    color: var(--clr-light);
 			    font-weight: normal;
 			}
-			.slider-input,
-			.timer-input {
+			.slider-volume,
+			.slider-timer {
 			    appearance: none;
 			    width: 100%;
 			    height: 0.5em;
@@ -163,14 +163,14 @@ SOFTWARE.
 			    outline: none;
 			    cursor: pointer;
 			}
-            .slider-input {
-                background: linear-gradient(to right, var(--clr-cyan) 0%, var(--clr-cyan) 50%, var(--bg-inactive) 50%, var(--bg-inactive) 100%);
+            .slider-volume {
+                background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 50%, var(--bg-inactive) 50%, var(--bg-inactive) 100%);
             }
-			.timer-input {
+			.slider-timer {
 			    background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 0%, var(--bg-inactive) 0%, var(--bg-inactive) 100%);
 			}
-			.slider-input::-webkit-slider-thumb,
-			.timer-input::-webkit-slider-thumb {
+			.slider-volume::-webkit-slider-thumb,
+			.slider-timer::-webkit-slider-thumb {
 			    appearance: none;
 			    width: 0.9em;
 			    height: 0.9em;
@@ -180,8 +180,8 @@ SOFTWARE.
 			    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
 			}
 			
-			.slider-input::-moz-range-thumb,
-			.timer-input::-moz-range-thumb {
+			.slider-volume::-moz-range-thumb,
+			.slider-timer::-moz-range-thumb {
 			    width: 0.9em;
 			    height: 0.9em;
 			    border: none;
@@ -350,8 +350,8 @@ SOFTWARE.
 			.buffer-underrun {
 			    background-color: var(--clr-light);
 			}
-			.slider-input,
-			.timer-input {
+			.slider-volume,
+			.slider-timer {
 			    appearance: none;
 			    width: 100%;
 			    height: 0.5em;
@@ -522,12 +522,12 @@ SOFTWARE.
             <div class="control-group compact-group">
                 <div class="volume-container">
                     <svg class="icon-spacer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-                    <input type="range" id="volumeSlider" class="slider-input" min="0" max="100" step="1" value="50" />
+                    <input type="range" id="volumeSlider" class="slider-volume" min="0" max="100" step="1" value="50" />
                     <div class="icon-spacer" aria-hidden="true"></div>
                 </div>
                 <div class="timer-container">
                     <svg class="icon-spacer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    <input type="range" id="sleepTimerSlider" class="timer-input" min="0" max="60" step="1" value="0" />
+                    <input type="range" id="sleepTimerSlider" class="slider-timer" min="0" max="60" step="1" value="0" />
                     <div class="icon-spacer" aria-hidden="true"></div>
                 </div>
             </div>
@@ -2626,7 +2626,9 @@ SOFTWARE.
 			    }
 			
 			}
-			new App(); 
+			
+			new App();
+	    
 	</script>
 	
 </body>
