@@ -41,7 +41,6 @@ SOFTWARE.
 	    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 	    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 	
-	
 		<style>
 			:root {
 			    --bg-main: #0e0e0e;
@@ -53,7 +52,7 @@ SOFTWARE.
 			    --text-disabled: #b0b0b0;
 			    --text-select-disabled: #c5c5c5;
 			    --clr-cyan: #52c5c5;
-			    --border-width: 0.1em;
+			    --border-width: 0.12em;
 			}
 			body {
 			    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -94,14 +93,13 @@ SOFTWARE.
 			    overflow: hidden;
 			    flex-shrink: 0;
 			}
-            .control-group {
+			.control-group {
 			    display: flex;
 			    flex-direction: column;
 			    align-items: center;
 			    gap: 0.8em;
 			    width: 100%;
 			}			
-
 			.control-container {
 			    display: flex;
 			    flex-direction: column;
@@ -109,7 +107,6 @@ SOFTWARE.
 			    gap: 0.35em;
 			    width: 100%;
 			}
-			
 			.station-select,
 			.btn,
 			#liveBtn,
@@ -126,7 +123,7 @@ SOFTWARE.
 			.station-select,
 			.btn,
 			.switch-label {
-			    height: 2.3em !important;
+			    height: 2.8em !important;
 			    line-height: 1;
 			    box-sizing: border-box;
 			    border: var(--border-width) solid transparent;
@@ -144,7 +141,7 @@ SOFTWARE.
 			    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' width='1em' height='1em'><text x='0' y='12' fill='%2352c5c5' font-size='14'>▾</text></svg>");
 			    background-repeat: no-repeat;
 			    background-position: right 1.2em center;
-			    border-color: var(--light);
+			    border-color: var(--clr-light);
 			    padding: 0 2.5em 0 1.5em;
 			}
 			.station-select.live-select {
@@ -166,9 +163,9 @@ SOFTWARE.
 			    outline: none;
 			    cursor: pointer;
 			}
-			.slider-input {
-			    background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 50%, var(--bg-inactive) 50%, var(--bg-inactive) 100%);
-			}
+            .slider-input {
+                background: linear-gradient(to right, var(--clr-cyan) 0%, var(--clr-cyan) 50%, var(--bg-inactive) 50%, var(--bg-inactive) 100%);
+            }
 			.timer-input {
 			    background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 0%, var(--bg-inactive) 0%, var(--bg-inactive) 100%);
 			}
@@ -180,10 +177,9 @@ SOFTWARE.
 			    border-radius: 50%;
 			    background: var(--clr-light);
 			    cursor: pointer;
-			    box-shadow:
-			        0 0 0.6em rgba(82, 197, 197, 0.5),
-			        0 0.12em 0.25em rgba(0, 0, 0, 0.4);
+			    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
 			}
+			
 			.slider-input::-moz-range-thumb,
 			.timer-input::-moz-range-thumb {
 			    width: 0.9em;
@@ -192,14 +188,12 @@ SOFTWARE.
 			    border-radius: 50%;
 			    background: var(--clr-light);
 			    cursor: pointer;
-			    box-shadow:
-			        0 0 0.6em rgba(82, 197, 197, 0.5),
-			        0 0.12em 0.25em rgba(0, 0, 0, 0.4);
+			    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
 			}
 			.btn {
 			    font-family: inherit;
 			    background: transparent;
-			    padding: 0 1em;
+			    padding: 0 1.2em;
 			    border-radius: 99em;
 			    cursor: pointer;
 			    min-width: 0;
@@ -217,6 +211,16 @@ SOFTWARE.
 			    background-color: rgba(82, 197, 197, 0.2) !important;
 			    transform: scale(0.96);
 			}
+			#rewindBtn:active:not(:disabled),
+			#skipBtn:active:not(:disabled),
+			#rewindBtn2:active:not(:disabled),
+			#skipBtn2:active:not(:disabled),
+			#rewindBtn.active-touch:not(:disabled),
+			#skipBtn.active-touch:not(:disabled),
+			#rewindBtn2.active-touch:not(:disabled),
+			#skipBtn2.active-touch:not(:disabled) {
+			    background-color: var(--bg-input) !important;
+			}
 			.btn svg {
 			    width: 1.15em;
 			    height: 1.15em;
@@ -233,7 +237,6 @@ SOFTWARE.
 			    border-color: var(--clr-light);
 			    color: var(--clr-light);
 			}
-			
 			#startBtn.buffering-mode {
 			    border-color: var(--clr-light);
 			    color: var(--clr-light);
@@ -275,6 +278,10 @@ SOFTWARE.
 			    border-color: var(--text-disabled) !important;
 			    cursor: not-allowed;
 			}
+			.btn-active {
+                background-color: var(--bg-input) !important;
+                border-color: var(--clr-light) !important;
+            }
 			.station-select:disabled {
 			    background-color: var(--bg-card);
 			    color: var(--text-select-disabled) !important;
@@ -337,22 +344,22 @@ SOFTWARE.
 			#buffer-bar-fg {
 			    left: 0;
 			}
-			.actively-buffering {
-			    background-color: var(--clr-cyan);
-			}
+            .actively-buffering {
+                background-color: var(--clr-cyan);
+            }
 			.buffer-underrun {
 			    background-color: var(--clr-light);
 			}
 			.slider-input,
-            .timer-input {
-                appearance: none;
-                width: 100%;
-                height: 0.5em;
-                border-radius: 0.35em;
-                outline: none;
-                cursor: pointer;
-                touch-action: pan-x;
-            }
+			.timer-input {
+			    appearance: none;
+			    width: 100%;
+			    height: 0.5em;
+			    border-radius: 0.35em;
+			    outline: none;
+			    cursor: pointer;
+			    touch-action: pan-x;
+			}
 			.switch-container {
 			    display: flex;
 			    position: relative;
@@ -374,6 +381,7 @@ SOFTWARE.
 			}
 			.icon-spacer {
 			    width: 1.15em;
+		
 			    height: 1.15em;
 			    flex-shrink: 0;
 			}
@@ -452,10 +460,16 @@ SOFTWARE.
 			    background-color: var(--bg-input) !important;
 			    border: var(--border-width) solid var(--text-disabled, #b0b0b0) !important;
 			}
-		
-
-			
+			@keyframes buffer-flow {
+			    from {
+			        background-position: 0 0;
+			    }
+			    to {
+			        background-position: 1em 0;
+			    }
+			}
 		</style>
+			
 		
 	</head>
 
@@ -904,7 +918,6 @@ SOFTWARE.
 					    { name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/streams.radiobob.de/" },
 					    { name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/streams.radiobob.de/" },
 					];		
-
 			
                     this.dynamicUrls = {
 			            dynamic: {
@@ -1243,7 +1256,6 @@ SOFTWARE.
 
 				destroy() {
 				    if (this._onOnline) {
-				        // Diese Events liegen direkt auf dem UIManager (this)
 				        window.removeEventListener('online', this._onOnline);
 				        window.removeEventListener('offline', this._onOffline);
 				        window.removeEventListener('beforeunload', this._onBeforeUnload);
@@ -1537,8 +1549,6 @@ SOFTWARE.
 				#cancelActiveLiveSwitch() {
 				    this.isLiveSwitching = false;
 				    const audio = this.els.liveAudio;
-				    
-				    // Eventuelle Altreferenz löschen
 				    if (this.activeLiveSwitch) {
 				        const s = this.activeLiveSwitch;
 				        if (s.safetyTimeout) clearTimeout(s.safetyTimeout);
@@ -1755,13 +1765,26 @@ SOFTWARE.
 		        }
 			
 			
-			    #updateControls() {
-			        this.els.stationSelect.disabled = this.state.isLiveMode || (!this.state.isStopped && !this.state.isNetworkFrozen);
-			        this.els.liveStationSelect.disabled = this.state.isPlaying;
-			        this.els.stopSwitch.checked = !this.state.isNetworkFrozen;
-			        this.els.stopSwitch.disabled = this.state.isLiveMode;
-			        this.els.switchButton.style.transform = this.els.stopSwitch.checked ? 'translateX(100%)' : 'translateX(0)';
-			    }
+				#updateControls() {
+				    this.els.stationSelect.disabled = this.state.isLiveMode || (!this.state.isStopped && !this.state.isNetworkFrozen);
+				    this.els.liveStationSelect.disabled = this.state.isPlaying;
+				    this.els.stopSwitch.checked = !this.state.isNetworkFrozen;
+				    this.els.stopSwitch.disabled = this.state.isLiveMode;
+				    this.els.switchButton.style.transform = this.els.stopSwitch.checked ? 'translateX(100%)' : 'translateX(0)';
+				
+				    if (this.state.isLiveMode) {
+				        this.els.liveBtn.classList.add('btn-active');
+				    } else {
+				        this.els.liveBtn.classList.remove('btn-active');
+				    }
+
+				    if (this.state.isPlaying) {
+				        this.els.startBtn.classList.add('btn-active');
+				    } else {
+				        this.els.startBtn.classList.remove('btn-active');
+				    }
+				}
+				
 			
 			    
 			
@@ -2601,13 +2624,10 @@ SOFTWARE.
 			            } catch (e) {}
 			        };
 			    }
-
-			}
 			
-			new App();
-	    
+			}
+			new App(); 
 	</script>
 	
-
 </body>
 </html>
