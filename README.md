@@ -98,10 +98,14 @@ Hier werden die Radio-Stationen aufgeführt, die aufgenommen werden sollen. Die 
 
 ```javascript
 this.dynamicUrls = {
-    t1: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de",
-    t2: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de",
-    t3: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de",
-    t4: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer"
+	dynamic: {
+		primary: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de",
+		secondary: "https://streams.radiobob.de/bob-bestofrock/mp3-128/streams.radiobob.de"
+	},
+	dynamic_aac: {
+		primary: "https://streams.radiobob.de/bob-national/aac-64/streams.radiobob.de",
+		secondary: "https://streams.radiobob.de/bob-bestofrock/aac-64/mediaplayer"
+	}
 };
 ```
 Dynamische URLs für den automatischen Wechsel zu den Minuten :03, :27, :33 und :57 jeder Stunde.
