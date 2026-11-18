@@ -1,0 +1,270 @@
+<!-- ---------------------------------------------------------------------------
+
+MIT License 145 ok CSS noch kopieren nach GitHub
+
+Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/TimeshiftRadioPlayer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+----------------------------------------------------------------------------- -->
+
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TimeshiftRadioPlayer - Datenschutz / Privacy Policy</title>
+    <meta name="theme-color" content="#0e0e0e">
+    <style>
+        :root {
+            --bg-main: #0e0e0e;
+            --bg-card: var(--bg-main);
+            --bg-input: #282828;
+            --clr-light: #cbd5e1;
+            --text-muted: #a0a0ab;
+            --clr-cyan: #52c5c5;
+            --border-width: 0.12em;
+        }
+
+        @media (max-width: 480px), (pointer: coarse) {
+            :root {
+                --border-width: 0.09em;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--clr-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100dvh;
+            box-sizing: border-box;
+            overscroll-behavior-y: contain;
+            padding: 1.5em;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .player-card {
+            background: var(--bg-card);
+            padding: 1.5em 2em;
+            width: min(92vw, 62vh);
+            border-radius: 1.5rem;
+            max-width: 28rem;
+            font-size: clamp(0.8125rem, 2.0vh, 1.15rem);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2em;
+            overflow-y: auto;
+            max-height: 85vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.45em;
+            font-size: clamp(0.7rem, 1.8vw, 0.78em);
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--bg-input);
+            padding-bottom: 0.8em;
+            margin-bottom: 0.2em;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+        header a {
+            color: var(--text-muted);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 0.1s ease;
+        }
+
+        header a.main-link {
+            font-weight: bold;
+            color: var(--clr-cyan);
+        }
+
+        .pipe {
+            color: var(--bg-input);
+        }
+
+        h3 {
+            color: var(--clr-cyan);
+            font-size: 1.3em;
+            margin: 0;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .lang-divider {
+            border: 0;
+            border-top: 1px dashed var(--bg-input);
+            margin: 0.8em 0;
+            width: 100%;
+        }
+
+        p, .contact-details {
+            font-size: 0.88em;
+            line-height: 1.5;
+            margin: 0;
+            color: var(--clr-light);
+        }
+
+        strong {
+            color: var(--clr-light);
+            font-weight: 600;
+        }
+
+        a {
+            color: var(--clr-cyan);
+            text-decoration: none;
+            border-bottom: 1px dashed transparent;
+            transition: border-color 0.1s ease;
+        }
+
+        .contact-details {
+            background: var(--bg-input);
+            padding: 1em;
+            border-radius: 0.75rem;
+            margin-bottom: 0.2em;
+        }
+
+        footer {
+            margin-top: 1.5em;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+            width: 100%;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="player-card">
+        <header>
+            <a href="index.html">&larr; Player</a>
+            <span class="pipe">|</span>
+            <a href="legal.html">Legal Impressum</a>
+            <span class="pipe">|</span>
+            <a href="privacy.html" class="main-link">Privacy Datenschutz</a>
+        </header>
+
+
+       <h3>Privacy Policy</h3>
+
+        <div class="contact-details">
+            <strong>1. Controller</strong><br>
+            Heinrich Ahrens<br>
+            Pollertstraße 8, 26892 Kluse, Germany<br>
+            Phone: +49 4963 1740<br>
+            E-Mail: <a href="mailto:heinz.ahrens@web.de">heinz.ahrens@web.de</a>
+        </div>
+
+        <p>
+            <strong>2. Legal Basis:</strong><br>
+            The processing of data is based on Article 6(1)(f) GDPR (legitimate interest). Our legitimate interest lies in providing a stable and secure web-based radio player with a recording function directly within the browser.
+        </p>
+
+        <p>
+            <strong>3. Web Hosting &amp; Data Collection:</strong><br>
+            This website is hosted via GitHub Pages (provided by GitHub, Inc., USA). To deliver static files and ensure server stability, server log files (such as IP address, browser type, date/time) are processed by GitHub. For details, see the 
+            <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>.
+            In accordance with the provided MIT License, you are free to download the source code of this project and run it on your own web space or server. In the event of such self-hosting, the responsibility for data privacy compliance (including the logging of server log files by your respective web host) lies solely with you as the operator of that specific instance.
+        </p>
+
+        <p>
+            <strong>4. External Audio Streams:</strong><br>
+            This player does not host audio files. It establishes a direct client-side connection from your browser to external broadcast servers. Your IP address is transmitted to the streaming providers to deliver the audio stream, governed by their respective privacy terms.
+        </p>
+
+        <p>
+            <strong>5. Local Storage (IndexedDB):</strong><br>
+            For timeshift buffer features, audio chunks are stored exclusively on your device using the browser's IndexedDB. No audio data is uploaded to us or third-party servers. You can clear this cache anytime via your browser settings.
+        </p>
+
+        <p>
+            <strong>6. Cookies and Tracking:</strong><br>
+            This application does not use tracking cookies, tracking pixels, or third-party analytics tools.
+        </p>
+
+        <p>
+            <strong>7. User Rights &amp; Security:</strong><br>
+            Under the GDPR, you have the right to request access to, rectification of, or erasure of personal data, as well as the right to lodge a complaint with a supervisory authority. All web connections are secured via SSL/TLS encryption.
+        </p>
+        
+           <hr class="lang-divider">
+        
+        <h3>Datenschutzerklärung</h3>
+
+        <div class="contact-details">
+            <strong>1. Verantwortlicher</strong><br>
+            Heinrich Ahrens<br>
+            Pollertstraße 8, 26892 Kluse, Deutschland<br>
+            Telefon: +49 4963 1740<br>
+            E-Mail: <a href="mailto:heinz.ahrens@web.de">heinz.ahrens@web.de</a>
+        </div>
+
+        <p>
+            <strong>2. Rechtsgrundlage &amp; Zweck:</strong><br>
+            Die Verarbeitung von Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Unser berechtigtes Interesse besteht in der Bereitstellung eines stabilen und sicheren Webradio-Players mit Aufnahmefunktion direkt im Browser.
+        </p>
+
+        <p>
+            <strong>3. Webhosting (GitHub Pages):</strong><br>
+            Diese Seite wird über GitHub Pages gehostet (GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA). Beim Aufruf der Website erfasst GitHub automatisch Server-Logfiles (z.&nbsp;B. IP-Adresse, Datum/Uhrzeit des Abrufs, Browsertyp). Dies ist technisch erforderlich, um die Website auszuliefern und Systemsicherheit zu gewährleisten. Die Übermittlung in die USA ist durch das EU-US Data Privacy Framework abgesichert. Details finden Sie in der 
+            <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub-Datenschutzerklärung</a>.
+            Gemäß der bereitgestellten MIT-Lizenz steht es dir frei, den Quellcode dieses Projekts herunterzuladen und auf Ihrem eigenen Webspace oder Server zu betreiben. Bei einem solchen Eigenbetrieb liegt die datenschutzrechtliche Verantwortung (einschließlich der Protokollierung von Server-Logfiles durch Ihren Webhoster) ausschließlich bei Ihnen als Betreiber der jeweiligen Instanz.
+        </p>
+
+        <p>
+            <strong>4. Externe Audio-Streams:</strong><br>
+            Die Anwendung hostet selbst keine Audiodateien. Um Radiosendungen abzuspielen, baut Ihr Browser eine direkte Verbindung zu den Servern des jeweiligen Radiosenders auf. Hierbei wird Ihre IP-Adresse an den Sender übermittelt, da der Datenstrom andernfalls technisch nicht an Ihr Gerät gesendet werden kann. Die Sender verarbeiten diese Daten eigenverantwortlich nach deren Datenschutzrichtlinien.
+        </p>
+
+        <p>
+            <strong>5. Lokale Zwischenspeicherung (IndexedDB):</strong><br>
+            Für die Timeshift-Pufferung werden empfangene Audiodaten temporär lokal auf Ihrem Endgerät in der Browser-Datenbank (IndexedDB) gespeichert. Dieser Vorgang findet ausschließlich clientseitig auf Ihrem Gerät statt; es werden keinerlei Daten an uns oder externe Server übermittelt. Sie können diese Daten jederzeit in den Einstellungen Ihres Browsers („Websitedaten löschen“) entfernen.
+        </p>
+
+        <p>
+            <strong>6. Keine Cookies &amp; kein Tracking:</strong><br>
+            Diese Anwendung verwendet weder Cookies noch Analysedienste Dritter (wie Google Analytics) und führt kein Nutzer-Tracking durch.
+        </p>
+
+        <p>
+            <strong>7. Betroffenenrechte (DSGVO):</strong><br>
+            Sie haben das Recht auf unentgeltliche Auskunft über Herkunft und Empfänger Ihrer gespeicherten Daten (Art. 15 DSGVO) sowie auf Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO) oder Einschränkung der Verarbeitung (Art. 18 DSGVO). Zudem steht Ihnen ein Beschwerderecht bei der zuständigen Datenschutzaufsichtsbehörde zu.
+        </p>
+
+
+    </div>
+
+    <footer>
+        <a href="legal.html" style="color: inherit; text-decoration: none;">Legal Impressum</a>
+        <span style="margin: 0 8px; color: var(--bg-input);">|</span>
+        <a href="privacy.html" style="color: inherit; text-decoration: none;">Privacy Datenschutz</a>
+    </footer>
+
+</body>
+</html>
