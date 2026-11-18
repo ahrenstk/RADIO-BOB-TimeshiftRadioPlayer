@@ -569,7 +569,6 @@ SOFTWARE.
 
 		<script>
 
-		    
 			class ChunkDB {
 			    
 			    static MAX_CHUNKS = 180;
@@ -950,7 +949,8 @@ SOFTWARE.
 					    { name: "Wacken", url: "https://streams.radiobob.de/bob-wacken/mp3-128/mediaplayer" },
 					    { name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/streams.radiobob.de/" },
 					    { name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/streams.radiobob.de/" },
-					];	
+					];
+					
 			
                     this.dynamicUrls = {
 			            dynamic: {
@@ -988,7 +988,12 @@ SOFTWARE.
 			        this.ui = new UIManager(this);
 			        this.streamer = new StreamManager(this);
 			        this.player = new Player(this);
-			        document.addEventListener("DOMContentLoaded", () => this.init());
+			        document.addEventListener("DOMContentLoaded", () => {
+                        window.scrollTo(0, 0);
+                        document.documentElement.scrollTop = 0;
+                        document.body.scrollTop = 0;
+                        this.init(); 
+                    });
 			    }
 			
 		
