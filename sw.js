@@ -1,4 +1,4 @@
-const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-v2026-11-18';
+const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-v2026-11-18b';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -55,22 +55,23 @@ self.addEventListener('fetch', event => {
     request.destination === 'document' || 
     request.headers.get('accept')?.includes('text/html')
   ) {
+
+    if (url.pathname.endsWith('legal.html') || url.pathname.endsWith('privacy.html')) {
+      event.respondWith(
+        caches.match(request, { ignoreSearch: true })
+          .then(cached => cached || fetch(request))
+      );
+      return;
+    }
+
     event.respondWith(
       caches.match('./index.html', { ignoreSearch: true })
-        .then((cached) => {
-          if (cached) {
-            return cached;
-          }
-
-          return caches.match('index.html') || caches.match('./');
-        })
-        .catch(() => {
-          return caches.match('./index.html') || caches.match('index.html');
-        })
+        .then(cached => cached || caches.match('index.html') || caches.match('./'))
+        .then(cached => cached || fetch(request))
+        .catch(() => caches.match('./index.html'))
     );
     return;
   }
-
 
   event.respondWith(
     caches.match(request, { ignoreSearch: true }).then(response => {
