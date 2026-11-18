@@ -42,441 +42,462 @@ SOFTWARE.
 	    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 
 
-<style>
-	:root {
-	    --bg-main: #0e0e0e;
-	    --bg-card: var(--bg-main);
-	    --bg-input: #282828;
-	    --bg-inactive: #444;
-	    --clr-light: #cbd5e1;
-	    --text-muted: #a0a0ab;
-	    --text-disabled: #b0b0b0;
-	    --text-select-disabled: #c5c5c5;
-	    --clr-cyan: #52c5c5;
-	    --border-width: 0.12em; /* Desktop / Standard */
-	}
+		<style>
+			:root {
+			    --bg-main: #0e0e0e;
+			    --bg-card: var(--bg-main);
+			    --bg-input: #282828;
+			    --bg-inactive: #444;
+			    --clr-light: #cbd5e1;
+			    --text-muted: #a0a0ab;
+			    --text-disabled: #b0b0b0;
+			    --text-select-disabled: #c5c5c5;
+			    --clr-cyan: #52c5c5;
+			    --border-width: 0.12em; /* Desktop / Standard */
+			}
+			@media (max-width: 480px), (pointer: coarse) {
+			    :root {
+			        --border-width: 0.09em;
+			    }
+			}
+			body {
+			    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			    background: var(--bg-main);
+			    color: var(--clr-light);
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    justify-content: center;
+			    height: 100dvh;
+			    min-height: 100dvh;
+			    box-sizing: border-box;
+			    overscroll-behavior-y: contain;
+			    overflow: hidden;
+			    padding: env(safe-area-inset-top, 1.5em) env(safe-area-inset-right, 1.2em) env(safe-area-inset-bottom, 1.5em) env(safe-area-inset-left, 1.2em);
+			    -webkit-tap-highlight-color: transparent;
+			}
+			.app-footer {
+			    margin-top: 1.5em; /* Luft nach oben zur Karte */
+			    font-size: 0.65rem;
+			    color: var(--text-muted);
+			    text-align: center;
+			    width: 100%;
+			    flex-shrink: 0;
+			    z-index: 10;
+			    font-family: inherit;
+			}
+			body, .player-card {
+			    touch-action: none;
+			}
+			.app-footer a {
+			    color: inherit;
+			    text-decoration: none;
+			    opacity: 0.65;
+			    transition: opacity 0.15s ease, color 0.15s ease;
+			}
+			.app-footer .separator {
+			    margin: 0 0.8em;
+			    color: var(--bg-inactive);
+			    opacity: 0.5;
+			    user-select: none;
+			}
+			.player-card {
+			    position: relative;
+			    background: var(--bg-card);
+			    padding: 1.5em; /* Zurück zu einfachem, sauberem Allround-Padding */
+			    width: min(92vw, 62vh);
+			    border-radius: 1.5rem;
+			    max-width: 28rem;
+			    font-size: clamp(0.8125rem, 2.15vh, 1.25rem);
+			    text-align: center;
+			    display: flex;
+			    flex-direction: column;
+			    justify-content: center;
+			    align-items: center;
+			    gap: 1.6em; /* Einheitlich reduziertes Gap */
+			    overflow: hidden;
+			    flex-shrink: 0;
+			}
+			.header-group {
+		        margin-top: -0.2em; /* Zieht das Statussegment unauffällig etwas höher */
+		        gap: 0.5em !important; /* Hält den Abstand zum Buffer eng */
+		    }
+			.control-group {
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    gap: 0.8em;
+			    width: 100%;
+			}			
+			.control-container {
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    gap: 0.35em;
+			    width: 100%;
+			}
+			.station-select,
+			.btn,
+			#liveBtn,
+			#startBtn,
+			.split-btn-container,
+			.switch-container,
+			.volume-container,
+			.buffer-row-container,
+			.timer-container {
+			    width: 100% !important;
+			    max-width: 18em !important;
+			    box-sizing: border-box;
+			}
+			.station-select,
+			.btn,
+			.switch-label {
+			    height: 2.8em !important;
+			    line-height: 1;
+			    box-sizing: border-box;
+			    border: var(--border-width) solid transparent;
+			}
+			.station-select {
+			    background: var(--bg-input);
+			    color: var(--clr-light);
+			    border-radius: 99em;
+			    font-size: 1em;
+			    outline: none;
+			    cursor: pointer;
+			    text-align: center;
+			    text-align-last: center;
+			    appearance: none;
+			    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' width='1em' height='1em'><text x='0' y='12' fill='%23cbd5e1' font-size='14'>▾</text></svg>");
+			    background-repeat: no-repeat;
+			    background-position: right 1.2em center;
+			    border-color: var(--clr-light);
+			    padding: 0 2.5em 0 1.5em;
+			}
+			.station-select.live-select {
+			    border-color: var(--clr-light);
+			    background-color: var(--bg-input);
+			    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='0' y='12' fill='%23cbd5e1' font-size='14'>▾</text></svg>");
+			}
+			.station-select option {
+			    background: var(--bg-input);
+			    color: var(--clr-light);
+			    font-weight: normal;
+			}
+			.slider-volume,
+			.slider-timer {
+			    appearance: none;
+			    width: 100%;
+			    height: 0.5em;
+			    border-radius: 0.35em;
+			    outline: none;
+			    cursor: pointer;
+			}
+		    .slider-volume {
+		        background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 50%, var(--bg-inactive) 50%, var(--bg-inactive) 100%);
+		    }
+			.slider-timer {
+			    background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 0%, var(--bg-inactive) 0%, var(--bg-inactive) 100%);
+			}
+			.slider-volume::-webkit-slider-thumb,
+			.slider-timer::-webkit-slider-thumb {
+			    appearance: none;
+			    width: 0.9em;
+			    height: 0.9em;
+			    border-radius: 50%;
+			    background: var(--clr-light);
+			    cursor: pointer;
+			    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
+			}
+			.slider-volume::-moz-range-thumb,
+			.slider-timer::-moz-range-thumb {
+			    width: 0.9em;
+			    height: 0.9em;
+			    border: none;
+			    border-radius: 50%;
+			    background: var(--clr-light);
+			    cursor: pointer;
+			    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
+			}
+			.btn {
+			    font-family: inherit;
+			    background: transparent;
+			    padding: 0 1.2em;
+			    border-radius: 99em; hardware-acceleration;
+			    cursor: pointer;
+			    min-width: 0;
+			    flex-shrink: 0;
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+			    outline: none;
+			    font-size: 1em;
+			    font-weight: normal;
+			    touch-action: manipulation;
+			    transition: background-color 0.1s ease, transform 0.05s ease;
+			}
+			.btn.active-touch:not(:disabled) {
+			    background-color: rgba(82, 197, 197, 0.2) !important;
+			    transform: scale(0.96);
+			}
+			#rewindBtn:active:not(:disabled),
+			#skipBtn:active:not(:disabled),
+			#rewindBtn2:active:not(:disabled),
+			#skipBtn2:active:not(:disabled),
+			#rewindBtn.active-touch:not(:disabled),
+			#skipBtn.active-touch:not(:disabled),
+			#rewindBtn2.active-touch:not(:disabled),
+			#skipBtn2.active-touch:not(:disabled) {
+			    background-color: var(--bg-input) !important;
+			}
+			.btn svg {
+			    width: 1.15em;
+			    height: 1.15em;
+			    stroke: currentColor;
+			    fill: currentColor;
+			    display: block;
+			}
+			#startBtn svg,
+			#liveBtn svg {
+			    width: 0.95em;
+			    height: 0.95em;
+			}
+			#startBtn {
+			    border-color: var(--clr-light);
+			    color: var(--clr-light);
+			}
+			#startBtn.buffering-mode {
+			    border-color: var(--clr-light);
+			    color: var(--clr-light);
+			}
+			#liveBtn {
+			    border-color: var(--clr-light);
+			    color: var(--clr-light);
+			    letter-spacing: 0.06em;
+			    gap: 0.5em;
+			}
+			#liveBtn.live-active {
+			    border-color: var(--clr-light);
+			    color: var(--clr-light);
+			}
+			.split-btn-container {
+			    display: flex;
+			    gap: 0.35em;
+			    flex-shrink: 0;
+			}
+			.split-btn-container .btn {
+			    flex: 1;
+			    border-color: var(--clr-light);
+			    color: var(--clr-light);
+			    padding: 0 1.8em;
+			}
+			#rewindBtn,
+			#rewindBtn2 {
+			    border-radius: 99em 0 0 99em;
+			}
+			#skipBtn,
+			#skipBtn2 {
+			    border-radius: 0 99em 99em 0;
+			}
+			input:disabled,
+			select:disabled,
+			.btn:disabled {
+			    opacity: 0.45 !important;
+			    color: var(--text-disabled) !important;
+			    border-color: var(--text-disabled) !important;
+			    cursor: not-allowed;
+			}
+			.btn-active {
+		        background-color: var(--bg-input) !important;
+		        border-color: var(--clr-light) !important;
+		    }
+			.station-select:disabled {
+			    background-color: var(--bg-card);
+			    color: var(--text-select-disabled) !important;
+			    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' width='1em' height='1em'><text x='0' y='12' fill='%23b0b0b0' font-size='14'>▾</text></svg>") !important;
+			}
+			#statusDisplay {
+			    font-family: inherit;
+			    font-size: 1em;
+			    font-weight: normal;
+			    color: var(--clr-cyan);
+			    min-height: 1em;
+			    display: block;
+			}
+			#statusDisplay.status-buffering-active {
+			    color: var(--clr-light);
+			}
+			#statusDisplay.status-frozen,
+			#statusDisplay.status-buffering-idle {
+			    color: var(--clr-light);
+			}
+			#statusDisplay.status-live {
+			    color: var(--clr-light);
+			}
+			.volume-container,
+			.buffer-row-container,
+			.timer-container {
+			    display: flex;
+			    flex-direction: row;
+			    align-items: center;
+			    gap: 0.6em;
+			}
+			.split-buffer-wrapper {
+			    display: flex;
+			    align-items: center;
+			    gap: 0.35em;
+			    flex-grow: 1;
+			    width: 100%;
+			}
+			.buffer-container,
+			.split-buffer-wrapper .buffer-container {
+			    flex: 1;
+			    height: 0.6em;
+			    background-color: var(--bg-inactive);
+			    border-radius: 0.25em;
+			    overflow: hidden;
+			    position: relative;
+			    width: 100%;
+			}
+			#rewind-bar-fg,
+			#buffer-bar-fg {
+			    height: 100%;
+			    width: 0%;
+			    position: absolute;
+			    top: 0;
+			    transition: width 0.3s ease;
+			}
+			#rewind-bar-fg {
+			    right: 0;
+			}
+			#buffer-bar-fg {
+			    left: 0;
+			}
+		    .actively-buffering {
+		        background-color: var(--clr-cyan);
+		    }
+			.buffer-underrun {
+			    background-color: var(--clr-light);
+			}
+			.slider-volume,
+			.slider-timer {
+			    appearance: none;
+			    width: 100%;
+			    height: 0.5em;
+			    border-radius: 0.35em;
+			    outline: none;
+			    cursor: pointer;
+			    touch-action: pan-x;
+			}
+			.switch-container {
+			    display: flex;
+			    position: relative;
+			    user-select: none;
+			    box-sizing: border-box;
+			    touch-action: pan-y;
+			    width: 100%;
+			    max-width: 17.5rem;
+			}
+			.switch-text svg {
+			    width: 1em;
+			    height: 1em;
+			    stroke-width: 2.5;
+			    stroke-linecap: round;
+			    stroke-linejoin: round;
+			    fill: none;
+			    stroke: currentColor;
+			    display: block;
+			}
+			.icon-spacer {
+			    width: 1.15em;
+			    height: 1.15em;
+			    flex-shrink: 0;
+			}
+			.switch-checkbox {
+			    display: none !important;
+			}
+			.switch-label {
+			    display: flex;
+			    align-items: center;
+			    justify-content: space-between;
+			    cursor: grab;
+			    width: 100%;
+			    background: transparent;
+			    border-color: var(--clr-light);
+			    border-radius: 99em;
+			    position: relative;
+			    padding: 0;
+			}
+			.switch-text {
+			    font-size: 0.95rem;
+			    z-index: 2;
+			    width: 50%;
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+			    pointer-events: none;
+			}
+			.switch-text-left {
+			    color: var(--clr-light);
+			}
+			.switch-text-right {
+		
+			    color: var(--clr-light);
+			}
+			.switch-button {
+			    position: absolute;
+			    top: 0.18em;
+			    left: 0.18em;
+			    bottom: 0.18em;
+			    width: calc(50% - 0.18em);
+			    background-color: var(--bg-input);
+			    border: var(--border-width) solid var(--clr-light);
+			    border-radius: 99em;
+			    transition:
+			        transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			        border-color 0.2s ease-in-out;
+			    z-index: 1;
+			    box-sizing: border-box;
+			    cursor: grabbing;
+			    pointer-events: auto;
+			}
+			.switch-checkbox:not(:checked) + .switch-label .switch-button {
+			    transform: translateX(0);
+			    border-color: var(--clr-light);
+			    background-color: var(--bg-input);
+			}
+			.switch-checkbox:checked + .switch-label .switch-button {
+			    transform: translateX(100%);
+			    border-color: var(--clr-light);
+			    background-color: var(--bg-input);
+			}
+			.switch-checkbox:disabled + .switch-label {
+			    opacity: 0.45 !important;
+			    background: var(--bg-card) !important;
+			    border-color: var(--text-disabled, #b0b0b0) !important;
+			    cursor: not-allowed;
+			}
+			.switch-checkbox:disabled + .switch-label .switch-text-left,
+			.switch-checkbox:disabled + .switch-label .switch-text-right {
+			    color: var(--text-disabled, #b0b0b0) !important;
+			}
+			.switch-checkbox:disabled + .switch-label .switch-button {
+			    background-color: transparent !important;
+			    border-color: var(--text-disabled, #b0b0b0) !important;
+			}
+			.switch-checkbox:checked:disabled + .switch-label .switch-button {
+			    background-color: var(--bg-input) !important;
+			    border: var(--border-width) solid var(--text-disabled, #b0b0b0) !important;
+			}
+			@keyframes buffer-flow {
+			    from {
+			        background-position: 0 0;
+			    }
+			    to {
+			        background-position: 1em 0;
+			    }
+			}
+		</style>
 
-	/* Smartphone-Feinjustierung: Rahmen wirkt nicht mehr klobig/zu dick */
-	@media (max-width: 480px), (pointer: coarse) {
-	    :root {
-	        --border-width: 0.09em;
-	    }
-	}
-
-	body {
-	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-	    background: var(--bg-main);
-	    color: var(--clr-light);
-	    display: flex;
-	    flex-direction: column;
-	    align-items: center;
-	    justify-content: center;
-	    height: 100dvh;
-	    min-height: 100dvh;
-	    box-sizing: border-box;
-	    overscroll-behavior-y: contain;
-	    overflow: hidden;
-	    padding-top: env(safe-area-inset-top, 0px);
-	    padding-bottom: env(safe-area-inset-bottom, 0px);
-	    padding-left: env(safe-area-inset-left, 0px);
-	    padding-right: env(safe-area-inset-right, 0px);
-	    -webkit-tap-highlight-color: transparent;
-	}
-	body, .player-card {
-	    touch-action: none;
-	}
-	.player-card {
-	    position: relative;
-	    background: var(--bg-card);
-	    padding: 1.2em 1.5em;
-	    width: min(92vw, 62vh);
-	    border-radius: 1.5rem;
-	    max-width: 28rem;
-	    font-size: clamp(0.8125rem, 2.15vh, 1.25rem);
-	    text-align: center;
-	    display: flex;
-	    flex-direction: column;
-	    justify-content: center;
-	    align-items: center;
-	    gap: 2em;
-	    overflow: hidden;
-	    flex-shrink: 0;
-	}
-	.control-group {
-	    display: flex;
-	    flex-direction: column;
-	    align-items: center;
-	    gap: 0.8em;
-	    width: 100%;
-	}			
-	.control-container {
-	    display: flex;
-	    flex-direction: column;
-	    align-items: center;
-	    gap: 0.35em;
-	    width: 100%;
-	}
-	.station-select,
-	.btn,
-	#liveBtn,
-	#startBtn,
-	.split-btn-container,
-	.switch-container,
-	.volume-container,
-	.buffer-row-container,
-	.timer-container {
-	    width: 100% !important;
-	    max-width: 18em !important;
-	    box-sizing: border-box;
-	}
-	.station-select,
-	.btn,
-	.switch-label {
-	    height: 2.8em !important;
-	    line-height: 1;
-	    box-sizing: border-box;
-	    border: var(--border-width) solid transparent;
-	}
-	.station-select {
-	    background: var(--bg-input);
-	    color: var(--clr-light);
-	    border-radius: 99em;
-	    font-size: 1em;
-	    outline: none;
-	    cursor: pointer;
-	    text-align: center;
-	    text-align-last: center;
-	    appearance: none;
-	    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' width='1em' height='1em'><text x='0' y='12' fill='%23cbd5e1' font-size='14'>▾</text></svg>");
-	    background-repeat: no-repeat;
-	    background-position: right 1.2em center;
-	    border-color: var(--clr-light);
-	    padding: 0 2.5em 0 1.5em;
-	}
-	.station-select.live-select {
-	    border-color: var(--clr-light);
-	    background-color: var(--bg-input);
-	    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14'><text x='0' y='12' fill='%23cbd5e1' font-size='14'>▾</text></svg>");
-	}
-	.station-select option {
-	    background: var(--bg-input);
-	    color: var(--clr-light);
-	    font-weight: normal;
-	}
-	.slider-volume,
-	.slider-timer {
-	    appearance: none;
-	    width: 100%;
-	    height: 0.5em;
-	    border-radius: 0.35em;
-	    outline: none;
-	    cursor: pointer;
-	}
-    .slider-volume {
-        background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 50%, var(--bg-inactive) 50%, var(--bg-inactive) 100%);
-    }
-	.slider-timer {
-	    background: linear-gradient(to right, var(--clr-light) 0%, var(--clr-light) 0%, var(--bg-inactive) 0%, var(--bg-inactive) 100%);
-	}
-	.slider-volume::-webkit-slider-thumb,
-	.slider-timer::-webkit-slider-thumb {
-	    appearance: none;
-	    width: 0.9em;
-	    height: 0.9em;
-	    border-radius: 50%;
-	    background: var(--clr-light);
-	    cursor: pointer;
-	    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
-	}
-	
-	.slider-volume::-moz-range-thumb,
-	.slider-timer::-moz-range-thumb {
-	    width: 0.9em;
-	    height: 0.9em;
-	    border: none;
-	    border-radius: 50%;
-	    background: var(--clr-light);
-	    cursor: pointer;
-	    box-shadow: 0 0.12em 0.25em rgba(0, 0, 0, 0.4);
-	}
-	.btn {
-	    font-family: inherit;
-	    background: transparent;
-	    padding: 0 1.2em;
-	    border-radius: 99em;
-	    cursor: pointer;
-	    min-width: 0;
-	    flex-shrink: 0;
-	    display: flex;
-	    align-items: center;
-	    justify-content: center;
-	    outline: none;
-	    font-size: 1em;
-	    font-weight: normal;
-	    touch-action: manipulation;
-	    transition: background-color 0.1s ease, transform 0.05s ease;
-	}
-	.btn.active-touch:not(:disabled) {
-	    background-color: rgba(82, 197, 197, 0.2) !important;
-	    transform: scale(0.96);
-	}
-	#rewindBtn:active:not(:disabled),
-	#skipBtn:active:not(:disabled),
-	#rewindBtn2:active:not(:disabled),
-	#skipBtn2:active:not(:disabled),
-	#rewindBtn.active-touch:not(:disabled),
-	#skipBtn.active-touch:not(:disabled),
-	#rewindBtn2.active-touch:not(:disabled),
-	#skipBtn2.active-touch:not(:disabled) {
-	    background-color: var(--bg-input) !important;
-	}
-	.btn svg {
-	    width: 1.15em;
-	    height: 1.15em;
-	    stroke: currentColor;
-	    fill: currentColor;
-	    display: block;
-	}
-	#startBtn svg,
-	#liveBtn svg {
-	    width: 0.95em;
-	    height: 0.95em;
-	}
-	#startBtn {
-	    border-color: var(--clr-light);
-	    color: var(--clr-light);
-	}
-	#startBtn.buffering-mode {
-	    border-color: var(--clr-light);
-	    color: var(--clr-light);
-	}
-	#liveBtn {
-	    border-color: var(--clr-light);
-	    color: var(--clr-light);
-	    letter-spacing: 0.06em;
-	    gap: 0.5em;
-	}
-	#liveBtn.live-active {
-	    border-color: var(--clr-light);
-	    color: var(--clr-light);
-	}
-	.split-btn-container {
-	    display: flex;
-	    gap: 0.35em;
-	    flex-shrink: 0;
-	}
-	.split-btn-container .btn {
-	    flex: 1;
-	    border-color: var(--clr-light);
-	    color: var(--clr-light);
-	    padding: 0 1.8em;
-	}
-	#rewindBtn,
-	#rewindBtn2 {
-	    border-radius: 99em 0 0 99em;
-	}
-	#skipBtn,
-	#skipBtn2 {
-	    border-radius: 0 99em 99em 0;
-	}
-	input:disabled,
-	select:disabled,
-	.btn:disabled {
-	    opacity: 0.45 !important;
-	    color: var(--text-disabled) !important;
-	    border-color: var(--text-disabled) !important;
-	    cursor: not-allowed;
-	}
-	.btn-active {
-        background-color: var(--bg-input) !important;
-        border-color: var(--clr-light) !important;
-    }
-	.station-select:disabled {
-	    background-color: var(--bg-card);
-	    color: var(--text-select-disabled) !important;
-	    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' width='1em' height='1em'><text x='0' y='12' fill='%23b0b0b0' font-size='14'>▾</text></svg>") !important;
-	}
-	#statusDisplay {
-	    font-family: inherit;
-	    font-size: 1em;
-	    font-weight: normal;
-	    color: var(--clr-cyan);
-	    min-height: 1em;
-	    display: block;
-	}
-	#statusDisplay.status-buffering-active {
-	    color: var(--clr-light);
-	}
-	#statusDisplay.status-frozen,
-	#statusDisplay.status-buffering-idle {
-	    color: var(--clr-light);
-	}
-	#statusDisplay.status-live {
-	    color: var(--clr-light);
-	}
-	.volume-container,
-	.buffer-row-container,
-	.timer-container {
-	    display: flex;
-	    flex-direction: row;
-	    align-items: center;
-	    gap: 0.6em;
-	}
-	.split-buffer-wrapper {
-	    display: flex;
-	    align-items: center;
-	    gap: 0.35em;
-	    flex-grow: 1;
-	    width: 100%;
-	}
-	.buffer-container,
-	.split-buffer-wrapper .buffer-container {
-	    flex: 1;
-	    height: 0.6em;
-	    background-color: var(--bg-inactive);
-	    border-radius: 0.25em;
-	    overflow: hidden;
-	    position: relative;
-	    width: 100%;
-	}
-	#rewind-bar-fg,
-	#buffer-bar-fg {
-	    height: 100%;
-	    width: 0%;
-	    position: absolute;
-	    top: 0;
-	    transition: width 0.3s ease;
-	}
-	#rewind-bar-fg {
-	    right: 0;
-	}
-	#buffer-bar-fg {
-	    left: 0;
-	}
-    .actively-buffering {
-        background-color: var(--clr-cyan);
-    }
-	.buffer-underrun {
-	    background-color: var(--clr-light);
-	}
-	.slider-volume,
-	.slider-timer {
-	    appearance: none;
-	    width: 100%;
-	    height: 0.5em;
-	    border-radius: 0.35em;
-	    outline: none;
-	    cursor: pointer;
-	    touch-action: pan-x;
-	}
-	.switch-container {
-	    display: flex;
-	    position: relative;
-	    user-select: none;
-	    box-sizing: border-box;
-	    touch-action: pan-y;
-	    width: 100%;
-	    max-width: 17.5rem;
-	}
-	.switch-text svg {
-	    width: 1em;
-	    height: 1em;
-	    stroke-width: 2.5;
-	    stroke-linecap: round;
-	    stroke-linejoin: round;
-	    fill: none;
-	    stroke: currentColor;
-	    display: block;
-	}
-	.icon-spacer {
-	    width: 1.15em;
-	    height: 1.15em;
-	    flex-shrink: 0;
-	}
-	.switch-checkbox {
-	    display: none !important;
-	}
-	.switch-label {
-	    display: flex;
-	    align-items: center;
-	    justify-content: space-between;
-	    cursor: grab;
-	    width: 100%;
-	    background: transparent;
-	    border-color: var(--clr-light);
-	    border-radius: 99em;
-	    position: relative;
-	    padding: 0;
-	}
-	.switch-text {
-	    font-size: 0.95rem;
-	    z-index: 2;
-	    width: 50%;
-	    display: flex;
-	    align-items: center;
-	    justify-content: center;
-	    pointer-events: none;
-	}
-	.switch-text-left {
-	    color: var(--clr-light);
-	}
-	.switch-text-right {
-	    color: var(--clr-light);
-	}
-	.switch-button {
-	    position: absolute;
-	    top: 0.18em;
-	    left: 0.18em;
-	    bottom: 0.18em;
-	    width: calc(50% - 0.18em);
-	    background-color: var(--bg-input);
-	    border: var(--border-width) solid var(--clr-light);
-	    border-radius: 99em;
-	    transition:
-	        transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-	        border-color 0.2s ease-in-out;
-	    z-index: 1;
-	    box-sizing: border-box;
-	    cursor: grabbing;
-	    pointer-events: auto;
-	}
-	.switch-checkbox:not(:checked) + .switch-label .switch-button {
-	    transform: translateX(0);
-	    border-color: var(--clr-light);
-	    background-color: var(--bg-input);
-	}
-	.switch-checkbox:checked + .switch-label .switch-button {
-	    transform: translateX(100%);
-	    border-color: var(--clr-light);
-	    background-color: var(--bg-input);
-	}
-	.switch-checkbox:disabled + .switch-label {
-	    opacity: 0.45 !important;
-	    background: var(--bg-card) !important;
-	    border-color: var(--text-disabled, #b0b0b0) !important;
-	    cursor: not-allowed;
-	}
-	.switch-checkbox:disabled + .switch-label .switch-text-left,
-	.switch-checkbox:disabled + .switch-label .switch-text-right {
-	    color: var(--text-disabled, #b0b0b0) !important;
-	}
-	.switch-checkbox:disabled + .switch-label .switch-button {
-	    background-color: transparent !important;
-	    border-color: var(--text-disabled, #b0b0b0) !important;
-	}
-	.switch-checkbox:checked:disabled + .switch-label .switch-button {
-	    background-color: var(--bg-input) !important;
-	    border: var(--border-width) solid var(--text-disabled, #b0b0b0) !important;
-	}
-	@keyframes buffer-flow {
-	    from {
-	        background-position: 0 0;
-	    }
-	    to {
-	        background-position: 1em 0;
-	    }
-	}
-</style>
 		
 	</head>
 
@@ -540,9 +561,14 @@ SOFTWARE.
             </div>
         </div>
 
+        <footer class="app-footer">
+            <a href="legal.html">Legal Impressum</a>
+            <span class="separator">|</span>
+            <a href="privacy.html">Privacy Datenschutz</a>
+        </footer>
 
-	
 		<script>
+
 		    
 			class ChunkDB {
 			    
@@ -1992,15 +2018,18 @@ SOFTWARE.
 				    const validSegments = [];
 				    let segmentStart = 0;
 				    let accumulatedLength = 0;
+				    let expectedSampleRate = null;
+				    let expectedBitrate = null;
 				
 				    while (currentPos < this.rawBuffer.length && (accumulatedLength + (currentPos - segmentStart)) < targetMaxBytes) {
-				        const frameSize = this.#getFrameSize(this.rawBuffer, currentPos);
-				        if (frameSize <= 0 || currentPos + frameSize > this.rawBuffer.length) {
+				        const frameInfo = this.#getFrameInfo(this.rawBuffer, currentPos);
+				        
+				        if (!frameInfo || currentPos + frameInfo.size > this.rawBuffer.length) {
 				            if (currentPos > segmentStart) {
 				                validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
 				                accumulatedLength += (currentPos - segmentStart);
 				            }
-				            if (frameSize <= 0) {
+				            if (!frameInfo) {
 				                const nextSync = this.#findFirstValidHeaderChain(this.rawBuffer, currentPos + 1);
 				                if (nextSync !== -1) { 
 				                    currentPos = nextSync; 
@@ -2017,10 +2046,30 @@ SOFTWARE.
 				            }
 				        }
 				
-				        if ((accumulatedLength + (currentPos - segmentStart) + frameSize) > targetMaxBytes) {
+				        if (expectedSampleRate === null) {
+				            expectedSampleRate = frameInfo.sampleRate;
+				            expectedBitrate = frameInfo.bitrate;
+				        } else if (frameInfo.sampleRate !== expectedSampleRate || frameInfo.bitrate !== expectedBitrate) {
+				            if (currentPos > segmentStart) {
+				                validSegments.push(this.rawBuffer.subarray(segmentStart, currentPos));
+				                accumulatedLength += (currentPos - segmentStart);
+				            }
+				            const nextSync = this.#findFirstValidHeaderChain(this.rawBuffer, currentPos + 1);
+				            if (nextSync !== -1) {
+				                currentPos = nextSync;
+				                segmentStart = nextSync;
+				                continue;
+				            } else {
+				                segmentStart = this.rawBuffer.length;
+				                currentPos = this.rawBuffer.length;
+				                break;
+				            }
+				        }
+				
+				        if ((accumulatedLength + (currentPos - segmentStart) + frameInfo.size) > targetMaxBytes) {
 				            break;
 				        }
-				        currentPos += frameSize;
+				        currentPos += frameInfo.size;
 				    }
 				
 				    if (currentPos > segmentStart) {
@@ -2040,6 +2089,7 @@ SOFTWARE.
 				    }
 				    return null;
 				}
+				
 
 			
 			
@@ -2096,47 +2146,56 @@ SOFTWARE.
 			        }
 			    }
 			
-			
-			    #getFrameSize(data, pos) {
-			        if (pos + 4 > data.length) return -1;
-			        if (data[pos] !== 0xFF || (data[pos + 1] & 0xE0) !== 0xE0) return -1;
-			
-			        const mpegVersion = (data[pos + 1] & 0x18) >> 3;
-			        const layer = (data[pos + 1] & 0x06) >> 1;
-			        
-			        if (mpegVersion === 1 || layer !== 1) return -1;
-			
-			        const bitrateIdx = (data[pos + 2] & 0xF0) >> 4;
-			        const sampleRateIdx = (data[pos + 2] & 0x0C) >> 2;
-			        const padding = (data[pos + 2] & 0x02) >> 1;
-			
-			        if (bitrateIdx === 0 || bitrateIdx === 15 || sampleRateIdx === 3) return -1;
-			
-			        const bitratesMPEG1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0];
-			        const bitratesMPEG2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 0];
-			        
-			        const sampleRatesMPEG1 = [44100, 48000, 32000];
-			        const sampleRatesMPEG2 = [22050, 24000, 16000];
-			        const sampleRatesMPEG25 = [11025, 12000, 8000];
-			
-			        let bitrate = (mpegVersion === 3) ? bitratesMPEG1[bitrateIdx] * 1000 : bitratesMPEG2[bitrateIdx] * 1000;
-			        
-			        let sampleRate;
-			        if (mpegVersion === 3) {
-			            sampleRate = sampleRatesMPEG1[sampleRateIdx];
-			        } else if (mpegVersion === 2) {
-			            sampleRate = sampleRatesMPEG2[sampleRateIdx];
-			        } else if (mpegVersion === 0) {
-			            sampleRate = sampleRatesMPEG25[sampleRateIdx];
-			        } else {
-			            return -1;
-			        }
-			
-			        if (!bitrate || !sampleRate) return -1;
-			
-			        const coefficients = (mpegVersion === 3) ? 144 : 72;
-			        return Math.floor((coefficients * bitrate) / sampleRate) + padding;
-			    }
+				#getFrameInfo(data, pos) {
+				    if (pos + 4 > data.length) return null;
+				    if (data[pos] !== 0xFF || (data[pos + 1] & 0xE0) !== 0xE0) return null;
+				
+				    const mpegVersion = (data[pos + 1] & 0x18) >> 3;
+				    const layer = (data[pos + 1] & 0x06) >> 1;
+				    
+				    if (mpegVersion === 1 || layer !== 1) return null;
+				
+				    const bitrateIdx = (data[pos + 2] & 0xF0) >> 4;
+				    const sampleRateIdx = (data[pos + 2] & 0x0C) >> 2;
+				    const padding = (data[pos + 2] & 0x02) >> 1;
+				
+				    if (bitrateIdx === 0 || bitrateIdx === 15 || sampleRateIdx === 3) return null;
+				
+				    const bitratesMPEG1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 0];
+				    const bitratesMPEG2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 0];
+				    
+				    const sampleRatesMPEG1 = [44100, 48000, 32000];
+				    const sampleRatesMPEG2 = [22050, 24000, 16000];
+				    const sampleRatesMPEG25 = [11025, 12000, 8000];
+				
+				    let bitrate = (mpegVersion === 3) ? bitratesMPEG1[bitrateIdx] * 1000 : bitratesMPEG2[bitrateIdx] * 1000;
+				    
+				    let sampleRate;
+				    if (mpegVersion === 3) {
+				        sampleRate = sampleRatesMPEG1[sampleRateIdx];
+				    } else if (mpegVersion === 2) {
+				        sampleRate = sampleRatesMPEG2[sampleRateIdx];
+				    } else if (mpegVersion === 0) {
+				        sampleRate = sampleRatesMPEG25[sampleRateIdx];
+				    } else {
+				        return null;
+				    }
+				
+				    if (!bitrate || !sampleRate) return null;
+				
+				    const coefficients = (mpegVersion === 3) ? 144 : 72;
+				    const size = Math.floor((coefficients * bitrate) / sampleRate) + padding;
+				    return { size, sampleRate, bitrate };
+				}
+				
+
+				#getFrameSize(data, pos) {
+				    const info = this.#getFrameInfo(data, pos);
+				    return info ? info.size : -1;
+				}
+				
+						
+
 			
 			
 			    #findFirstValidHeaderChain(data, offset, requiredChainLength = 3) {
