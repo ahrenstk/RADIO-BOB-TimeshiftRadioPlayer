@@ -118,6 +118,6 @@ Dynamische URLs für den automatischen Wechsel zu den Minuten :03, :27, :33 und 
 
 Dieses Projekt steht unter der **MIT-Lizenz**. Weitere Details findest du in der Datei `LICENSE`.
 
----
+
 
 ![RADIO BOB! TimeshiftRadioPlayer](https://raw.githubusercontent.com/ahrenstk/RADIO-BOB-TimeshiftRadioPlayer/main/TimeshiftRadioPlayer.jpg)
