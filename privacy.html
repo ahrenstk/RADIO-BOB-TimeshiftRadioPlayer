@@ -1,7 +1,5 @@
 <!-- ---------------------------------------------------------------------------
-
 MIT License
-
 Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/TimeshiftRadioPlayer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,13 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ----------------------------------------------------------------------------- -->
-
 <!DOCTYPE html>
 <html lang="en" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TimeshiftRadioPlayer - Privacy Policy / Datenschutz</title>
+    <title>Privacy Policy / Datenschutz | TimeshiftRadioPlayer</title>
     <meta name="theme-color" content="#0e0e0e">
     <style>
         :root {
@@ -40,32 +37,27 @@ SOFTWARE.
             --clr-cyan: #52c5c5;
             --border-width: 0.12em;
         }
-
         @media (max-width: 480px), (pointer: coarse) {
             :root {
                 --border-width: 0.09em;
             }
         }
-
-		body {
-		    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-		    background: var(--bg-main);
-		    color: var(--clr-light);
-		    display: flex;
-		    flex-direction: column;
-		    align-items: center;
-		    justify-content: center;
-		    height: 100dvh;
-		    min-height: 100dvh;
-		    box-sizing: border-box;
-		    overscroll-behavior-y: contain;
-		    overflow: hidden;
-		    padding: 1.5em;
-		    -webkit-tap-highlight-color: transparent;
-		}
-		
-
-
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--clr-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100dvh;
+            min-height: 100dvh;
+            box-sizing: border-box;
+            overscroll-behavior-y: contain;
+            overflow: hidden;
+            padding: 1.5em;
+            -webkit-tap-highlight-color: transparent;
+        }
         .player-card {
             background: var(--bg-card);
             padding: 1.5em 2em;
@@ -80,13 +72,24 @@ SOFTWARE.
             overflow-y: auto;
             max-height: 85vh;
             box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--bg-input) var(--bg-main);
         }
-
+        .player-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .player-card::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        .player-card::-webkit-scrollbar-thumb {
+            background-color: var(--bg-input);
+            border-radius: 10px;
+        }
         header {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.45em;
+            gap: 0.6em;
             font-size: clamp(0.7rem, 1.8vw, 0.78em);
             color: var(--text-muted);
             border-bottom: 1px solid var(--bg-input);
@@ -95,23 +98,20 @@ SOFTWARE.
             width: 100%;
             white-space: nowrap;
         }
-
         header a {
             color: var(--text-muted);
             text-decoration: none;
             white-space: nowrap;
             transition: color 0.1s ease;
         }
-
         header a.main-link {
             font-weight: bold;
             color: var(--clr-cyan);
         }
-
         .pipe {
             color: var(--bg-input);
+            user-select: none;
         }
-
         h3 {
             color: var(--clr-cyan);
             font-size: 1.3em;
@@ -119,40 +119,37 @@ SOFTWARE.
             font-weight: normal;
             text-align: center;
         }
-
         .lang-divider {
             border: 0;
             border-top: 1px dashed var(--bg-input);
             margin: 0.8em 0;
             width: 100%;
         }
-
         p, .contact-details {
             font-size: 0.88em;
             line-height: 1.5;
             margin: 0;
             color: var(--clr-light);
         }
-
         strong {
             color: var(--clr-light);
             font-weight: 600;
         }
-
         a {
             color: var(--clr-cyan);
             text-decoration: none;
             border-bottom: 1px dashed transparent;
             transition: border-color 0.1s ease;
         }
-
+        a:hover {
+            border-bottom-color: var(--clr-cyan);
+        }
         .contact-details {
             background: var(--bg-input);
             padding: 1em;
             border-radius: 0.75rem;
             margin-bottom: 0.2em;
         }
-
         footer {
             margin-top: 1.5em;
             font-size: 0.65rem;
@@ -172,11 +169,9 @@ SOFTWARE.
             <a href="privacy.html" class="main-link">Privacy Datenschutz</a>
         </header>
 
-
-       <h3>Privacy Policy</h3>
-
+        <h3>Privacy Policy</h3>
         <div class="contact-details">
-            <strong>Controller</strong><br>
+            <strong>Controller:</strong><br>
             Heinrich Ahrens<br>
             Pollertstraße 8, 26892 Kluse, Germany<br>
             Phone: +49 4963 1740<br>
@@ -185,11 +180,11 @@ SOFTWARE.
 
         <p>
             <strong>Legal Basis:</strong><br>
-            The processing of data is based on Article 6(1)(f) GDPR (legitimate interest). Our legitimate interest lies in providing a stable and secure web-based radio player with a recording function directly within the browser.
+            The processing of data is based on Article 6(1)(f) GDPR (legitimate interest). Our legitimate interest lies in providing a stable, performant, and secure web-based radio player with client-side buffer controls directly within the browser.
         </p>
 
         <p>
-            <strong> Web Hosting (GibHub):</strong><br>
+            <strong>Web Hosting (GitHub):</strong><br>
             This website is hosted via GitHub Pages (provided by GitHub, Inc., USA). To deliver static files and ensure server stability, server log files (such as IP address, browser type, date/time) are processed by GitHub. For details, see the 
             <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Privacy Statement</a>.
             In accordance with the provided MIT License, you are free to download the source code of this project and run it on your own web space or server. In the event of such self-hosting, the responsibility for data privacy compliance (including the logging of server log files by your respective web host) lies solely with you as the operator of that specific instance.
@@ -212,15 +207,14 @@ SOFTWARE.
 
         <p>
             <strong>User Rights &amp; Security:</strong><br>
-            Under the GDPR, you have the right to request access to, rectification of, or erasure of personal data, as well as the right to lodge a complaint with a supervisory authority. All web connections are secured via SSL/TLS encryption.
+            Under the GDPR, you have the right to access, rectify, or erase your personal data, as well as the right to restrict or object to its processing (Art. 21 GDPR) and the right to lodge a complaint with a supervisory authority. All connections are secured via SSL/TLS encryption.
         </p>
-        
-           <hr class="lang-divider">
-        
-        <h3>Datenschutzerklärung</h3>
 
+        <hr class="lang-divider">
+
+        <h3>Datenschutzerklärung</h3>
         <div class="contact-details">
-            <strong>Verantwortlicher</strong><br>
+            <strong>Verantwortlicher:</strong><br>
             Heinrich Ahrens<br>
             Pollertstraße 8, 26892 Kluse, Deutschland<br>
             Telefon: +49 4963 1740<br>
@@ -229,14 +223,14 @@ SOFTWARE.
 
         <p>
             <strong>Rechtsgrundlage &amp; Zweck:</strong><br>
-            Die Verarbeitung von Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Unser berechtigtes Interesse besteht in der Bereitstellung eines stabilen und sicheren Webradio-Players mit Aufnahmefunktion direkt im Browser.
+            Die Verarbeitung von Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse). Unser berechtigtes Interesse besteht in der Bereitstellung eines stabilen, performanten und sicheren Webradio-Players mit clientseitigen Pufferfunktionen direkt im Browser.
         </p>
 
         <p>
             <strong>Webhosting (GitHub):</strong><br>
             Diese Seite wird über GitHub Pages gehostet (GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA). Beim Aufruf der Website erfasst GitHub automatisch Server-Logfiles (z.&nbsp;B. IP-Adresse, Datum/Uhrzeit des Abrufs, Browsertyp). Dies ist technisch erforderlich, um die Website auszuliefern und Systemsicherheit zu gewährleisten. Die Übermittlung in die USA ist durch das EU-US Data Privacy Framework abgesichert. Details finden Sie in der 
             <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub-Datenschutzerklärung</a>.
-            Gemäß der bereitgestellten MIT-Lizenz steht es dir frei, den Quellcode dieses Projekts herunterzuladen und auf Ihrem eigenen Webspace oder Server zu betreiben. Bei einem solchen Eigenbetrieb liegt die datenschutzrechtliche Verantwortung (einschließlich der Protokollierung von Server-Logfiles durch Ihren Webhoster) ausschließlich bei Ihnen als Betreiber der jeweiligen Instanz.
+            Gemäß der bereitgestellten MIT-Lizenz steht es Ihnen frei, den Quellcode dieses Projekts herunterzuladen und auf Ihrem eigenen Webspace oder Server zu betreiben. Bei einem solchen Eigenbetrieb liegt die datenschutzrechtliche Verantwortung (einschließlich der Protokollierung von Server-Logfiles durch Ihren Webhoster) ausschließlich bei Ihnen als Betreiber der jeweiligen Instanz.
         </p>
 
         <p>
@@ -255,11 +249,9 @@ SOFTWARE.
         </p>
 
         <p>
-            <strong>Betroffenenrechte (DSGVO):</strong><br>
-            Sie haben das Recht auf unentgeltliche Auskunft über Herkunft und Empfänger Ihrer gespeicherten Daten (Art. 15 DSGVO) sowie auf Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO) oder Einschränkung der Verarbeitung (Art. 18 DSGVO). Zudem steht Ihnen ein Beschwerderecht bei der zuständigen Datenschutzaufsichtsbehörde zu.
+            <strong>Betroffenenrechte &amp; Datensicherheit:</strong><br>
+            Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16 DSGVO), Löschung (Art. 17 DSGVO), Einschränkung der Verarbeitung (Art. 18 DSGVO) sowie auf Widerspruch gegen die Verarbeitung (Art. 21 DSGVO). Zudem steht Ihnen ein Beschwerderecht bei der zuständigen Datenschutzaufsichtsbehörde zu. Alle Verbindungen sind über SSL/TLS verschlüsselt.
         </p>
-
-
     </div>
 
     <footer>
