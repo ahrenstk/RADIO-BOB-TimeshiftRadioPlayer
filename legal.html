@@ -1,7 +1,5 @@
 <!-- ---------------------------------------------------------------------------
-
 MIT License
-
 Copyright (c) 2026 Heinz Ahrens https://github.com/ahrenstk/TimeshiftRadioPlayer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,13 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ----------------------------------------------------------------------------- -->
-
 <!DOCTYPE html>
 <html lang="en" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TimeshiftRadioPlayer - Legal Notice / Impressum </title>
+    <title>Legal Notice / Impressum | TimeshiftRadioPlayer</title>
     <meta name="theme-color" content="#0e0e0e">
     <style>
         :root {
@@ -40,30 +37,27 @@ SOFTWARE.
             --clr-cyan: #52c5c5;
             --border-width: 0.12em;
         }
-
         @media (max-width: 480px), (pointer: coarse) {
             :root {
                 --border-width: 0.09em;
             }
         }
-
-		body {
-		    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-		    background: var(--bg-main);
-		    color: var(--clr-light);
-		    display: flex;
-		    flex-direction: column;
-		    align-items: center;
-		    justify-content: center;
-		    height: 100dvh;
-		    min-height: 100dvh;
-		    box-sizing: border-box;
-		    overscroll-behavior-y: contain;
-		    overflow: hidden;
-		    padding: 1.5em;
-		    -webkit-tap-highlight-color: transparent;
-		}
-
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-main);
+            color: var(--clr-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100dvh;
+            min-height: 100dvh;
+            box-sizing: border-box;
+            overscroll-behavior-y: contain;
+            overflow: hidden;
+            padding: 1.5em;
+            -webkit-tap-highlight-color: transparent;
+        }
         .player-card {
             background: var(--bg-card);
             padding: 1.5em 2em;
@@ -78,13 +72,24 @@ SOFTWARE.
             overflow-y: auto;
             max-height: 85vh;
             box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--bg-input) var(--bg-main);
         }
-
+        .player-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .player-card::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        .player-card::-webkit-scrollbar-thumb {
+            background-color: var(--bg-input);
+            border-radius: 10px;
+        }
         header {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.45em;
+            gap: 0.6em;
             font-size: clamp(0.7rem, 1.8vw, 0.78em);
             color: var(--text-muted);
             border-bottom: 1px solid var(--bg-input);
@@ -93,23 +98,20 @@ SOFTWARE.
             width: 100%;
             white-space: nowrap;
         }
-
         header a {
             color: var(--text-muted);
             text-decoration: none;
             white-space: nowrap;
             transition: color 0.1s ease;
         }
-
         header a.main-link {
             font-weight: bold;
             color: var(--clr-cyan);
         }
-
         .pipe {
             color: var(--bg-input);
+            user-select: none;
         }
-
         h3 {
             color: var(--clr-cyan);
             font-size: 1.3em;
@@ -117,40 +119,37 @@ SOFTWARE.
             font-weight: normal;
             text-align: center;
         }
-
         .lang-divider {
             border: 0;
             border-top: 1px dashed var(--bg-input);
             margin: 0.8em 0;
             width: 100%;
         }
-
         p, .contact-details {
             font-size: 0.88em;
             line-height: 1.5;
             margin: 0;
             color: var(--clr-light);
         }
-
         strong {
             color: var(--clr-light);
             font-weight: 600;
         }
-
         a {
             color: var(--clr-cyan);
             text-decoration: none;
             border-bottom: 1px dashed transparent;
             transition: border-color 0.1s ease;
         }
-
+        a:hover {
+            border-bottom-color: var(--clr-cyan);
+        }
         .contact-details {
             background: var(--bg-input);
             padding: 1em;
             border-radius: 0.75rem;
             margin-bottom: 0.2em;
         }
-
         footer {
             margin-top: 1.5em;
             font-size: 0.65rem;
@@ -165,14 +164,12 @@ SOFTWARE.
 
     <div class="player-card">
         <header>
-            <span class="pipe">|</span>
             <a href="legal.html" class="main-link">Legal Impressum</a>
             <span class="pipe">|</span>
             <a href="privacy.html">Privacy Datenschutz</a>
         </header>
 
         <h3>Legal Notice</h3>
-
         <div class="contact-details">
             <strong>Contact:</strong><br>
             Heinrich Ahrens<br>
@@ -204,17 +201,14 @@ SOFTWARE.
             The respective radio broadcasting stations and networks are solely responsible for the audio streams, licensing, copyright, and advertising within their public broadcasts.
         </p>
 
-		<p>
-    		<strong>Notice of Infringement:</strong><br>
-    		Should you believe that any linked stream or content infringes upon intellectual property or other protected rights, please notify me via e-mail. Upon receipt of a substantiated notice, any infringing streams or content will be removed immediately.
-		</p>
-		
-		
+        <p>
+            <strong>Notice of Infringement:</strong><br>
+            Should you believe that any linked stream or content infringes upon intellectual property or other protected rights, please notify me via e-mail. Upon receipt of a substantiated notice, any infringing streams or content will be removed immediately.
+        </p>
+
         <hr class="lang-divider">
 
-
         <h3>Impressum</h3>
-
         <div class="contact-details">
             <strong>Kontakt:</strong><br>
             Heinrich Ahrens<br>
@@ -237,15 +231,19 @@ SOFTWARE.
         </p>
 
         <p>
+            <strong>Haftungsausschluss:</strong><br>
+            Die Nutzung dieses Players erfolgt auf eigene Gefahr. Die Haftung für leicht fahrlässige Pflichtverletzungen sowie für Mangelfolgeschäden ist im gesetzlich zulässigen Rahmen ausgeschlossen.
+        </p>
+
+        <p>
             <strong>Externe Audio-Streams &amp; Urheberrecht:</strong><br>
             Dieser Web-Player streamt öffentlich zugängliche Radio-Streams direkt im Browser des Nutzers. Für die Inhalte, Lizenzierung, Urheberrechte und etwaige Werbeeinblendungen der Audio-Streams sind ausschließlich die jeweiligen Rundfunkanbieter verantwortlich.
         </p>
 
-		<p>
-    		<strong>Hinweis auf Rechtsverletzungen:</strong><br>
-    		Sollten Sie der Ansicht sein, dass durch verlinkte Streams oder Inhalte Schutzrechte verletzt werden, bitte ich um einen kurzen Hinweis per E-Mail. Bei Bekanntwerden von berechtigten Rechtsverletzungen werden die betreffenden Streams oder Inhalte unverzüglich entfernt.
-		</p>
-        
+        <p>
+            <strong>Hinweis auf Rechtsverletzungen:</strong><br>
+            Sollten Sie der Ansicht sein, dass durch verlinkte Streams oder Inhalte Schutzrechte verletzt werden, bitte ich um einen kurzen Hinweis per E-Mail. Bei Bekanntwerden von berechtigten Rechtsverletzungen werden die betreffenden Streams oder Inhalte unverzüglich entfernt.
+        </p>
     </div>
 
     <footer>
