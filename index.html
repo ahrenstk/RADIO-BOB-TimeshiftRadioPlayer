@@ -1591,7 +1591,6 @@ SOFTWARE.
 				    }
 				}
 
-
 				async switchLiveStreamTo(url) {
 				    if (!url || !this.state.isLiveMode) return;
 
@@ -1601,15 +1600,23 @@ SOFTWARE.
 				    if (absoluteTargetUrl === absoluteCurrentUrl) return;
 				    
 				    this.isLiveSwitching = true;
-				    this.stopLiveMode();
+				    const wasPlayingBeforeSwitch = !this.els.liveAudio.paused;
 				    
+				    this.stopLiveMode();
 				    await new Promise(resolve => setTimeout(resolve, 250));
 				    
 				    this.state.isLiveMode = false;
-				    this.startLiveMode();
+				    if (wasPlayingBeforeSwitch) {
+				        this.startLiveMode();
+				    } else {
+				        const selected = this.app.livestations[this.els.liveStationSelect.value];
+				        this.els.liveAudio.src = url;
+				        this.els.liveAudio.load();
+				        this.state.isLiveMode = true;
+				        this.update();
+				    }
 				    this.isLiveSwitching = false;
 				}
-
 
 			    update() {
 			        this.#updateBufferBars();
