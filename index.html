@@ -581,7 +581,7 @@ SOFTWARE.
 			            parts.pop();
 			        }
 			        
-			    	this.dbName = `RADIO-BOB-TimeshiftRadioPlayer`;
+			        this.dbName = `RADIO-BOB-TimeshiftRadioPlayer`;
 			        this.storeName = "chunks";
 			        this.settingsStoreName = "settings";
 			        this.db = null;
@@ -741,7 +741,7 @@ SOFTWARE.
 
 			class App {
 			    constructor() {
-			        this.chunkDB = new ChunkDB(); 
+			        this.chunkDB = new ChunkDB();
 			        
 				this.livestations = [
 					    { name: "National & Best of Rock", url: "dynamic" },
@@ -951,7 +951,8 @@ SOFTWARE.
 					    { name: "Woman of Rock", url: "https://streams.radiobob.de/womenofrock/mp3-128/streams.radiobob.de/" },
 					    { name: "Woodstock", url: "https://streams.radiobob.de/woodstock/mp3-128/streams.radiobob.de/" },
 					];
-					
+				
+			
                     this.dynamicUrls = {
 			            dynamic_one: {
 			                primary: "https://streams.radiobob.de/bob-national/mp3-128/streams.radiobob.de",
@@ -1558,11 +1559,14 @@ SOFTWARE.
 			        this.update();
 			    }
 
+
 				stopLiveMode() {
 				    if (!this.state.isLiveMode) return; 
 				    this.state.isLiveMode = false;
-				    this.isLiveSwitching = false;
-
+				    if (!this.isLiveSwitching) {
+				        this.isLiveSwitching = false;
+				    }
+				
 				    this.#cancelActiveLiveSwitch();
 				    
 				    const audio = this.els.liveAudio;
@@ -1575,6 +1579,7 @@ SOFTWARE.
 				    
 				    this.update();
 				}
+				
 				
 				#cancelActiveLiveSwitch() {
 				    this.isLiveSwitching = false;
@@ -1590,6 +1595,7 @@ SOFTWARE.
 				        this.activeLiveSwitch = null;
 				    }
 				}
+
 
 				async switchLiveStreamTo(url) {
 				    if (!url || !this.state.isLiveMode) return;
@@ -1617,6 +1623,8 @@ SOFTWARE.
 				    }
 				    this.isLiveSwitching = false;
 				}
+
+
 
 			    update() {
 			        this.#updateBufferBars();
@@ -1758,47 +1766,53 @@ SOFTWARE.
 				}
 				
 			
-			    #updateButtons() {
-			        const canPlay = this.state.playlistChunks.length >= 1 || this.state.isPlaying || this.state.isManualPause;
+				#updateButtons() {
+				    const inLiveState = this.state.isLiveMode || this.isLiveSwitching;
+				
+				    const canPlay = this.state.playlistChunks.length >= 1 || this.state.isPlaying || this.state.isManualPause;
+				
+				    const shouldBeDisabled = inLiveState || 
+				                             (!canPlay) ||
+				                             (!this.state.isPlaying && this.state.isDecoding);
+				
+				    this.els.startBtn.disabled = shouldBeDisabled;
+				    this.els.startBtn.innerHTML = this.state.isPlaying ? this.icons.pause : this.icons.play;
+				    
+				    const canControl = !inLiveState && !this.state.isStopped && this.state.isPlaying;
+				    this.els.rewindBtn.disabled = !canControl || this.state.playedChunksHistory.length < 1;
+				    this.els.rewindBtn2.disabled = !canControl || this.state.playedChunksHistory.length < 10;
+				    this.els.skipBtn.disabled = !canControl || this.state.playlistChunks.length < 1;
+				    this.els.skipBtn2.disabled = !canControl || this.state.playlistChunks.length < 10;
+				
+				    this.els.liveBtn.disabled = this.state.isPlaying;
+				    this.els.liveBtn.classList.toggle('live-active', inLiveState);
+				    this.els.liveBtn.innerHTML = `<span>LIVE</span> ${inLiveState ? this.icons.pause : this.icons.play}`;
+				}
+				
 
-			        const shouldBeDisabled = this.state.isLiveMode ||
-			                                 (!canPlay) ||
-			                                 (!this.state.isPlaying && this.state.isDecoding);
-			
-			        this.els.startBtn.disabled = shouldBeDisabled;
-			        this.els.startBtn.innerHTML = this.state.isPlaying ? this.icons.pause : this.icons.play;
-			        
-			        const canControl = !this.state.isLiveMode && !this.state.isStopped && this.state.isPlaying;
-			        this.els.rewindBtn.disabled = !canControl || this.state.playedChunksHistory.length < 1;
-			        this.els.rewindBtn2.disabled = !canControl || this.state.playedChunksHistory.length < 10;
-			        this.els.skipBtn.disabled = !canControl || this.state.playlistChunks.length < 1;
-			        this.els.skipBtn2.disabled = !canControl || this.state.playlistChunks.length < 10;
-			
-			        this.els.liveBtn.disabled = this.state.isPlaying;
-			        this.els.liveBtn.classList.toggle('live-active', this.state.isLiveMode);
-		            this.els.liveBtn.innerHTML = `<span>LIVE</span> ${this.state.isLiveMode ? this.icons.pause : this.icons.play}`;
-		        }
-			
 			
 				#updateControls() {
-				    this.els.stationSelect.disabled = this.state.isLiveMode || (!this.state.isStopped && !this.state.isNetworkFrozen);
+				    const inLiveState = this.state.isLiveMode || this.isLiveSwitching;
+				
+				    this.els.stationSelect.disabled = inLiveState || (!this.state.isStopped && !this.state.isNetworkFrozen);
 				    this.els.liveStationSelect.disabled = this.state.isPlaying;
 				    this.els.stopSwitch.checked = !this.state.isNetworkFrozen;
-				    this.els.stopSwitch.disabled = this.state.isLiveMode;
+				    this.els.stopSwitch.disabled = inLiveState;
 				    this.els.switchButton.style.transform = this.els.stopSwitch.checked ? 'translateX(100%)' : 'translateX(0)';
 				
-				    if (this.state.isLiveMode) {
+				    if (inLiveState) {
 				        this.els.liveBtn.classList.add('btn-active');
 				    } else {
 				        this.els.liveBtn.classList.remove('btn-active');
 				    }
-
+				
 				    if (this.state.isPlaying) {
 				        this.els.startBtn.classList.add('btn-active');
 				    } else {
 				        this.els.startBtn.classList.remove('btn-active');
 				    }
 				}
+				
 
 
 			    #updateSleepTimerSlider() {
