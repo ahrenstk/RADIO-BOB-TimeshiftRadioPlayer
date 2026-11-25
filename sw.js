@@ -1,95 +1,80 @@
-const CACHE_NAME = 'RADIO-BOB-TimeshiftRadioPlayer-v2026-11-23';
+'use strict';
+
+const VERSION = 'RADIO-BOB-TimeshiftRadioPlayer-v2026-11-25';
+const CACHE_STATIC = VERSION + '-static';
 
 const ASSETS_TO_CACHE = [
   './',
   'index.html',
-  'legal.html',
-  'privacy.html',
   'manifest.json',
   'icon-192.png',
   'icon-512.png'
 ];
 
 
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS_TO_CACHE))
+    caches.open(CACHE_STATIC)
+      .then(async (cache) => {
+        for (const url of ASSETS_TO_CACHE) {
+          try {
+            const response = await fetch(url, { cache: 'reload' });
+            if (response.ok) {
+              await cache.put(url, response);
+            }
+          } catch (err) {
+            await cache.add(url).catch(() => {});
+          }
+        }
+      })
       .then(() => self.skipWaiting())
   );
 });
 
-
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName.startsWith('TimeshiftRadioPlayer-') && cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then((keys) => Promise.all(
+      keys
+        .filter((k) => k.startsWith('TimeshiftRadioPlayer-') && k !== CACHE_STATIC)
+        .map((k) => caches.delete(k))
+    )).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', event => {
+
+function bypass(request, url) {
+  if (request.method !== 'GET') return true;
+  if (request.headers.has('range')) return true;
+  if (request.destination === 'audio' || request.destination === 'video') return true;
+
+  if (/\.(mp3|aac|ogg|opus|flac|m3u8?|pls)$/i.test(url.pathname)) return true;
+
+  if (url.origin !== self.location.origin) return true;
+
+  return false;
+}
+
+
+self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  if (
-    request.method !== 'GET' || 
-    request.destination === 'audio' ||
-    url.pathname.includes('stream') ||
-    url.pathname.includes('.mp3') ||
-    url.pathname.includes('.aac') ||
-    !url.href.startsWith(self.location.origin)
-  ) {
-    return;
-  }
-
-
-  if (
-    request.mode === 'navigate' || 
-    request.destination === 'document' || 
-    request.headers.get('accept')?.includes('text/html')
-  ) {
-
-    if (url.pathname.endsWith('legal.html') || url.pathname.endsWith('privacy.html')) {
-      event.respondWith(
-        caches.match(request, { ignoreSearch: true })
-          .then(cached => cached || fetch(request))
-      );
-      return;
-    }
-
-    event.respondWith(
-      caches.match('./index.html', { ignoreSearch: true })
-        .then(cached => cached || caches.match('index.html') || caches.match('./'))
-        .then(cached => cached || fetch(request))
-        .catch(() => caches.match('./index.html'))
-    );
-    return;
-  }
+  if (bypass(request, url)) return;
 
   event.respondWith(
-    caches.match(request, { ignoreSearch: true }).then(response => {
-      if (response) {
-        return response;
+    caches.match(request, { ignoreSearch: true }).then((cachedResponse) => {
+
+      if (cachedResponse) {
+        return cachedResponse;
       }
-      
-      return fetch(request).then(networkResponse => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(request, responseToCache);
-          });
-        }
-        return networkResponse;
-      }).catch(() => {
-        return new Response('Offline', { status: 503, statusText: 'Offline' });
-      });
+
+      if (request.mode === 'navigate' || request.destination === 'document') {
+        return caches.match('./index.html', { ignoreSearch: true })
+          .then((indexFallback) => indexFallback || fetch(request));
+      }
+
+      return fetch(request);
     })
   );
 });
+
